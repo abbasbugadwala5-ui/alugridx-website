@@ -45,7 +45,7 @@ export default function ProductsSection() {
               className={`product-card group rounded-lg overflow-hidden border border-border reveal delay-${Math.min(i + 1, 5)}`}
             >
               {/* Image */}
-              <div className="relative h-45 md:h-48 overflow-hidden bg-gray-100">
+              <div className="relative h-40 md:h-48 overflow-hidden bg-gray-100">
                 <Image
                   src={cat.img}
                   alt={cat.title}
