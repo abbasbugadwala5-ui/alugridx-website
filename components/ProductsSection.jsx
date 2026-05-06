@@ -6,14 +6,14 @@ import { ArrowRight } from 'lucide-react';
 import { useReveal } from '@/components/useReveal';
 
 const categories = [
-  { code: 'SAD/RAD', title: 'Ceiling Diffusers', img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80', href: '/products#ceiling-diffusers' },
-  { code: 'SLSD/RLSD', title: 'Linear Slot Diffusers', img: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80', href: '/products#linear-diffusers' },
-  { code: 'SAR/SAG', title: 'Supply Air Grilles', img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80', href: '/products#supply-grilles' },
-  { code: 'RAG', title: 'Return Air Grilles', img: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&q=80', href: '/products#return-grilles' },
-  { code: 'SLBR', title: 'Linear Bar Grilles', img: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=600&q=80', href: '/products#linear-bar' },
-  { code: 'EAL/STL', title: 'Louvers', img: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=600&q=80', href: '/products#louvers' },
-  { code: 'VCD', title: 'Volume Control Dampers', img: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80', href: '/products#dampers' },
-  { code: 'NRD', title: 'Non Return Dampers', img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80', href: '/products#non-return' },
+  { code: 'SAD/RAD', title: 'Ceiling Diffusers', img: '/images/Square-ceiling-diffuser.jpg', href: '/products#ceiling-diffusers' },
+  { code: 'SLSD/RLSD', title: 'Linear Slot Diffusers', img: '/images/SLSD RLSD.jpg', href: '/products#linear-diffusers' },
+  { code: 'SAR/SAG', title: 'Supply Air Grilles', img: '/images/SAR.png', href: '/products#supply-grilles' },
+  { code: 'RAG', title: 'Return Air Grilles', img: '/images/RAG.png', href: '/products#return-grilles' },
+  { code: 'SLBR', title: 'Linear Bar Grilles', img: '/images/SLBR.jpg', href: '/products#linear-bar' },
+  { code: 'EAL/STL', title: 'Louvers', img: '/images/LOUVER.jpg', href: '/products#louvers' },
+  { code: 'VCD', title: 'Volume Control Dampers', img: '/images/VCD.jpg', href: '/products#dampers' },
+  { code: 'NRD', title: 'Non Return Dampers', img: '/images/NRD.JPG', href: '/products#non-return' },
 ];
 
 export default function ProductsSection() {
