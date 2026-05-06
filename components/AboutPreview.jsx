@@ -25,14 +25,14 @@ export default function AboutPreview() {
           <div className="relative reveal-left">
             <div className="relative h-[400px] lg:h-[480px] rounded-xl overflow-hidden shadow-xl">
               <Image
-                src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=900&q=80"
+                src="/images/logo premium.png"
                 alt="ALUGRIDX Manufacturing"
                 fill
                 className="object-cover"
               />
             </div>
             {/* Floating card */}
-            <div className="absolute -bottom-5 -right-5 bg-navy text-white rounded-xl p-5 shadow-md w-44">
+            <div className="absolute -bottom-7 -right-5 bg-navy text-white rounded-xl p-5 shadow-md w-44">
               <p className="font-heading font-extrabold text-3xl">500+</p>
               <p className="text-white/80 text-xs mt-0.5">Successful Projects</p>
             </div>

@@ -56,12 +56,17 @@ export default function ProductsSection() {
               </div>
 
               {/* Label */}
-              <div className="p-3 md:p-4">
-                <p className="text-[10px] text-navy font-semibold tracking-widest uppercase mb-1 font-heading">{cat.code}</p>
-                <h3 className="font-heading font-bold text-dark text-sm md:text-base leading-snug group-hover:text-navy transition-colors">
-                  {cat.title}
-                </h3>
-                <span className="inline-flex items-center gap-1 text-navy text-xs mt-2 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+             <div className="p-3 md:p-4 text-center flex flex-col items-center">
+             <p className="text-[10px] text-navy font-semibold tracking-widest uppercase mb-2 font-heading text-center">
+  {cat.code}
+</p>
+
+<div className="w-8 h-[2px] bg-navy/20 rounded-full mb-3 group-hover:w-12 transition-all duration-300" />
+
+<h3 className="font-heading font-bold text-dark text-sm md:text-base leading-snug group-hover:text-navy transition-colors text-center min-h-[42px] flex items-center justify-center">
+  {cat.title}
+</h3>
+         <span className="inline-flex items-center justify-center gap-1 text-navy text-xs mt-2 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                   View Details <ArrowRight size={11} />
                 </span>
               </div>

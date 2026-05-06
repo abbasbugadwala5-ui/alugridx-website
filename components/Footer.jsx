@@ -28,31 +28,36 @@ export default function Footer() {
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
-          <div>
-            <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <div className="relative w-8 h-8 flex-shrink-0">
-                <Image src="/images/logo.png" alt="ALUGRIDX" fill className="object-contain brightness-200" />
-              </div>
-              <div>
-                <p className="font-heading font-extrabold text-white text-base leading-none tracking-wide">ALUGRIDX</p>
-                <p className="text-[9px] tracking-widest uppercase mt-0.5" style={{color:'rgba(255,255,255,0.35)'}}>Air Distribution Solutions</p>
-              </div>
-            </Link>
-            <p className="text-xs leading-relaxed mb-5" style={{color:'rgba(255,255,255,0.5)'}}>
-              Premium HVAC air distribution manufacturer. Based in Ajman, UAE. Serving UAE and GCC.
-            </p>
-            <div className="space-y-2 text-xs">
-              <a href="tel:+971585521251" className="flex items-center gap-2 transition-colors" style={{color:'rgba(255,255,255,0.5)'}} >
-                <Phone size={11} /> +971 58 552 1251
-              </a>
-              <a href="mailto:info@alugridx.com" className="flex items-center gap-2 transition-colors" style={{color:'rgba(255,255,255,0.5)'}} >
-                <Mail size={11} /> info@alugridx.com
-              </a>
-              <div className="flex items-start gap-2" style={{color:'rgba(255,255,255,0.5)'}}>
-                <MapPin size={11} className="mt-0.5 flex-shrink-0" /> Al Jurf 3, Ajman, UAE
-              </div>
-            </div>
-          </div>
+<div>
+ <Link href="/" className="flex items-center mb-2">
+  <div className="relative w-[140px] h-[70px] sm:w-[170px] sm:h-[85px] flex-shrink-0">
+    <Image
+      src="/images/logo white.png"
+      alt="ALUGRIDX"
+      fill
+      className="object-contain object-left"
+    />
+  </div>
+</Link>
+
+  <p className="text-xs leading-relaxed mb-5" style={{color:'rgba(255,255,255,0.5)'}}>
+    Premium HVAC air distribution manufacturer. Based in Ajman, UAE. Serving UAE and GCC.
+  </p>
+
+  <div className="space-y-2 text-xs">
+    <a href="tel:+971585521251" className="flex items-center gap-2 transition-colors" style={{color:'rgba(255,255,255,0.5)'}} >
+      <Phone size={11} /> +971 58 552 1251
+    </a>
+
+    <a href="mailto:info@alugridx.com" className="flex items-center gap-2 transition-colors" style={{color:'rgba(255,255,255,0.5)'}} >
+      <Mail size={11} /> info@alugridx.com
+    </a>
+
+    <div className="flex items-start gap-2" style={{color:'rgba(255,255,255,0.5)'}}>
+      <MapPin size={11} className="mt-0.5 flex-shrink-0" />Building No-144, Warehouse No-16, Humaideya Street Al Jurf 3 Near Red Chilly Restaurant, Ajman
+    </div>
+  </div>
+</div>
 
           {/* Products */}
           <div>
