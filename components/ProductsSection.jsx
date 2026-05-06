@@ -6,14 +6,17 @@ import { ArrowRight } from 'lucide-react';
 import { useReveal } from '@/components/useReveal';
 
 const categories = [
-  { code: 'SAD/RAD', title: 'Ceiling Diffusers', img: '/images/Square-ceiling-diffuser.jpg', href: '/products#ceiling-diffusers' },
-  { code: 'SLSD/RLSD', title: 'Linear Slot Diffusers', img: '/images/SLSD RLSD.jpg', href: '/products#linear-diffusers' },
-  { code: 'SAR/SAG', title: 'Supply Air Grilles', img: '/images/SAR.png', href: '/products#supply-grilles' },
-  { code: 'RAG', title: 'Return Air Grilles', img: '/images/RAG.png', href: '/products#return-grilles' },
-  { code: 'SLBR', title: 'Linear Bar Grilles', img: '/images/SLBR.jpg', href: '/products#linear-bar' },
-  { code: 'EAL/STL', title: 'Louvers', img: '/images/LOUVER.jpg', href: '/products#louvers' },
-  { code: 'VCD', title: 'Volume Control Dampers', img: '/images/VCD.jpg', href: '/products#dampers' },
-  { code: 'NRD', title: 'Non Return Dampers', img: '/images/NRD.jpg', href: '/products#non-return' },
+  { code: 'SAD/RAD', title: 'Ceiling Diffusers', img: '/images/CD1.jpeg', href: '/products#ceiling-diffusers' },
+  { code: 'SLSD/RLSD', title: 'Linear Slot Diffusers', img: '/images/SLSD RLSD.jpeg', href: '/products#linear-diffusers' },
+  { code: 'SAR/SAG', title: 'Supply Air Grilles', img: '/images/SAG.jpeg', href: '/products#supply-grilles' },
+  { code: 'RAG', title: 'Return Air Grilles', img: '/images/RAG.jpeg', href: '/products#return-grilles' },
+    { code: 'NRD', title: 'Non Return Dampers', img: '/images/NRD.jpeg', href: '/products#non-return' },
+
+  { code: 'SLBR', title: 'Linear Bar Grilles', img: '/images/SLBR.jpeg', href: '/products#linear-bar' },
+  
+  { code: 'EAL/STL', title: 'Louvers', img: '/images/EAL STL.jpeg', href: '/products#louvers' },
+  { code: 'VCD', title: 'Volume Control Dampers', img: '/images/VCD.jpeg', href: '/products#dampers' },
+
 ];
 
 export default function ProductsSection() {
@@ -42,7 +45,7 @@ export default function ProductsSection() {
               className={`product-card group rounded-lg overflow-hidden border border-border reveal delay-${Math.min(i + 1, 5)}`}
             >
               {/* Image */}
-              <div className="relative h-40 md:h-48 overflow-hidden bg-gray-100">
+              <div className="relative h-45 md:h-48 overflow-hidden bg-gray-100">
                 <Image
                   src={cat.img}
                   alt={cat.title}
