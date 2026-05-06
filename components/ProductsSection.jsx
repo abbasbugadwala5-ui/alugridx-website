@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { useReveal } from '@/components/useReveal';
 
 const categories = [
-  { code: 'SAD/RAD', title: 'Ceiling Diffusers', img: '/images/CD1.jpeg', href: '/products#ceiling-diffusers' },
+  { code: 'SAD/RAD', title: 'Ceiling Diffusers', img: '/images/CD.jpeg', href: '/products#ceiling-diffusers' },
   { code: 'SLSD/RLSD', title: 'Linear Slot Diffusers', img: '/images/SLSD RLSD.jpeg', href: '/products#linear-diffusers' },
   { code: 'SAR/SAG', title: 'Supply Air Grilles', img: '/images/SAG.jpeg', href: '/products#supply-grilles' },
   { code: 'RAG', title: 'Return Air Grilles', img: '/images/RAG.jpeg', href: '/products#return-grilles' },
