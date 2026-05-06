@@ -44,7 +44,7 @@ export default function ProjectsPreview() {
   }, []);
 
   return (
-    <section className="section section-navy">
+   <section className="section section-navy relative overflow-hidden">
       <div className="container">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 reveal">
           <div>
@@ -80,7 +80,9 @@ export default function ProjectsPreview() {
             ))}
           </div>
         </div>
+        
       </div>
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
     </section>
   );
 }

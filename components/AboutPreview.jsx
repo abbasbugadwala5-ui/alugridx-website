@@ -23,12 +23,12 @@ export default function AboutPreview() {
 
           {/* Image */}
           <div className="relative reveal-left">
-            <div className="relative h-[400px] lg:h-[480px] rounded-xl overflow-hidden shadow-xl">
+            <div className="relative h-[280px] sm:h-[380px] lg:h-[480px] rounded-xl overflow-hidden shadow-xl bg-white">
               <Image
                 src="/images/logo premium.png"
                 alt="ALUGRIDX Manufacturing"
                 fill
-                className="object-cover"
+                className="object-contain bg-white p-2 sm:p-4"
               />
             </div>
             {/* Floating card */}

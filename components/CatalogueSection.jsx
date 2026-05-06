@@ -24,6 +24,7 @@ export default function CatalogueSection() {
   };
 
   return (
+    
     <section style={{background:"#0D1B3E"}} className="section diagonal-accent">
       <div className="container">
         <div className="text-center mb-8 reveal">
