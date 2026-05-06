@@ -13,7 +13,7 @@ const categories = [
   { code: 'SLBR', title: 'Linear Bar Grilles', img: '/images/SLBR.jpg', href: '/products#linear-bar' },
   { code: 'EAL/STL', title: 'Louvers', img: '/images/LOUVER.jpg', href: '/products#louvers' },
   { code: 'VCD', title: 'Volume Control Dampers', img: '/images/VCD.jpg', href: '/products#dampers' },
-  { code: 'NRD', title: 'Non Return Dampers', img: '/images/NRD.JPG', href: '/products#non-return' },
+  { code: 'NRD', title: 'Non Return Dampers', img: '/images/NRD.jpg', href: '/products#non-return' },
 ];
 
 export default function ProductsSection() {
@@ -49,7 +49,7 @@ export default function ProductsSection() {
                   fill
                   className="object-cover product-card-img"
                 />
-                <div className="absolute inset-0 bg-navy/20 group-hover:bg-navy/10 transition-colors" />
+                <div className="absolute inset-0 bg-white/05 group-hover:bg-navy/10 transition-colors" />
               </div>
 
               {/* Label */}
