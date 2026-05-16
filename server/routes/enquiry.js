@@ -1,6 +1,7 @@
 const express  = require('express');
 const router   = express.Router();
 const Enquiry  = require('../models/Enquiry');
+const auth     = require('../middleware/auth');
 const { sendEnquiryNotification } = require('../utils/email');
 
 // ── POST /api/enquiry ─────────────────────────────────────────
@@ -67,7 +68,7 @@ router.post('/', async (req, res) => {
 // Used by admin panel dashboard + enquiries page
 // Add authentication middleware here before going live
 // ─────────────────────────────────────────────────────────────
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const page   = Math.max(1, parseInt(req.query.page)  || 1);
     const limit  = Math.min(100, parseInt(req.query.limit) || 25);
@@ -93,7 +94,7 @@ router.get('/', async (req, res) => {
 // ── PATCH /api/enquiry/:id/status ─────────────────────────────
 // Admin panel: update enquiry status (new → read → replied → archived)
 // ─────────────────────────────────────────────────────────────
-router.patch('/:id/status', async (req, res) => {
+router.patch('/:id/status', auth, async (req, res) => {
   try {
     const { status } = req.body;
     const allowed = ['new', 'read', 'replied', 'archived'];

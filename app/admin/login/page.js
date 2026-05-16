@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Eye, EyeOff, Lock, User } from 'lucide-react';
+import { login } from '@/lib/api';
 
 export default function AdminLogin() {
   const [form, setForm] = useState({ username: '', password: '' });
@@ -15,16 +16,14 @@ export default function AdminLogin() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    await new Promise(r => setTimeout(r, 600)); // simulate check
-
-    // Default credentials — change in production
-    if (form.username === 'admin' && form.password === 'alugridx2026') {
-      sessionStorage.setItem('alugridx_admin', 'authenticated');
+    try {
+      await login(form.username, form.password);
       router.push('/admin/dashboard');
-    } else {
-      setError('Invalid username or password.');
+    } catch (err) {
+      setError(err.message || 'Invalid username or password.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -114,6 +113,7 @@ export default function AdminLogin() {
           <div className="mt-6 p-3 bg-amber-50 border border-amber-200 rounded-lg">
             <p className="text-amber-700 text-xs font-medium">Default credentials</p>
             <p className="text-amber-600 text-xs">Username: <strong>admin</strong> &nbsp; Password: <strong>alugridx2026</strong></p>
+            <p className="text-amber-600 text-[11px] mt-1">Run <code>node server/createAdmin.js</code> once to seed the admin account.</p>
           </div>
         </div>
       </div>

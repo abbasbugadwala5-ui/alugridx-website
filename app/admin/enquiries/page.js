@@ -1,36 +1,50 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Search, Filter, Mail, Eye, Trash2, RefreshCw } from 'lucide-react';
+import { Search, Mail, Eye, RefreshCw } from 'lucide-react';
+import { fetchEnquiries, updateEnquiryStatus } from '@/lib/api';
 
 const STATUS_COLORS = { new: '#f59e0b', read: '#3b82f6', replied: '#10b981', archived: '#6b7280' };
 const STATUS_BG    = { new: '#fffbeb', read: '#eff6ff', replied: '#f0fdf4', archived: '#f9fafb' };
-
-const mock = [
-  { _id: '1', name: 'Ahmed Al Rashid', email: 'ahmed@company.ae', company: 'Al Rashid Construction', phone: '+971501234567', subject: 'Quote Request', message: 'We need ceiling diffusers for a 5-floor commercial building in Dubai. Please share pricing.', status: 'new', createdAt: new Date().toISOString() },
-  { _id: '2', name: 'Sara Khan', email: 'sara@hvac.com', company: 'Gulf HVAC Solutions', phone: '+971509876543', subject: 'Catalogue Request', message: 'Please send the complete 2026 product catalogue.', status: 'read', createdAt: new Date(Date.now()-86400000).toISOString() },
-  { _id: '3', name: 'Mohammed Ali', email: 'mali@builders.ae', company: 'Emirates Builders', phone: '', subject: 'Product Enquiry', message: 'Do you supply sand trap louvers for a project in Sharjah?', status: 'replied', createdAt: new Date(Date.now()-172800000).toISOString() },
-  { _id: '4', name: 'Fatima Zahra', email: 'fz@arch.ae', company: 'FZ Architecture', phone: '+971556789012', subject: 'Technical Specifications', message: 'We need technical data sheets for linear slot diffusers for an airport project.', status: 'new', createdAt: new Date(Date.now()-259200000).toISOString() },
-  { _id: '5', name: 'John Smith', email: 'jsmith@global.com', company: 'Global Engineering', phone: '+971501112233', subject: 'Partnership', message: 'Interested in becoming a distributor for ALUGRIDX in Oman.', status: 'archived', createdAt: new Date(Date.now()-432000000).toISOString() },
-];
+const ALLOWED      = ['new', 'read', 'replied', 'archived'];
 
 export default function EnquiriesPage() {
   const [enquiries, setEnquiries] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all');
   const [selected, setSelected] = useState(null);
 
   const load = async () => {
     setLoading(true);
+    setError('');
     try {
-      const r = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/enquiry?limit=50`);
-      const d = await r.json();
-      setEnquiries(d.success && d.data.length ? d.data : mock);
-    } catch { setEnquiries(mock); }
-    setLoading(false);
+      const json = await fetchEnquiries({ limit: 50 });
+      setEnquiries(json.data || []);
+    } catch (err) {
+      setError(err.message);
+      setEnquiries([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { load(); }, []);
+
+  const changeStatus = async (id, status) => {
+    try {
+      const json = await updateEnquiryStatus(id, status);
+      setEnquiries(prev => prev.map(e => e._id === id ? json.data : e));
+      if (selected?._id === id) setSelected(json.data);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const openDetail = (enq) => {
+    setSelected(selected?._id === enq._id ? null : enq);
+    if (enq.status === 'new') changeStatus(enq._id, 'read');
+  };
 
   const filtered = enquiries.filter(e => {
     const matchSearch = !search || e.name?.toLowerCase().includes(search.toLowerCase()) || e.email?.toLowerCase().includes(search.toLowerCase()) || e.subject?.toLowerCase().includes(search.toLowerCase());
@@ -38,11 +52,15 @@ export default function EnquiriesPage() {
     return matchSearch && matchFilter;
   });
 
-  const counts = { all: enquiries.length, new: enquiries.filter(e=>e.status==='new').length, read: enquiries.filter(e=>e.status==='read').length, replied: enquiries.filter(e=>e.status==='replied').length };
+  const counts = {
+    all: enquiries.length,
+    new: enquiries.filter(e=>e.status==='new').length,
+    read: enquiries.filter(e=>e.status==='read').length,
+    replied: enquiries.filter(e=>e.status==='replied').length,
+  };
 
   return (
     <div className="space-y-5">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="font-heading font-bold text-navy text-xl">Enquiries</h2>
@@ -53,7 +71,12 @@ export default function EnquiriesPage() {
         </button>
       </div>
 
-      {/* Filter tabs */}
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
+
       <div className="flex flex-wrap gap-2">
         {['all','new','read','replied','archived'].map(s => (
           <button key={s} onClick={()=>setFilter(s)}
@@ -65,7 +88,6 @@ export default function EnquiriesPage() {
         ))}
       </div>
 
-      {/* Search */}
       <div className="relative">
         <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted" />
         <input
@@ -76,7 +98,6 @@ export default function EnquiriesPage() {
         />
       </div>
 
-      {/* Table */}
       <div className="card overflow-hidden">
         {loading ? (
           <div className="p-12 text-center text-muted">Loading enquiries...</div>
@@ -117,7 +138,7 @@ export default function EnquiriesPage() {
                       {new Date(enq.createdAt).toLocaleDateString('en-AE')}
                     </td>
                     <td className="px-4 py-3.5">
-                      <button onClick={()=>setSelected(selected?._id===enq._id ? null : enq)}
+                      <button onClick={()=>openDetail(enq)}
                         className="text-navy hover:text-navy-light transition-colors p-1.5 rounded hover:bg-gray-100"
                         title="View">
                         <Eye size={15} />
@@ -131,7 +152,6 @@ export default function EnquiriesPage() {
         )}
       </div>
 
-      {/* Detail panel */}
       {selected && (
         <div className="card p-6">
           <div className="flex items-start justify-between mb-5">
@@ -153,10 +173,20 @@ export default function EnquiriesPage() {
             <p className="text-muted text-xs font-bold uppercase tracking-wider mb-2">Message</p>
             <p className="text-dark text-sm leading-relaxed">{selected.message || '—'}</p>
           </div>
-          <div className="flex gap-3 mt-5">
-            <a href={`mailto:${selected.email}?subject=Re: ${selected.subject}`} className="btn-primary text-sm py-2.5 px-5">
+          <div className="flex flex-wrap gap-3 mt-5 items-center">
+            <a href={`mailto:${selected.email}?subject=Re: ${selected.subject || ''}`} className="btn-primary text-sm py-2.5 px-5">
               <Mail size={14} /> Reply via Email
             </a>
+            <label className="text-xs text-muted ml-auto">
+              Set status:
+              <select
+                className="form-input ml-2 inline-block w-auto py-1.5 px-2 text-xs"
+                value={selected.status}
+                onChange={e => changeStatus(selected._id, e.target.value)}
+              >
+                {ALLOWED.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </label>
           </div>
         </div>
       )}

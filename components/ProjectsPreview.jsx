@@ -1,88 +1,87 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { useReveal } from '@/components/useReveal';
+import { fetchProjects } from '@/lib/api';
 
-const projects = [
-  { title: 'Dubai Commercial Tower', category: 'Commercial', img: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=80' },
-  { title: 'Ajman Industrial Complex', category: 'Industrial', img: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=700&q=80' },
-  { title: 'Abu Dhabi Residential', category: 'Residential', img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80' },
-  { title: 'Sharjah Hospitality', category: 'Hospitality', img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=700&q=80' },
-  { title: 'Dubai Airport Terminal', category: 'Infrastructure', img: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=700&q=80' },
-  { title: 'RAK Shopping Mall', category: 'Commercial', img: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=700&q=80' },
-];
+const FALLBACK_IMG = '/images/CD.jpeg';
 
 export default function ProjectsPreview() {
-  const swiperRef = useRef(null);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   useReveal();
 
   useEffect(() => {
-    let swiper;
-    const init = async () => {
-      const { Swiper } = await import('swiper');
-      const { Autoplay, Navigation } = await import('swiper/modules');
-      await import('swiper/css');
-      await import('swiper/css/navigation');
-      swiper = new Swiper(swiperRef.current, {
-        modules: [Autoplay, Navigation],
-        loop: true,
-        speed: 700,
-        autoplay: { delay: 4000, disableOnInteraction: false },
-        slidesPerView: 1,
-        spaceBetween: 20,
-        navigation: { nextEl: '.proj-next', prevEl: '.proj-prev' },
-        breakpoints: {
-          640: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-        },
-      });
-    };
-    init();
-    return () => swiper?.destroy?.();
+    (async () => {
+      try {
+        const json = await fetchProjects();
+        setProjects((json.data || []).slice(0, 6));
+      } catch {
+        setProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
   return (
-   <section className="section section-navy relative overflow-hidden">
+    <section className="section section-navy">
       <div className="container">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 reveal">
-          <div>
-            <span className="section-label text-blue-400">Our Projects</span>
-            <h2 className="heading-lg text-white">Featured Projects</h2>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 reveal">
+          <div className="max-w-xl">
+            <span className="section-label section-label-on-dark">Selected projects</span>
+            <h2 className="heading-lg text-white">A track record across the GCC.</h2>
+            <p className="text-white/65 mt-4 lead">
+              Residential towers, commercial fit-outs, industrial facilities
+              and infrastructure projects.
+            </p>
           </div>
-          <div className="flex items-center gap-3">
-            <button className="proj-prev w-10 h-10 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white/10 transition-colors">
-              ←
-            </button>
-            <button className="proj-next w-10 h-10 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white/10 transition-colors">
-              →
-            </button>
-            <Link href="/projects" className="btn-primary ml-2">
-              All Projects <ArrowRight size={14} />
-            </Link>
-          </div>
+          <Link href="/projects" className="btn-white-outline self-start md:self-end flex-shrink-0">
+            All projects <ArrowRight size={14} />
+          </Link>
         </div>
 
-        <div ref={swiperRef} className="swiper">
-          <div className="swiper-wrapper">
-            {projects.map((proj, i) => (
-              <div key={i} className="swiper-slide">
-                <div className="group relative rounded-xl overflow-hidden h-64 cursor-pointer">
-                  <Image src={proj.img} alt={proj.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <span className="badge text-xs mb-2 inline-block">{proj.category}</span>
-                    <h3 className="font-heading font-bold text-white text-lg">{proj.title}</h3>
-                  </div>
+        {loading ? (
+          <div className="text-center text-white/60 py-12">Loading projects…</div>
+        ) : projects.length === 0 ? (
+          <div className="text-center text-white/60 py-12 border border-dashed border-white/15 rounded-md">
+            No projects published yet.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+            {projects.map((proj) => (
+              <Link
+                key={proj._id}
+                href="/projects"
+                className="group relative overflow-hidden rounded-md border border-white/10 bg-navy-light/40 transition-colors hover:border-accent"
+              >
+                <div className="relative aspect-[4/3]">
+                  <Image
+                    src={proj.img || FALLBACK_IMG}
+                    alt={proj.title}
+                    fill
+                    className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" />
                 </div>
-              </div>
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  {proj.category && (
+                    <span className="inline-block text-[10px] uppercase tracking-[0.18em] font-semibold text-white/70 font-heading mb-2">
+                      {proj.category}
+                    </span>
+                  )}
+                  <h3 className="font-heading font-semibold text-white text-base leading-snug">{proj.title}</h3>
+                  {proj.location && (
+                    <p className="text-white/55 text-xs mt-1">{proj.location}</p>
+                  )}
+                </div>
+              </Link>
             ))}
           </div>
-        </div>
-        
+        )}
       </div>
-      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
     </section>
   );
 }

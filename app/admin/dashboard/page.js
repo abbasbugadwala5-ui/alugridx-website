@@ -1,7 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Mail, Package, FolderOpen, FileText, TrendingUp, Clock, CheckCircle, Eye } from 'lucide-react';
+import { Mail, Package, FolderOpen, FileText, Eye } from 'lucide-react';
+import { fetchStats } from '@/lib/api';
 
 const StatCard = ({ icon: Icon, label, value, sub, color }) => (
   <div className="card p-5 flex items-center gap-4">
@@ -16,28 +17,34 @@ const StatCard = ({ icon: Icon, label, value, sub, color }) => (
   </div>
 );
 
+const statusColor = { new: '#f59e0b', read: '#3b82f6', replied: '#10b981', archived: '#6b7280' };
+const statusBg = { new: '#fffbeb', read: '#eff6ff', replied: '#f0fdf4', archived: '#f9fafb' };
+
 export default function Dashboard() {
-  const [enquiries, setEnquiries] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [stats, setStats] = useState({
+    enquiries: 0,
+    products: 0,
+    projects: 0,
+    blogs: 0,
+    newEnquiries: 0,
+    recent: [],
+  });
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/enquiry?limit=6`)
-      .then(r => r.json())
-      .then(d => { if (d.success) setEnquiries(d.data); })
-      .catch(() => setEnquiries(mockEnquiries))
-      .finally(() => setLoading(false));
+    (async () => {
+      try {
+        const json = await fetchStats();
+        setStats(json.data || stats);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const mockEnquiries = [
-    { _id: '1', name: 'Ahmed Al Rashid', email: 'ahmed@company.ae', subject: 'Quote Request', status: 'new', createdAt: new Date().toISOString() },
-    { _id: '2', name: 'Sara Khan', email: 'sara@hvac.com', subject: 'Catalogue Request', status: 'read', createdAt: new Date(Date.now()-86400000).toISOString() },
-    { _id: '3', name: 'Mohammed Ali', email: 'mali@builders.ae', subject: 'Product Enquiry', status: 'replied', createdAt: new Date(Date.now()-172800000).toISOString() },
-  ];
-
-  const displayEnquiries = enquiries.length > 0 ? enquiries : mockEnquiries;
-
-  const statusColor = { new: '#f59e0b', read: '#3b82f6', replied: '#10b981', archived: '#6b7280' };
-  const statusBg = { new: '#fffbeb', read: '#eff6ff', replied: '#f0fdf4', archived: '#f9fafb' };
 
   return (
     <div className="space-y-6">
@@ -52,12 +59,18 @@ export default function Dashboard() {
         </p>
       </div>
 
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
+
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <StatCard icon={Mail} label="Total Enquiries" value="48" sub="3 new today" color="#0D1B3E" />
-        <StatCard icon={Package} label="Products Listed" value="12" sub="Across 8 categories" color="#1A2D5A" />
-        <StatCard icon={FolderOpen} label="Projects Added" value="9" sub="UAE & GCC" color="#243660" />
-        <StatCard icon={FileText} label="Blog Posts" value="6" sub="Published" color="#0D1B3E" />
+        <StatCard icon={Mail} label="Total Enquiries" value={stats.enquiries} sub={`${stats.newEnquiries || 0} new`} color="#0D1B3E" />
+        <StatCard icon={Package} label="Products Listed" value={stats.products} color="#1A2D5A" />
+        <StatCard icon={FolderOpen} label="Projects Added" value={stats.projects} color="#243660" />
+        <StatCard icon={FileText} label="Blog Posts" value={stats.blogs} color="#0D1B3E" />
       </div>
 
       {/* Quick actions */}
@@ -89,9 +102,11 @@ export default function Dashboard() {
         </div>
         {loading ? (
           <div className="p-8 text-center text-muted text-sm">Loading...</div>
+        ) : (stats.recent || []).length === 0 ? (
+          <div className="p-8 text-center text-muted text-sm">No enquiries yet.</div>
         ) : (
           <div className="divide-y divide-border">
-            {displayEnquiries.map((enq) => (
+            {(stats.recent || []).map((enq) => (
               <div key={enq._id} className="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors">
                 <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 font-heading font-bold text-white text-sm" style={{background:'#0D1B3E'}}>
                   {enq.name?.charAt(0).toUpperCase()}

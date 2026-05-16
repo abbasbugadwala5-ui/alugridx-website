@@ -1,5 +1,6 @@
 import { Barlow, Inter } from 'next/font/google';
 import './globals.css';
+import RevealInit from '@/components/RevealInit';
 
 const barlow = Barlow({
   subsets: ['latin'],
@@ -24,7 +25,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${barlow.variable} ${inter.variable}`}>
-      <body className="font-body bg-white text-dark antialiased">{children}</body>
+      <body className="font-body bg-white text-slate antialiased">
+        <RevealInit />
+        {children}
+      </body>
     </html>
   );
 }

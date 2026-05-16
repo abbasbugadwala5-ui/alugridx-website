@@ -1,33 +1,83 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X, Save, Eye, EyeOff } from 'lucide-react';
+import {
+  fetchBlogs,
+  createBlog,
+  updateBlog,
+  deleteBlog,
+} from '@/lib/api';
 
 const cats = ['HVAC Tips', 'Products', 'Guides', 'Industry', 'News'];
-const blank = { title: '', category: cats[0], excerpt: '', content: '', published: false, date: new Date().toISOString().split('T')[0] };
-
-const initPosts = [
-  { id: 1, title: 'The Importance of Proper Air Distribution in Buildings', category: 'HVAC Tips', excerpt: 'Proper air distribution is critical for indoor comfort and energy efficiency.', published: true, date: '2026-05-10' },
-  { id: 2, title: 'Benefits of Aluminum Air Grilles for Commercial Spaces', category: 'Products', excerpt: 'Aluminum air grilles offer superior durability, aesthetics and performance.', published: true, date: '2026-04-20' },
-  { id: 3, title: 'How to Choose the Right Diffuser for Your Space', category: 'Guides', excerpt: 'Ceiling diffusers, linear slot diffusers or jet diffusers — how do you choose?', published: false, date: '2026-04-05' },
-];
+const blank = {
+  title: '',
+  category: cats[0],
+  excerpt: '',
+  content: '',
+  published: false,
+  date: new Date().toISOString().split('T')[0],
+  img: '',
+};
 
 export default function AdminBlog() {
-  const [posts, setPosts] = useState(initPosts);
+  const [posts, setPosts] = useState([]);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(blank);
   const [isNew, setIsNew] = useState(false);
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
 
-  const openNew = () => { setForm(blank); setEditing('new'); setIsNew(true); };
-  const openEdit = (p) => { setForm({...p}); setEditing(p.id); setIsNew(false); };
-  const close = () => setEditing(null);
-
-  const save = () => {
-    if (isNew) setPosts(prev => [...prev, { ...form, id: Date.now() }]);
-    else setPosts(prev => prev.map(p => p.id === editing ? { ...form, id: editing } : p));
-    close();
+  const load = async () => {
+    try {
+      const json = await fetchBlogs();
+      setPosts(json.data || []);
+    } catch (err) {
+      setError(err.message);
+    }
   };
-  const remove = (id) => { if (confirm('Delete this post?')) setPosts(prev => prev.filter(p => p.id !== id)); };
-  const togglePublish = (id) => setPosts(prev => prev.map(p => p.id === id ? { ...p, published: !p.published } : p));
+
+  useEffect(() => { load(); }, []);
+
+  const openNew = () => { setForm(blank); setEditing('new'); setIsNew(true); setError(''); };
+  const openEdit = (p) => { setForm({ ...p }); setEditing(p._id); setIsNew(false); setError(''); };
+  const close = () => { setEditing(null); setError(''); };
+
+  const save = async () => {
+    setSaving(true);
+    setError('');
+    try {
+      if (isNew) {
+        await createBlog(form);
+      } else {
+        await updateBlog(editing, form);
+      }
+      await load();
+      close();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const remove = async (id) => {
+    if (!confirm('Delete this post?')) return;
+    try {
+      await deleteBlog(id);
+      await load();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const togglePublish = async (p) => {
+    try {
+      await updateBlog(p._id, { ...p, published: !p.published });
+      await load();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
     <div className="space-y-5">
@@ -38,6 +88,12 @@ export default function AdminBlog() {
         </div>
         <button onClick={openNew} className="btn-primary text-sm py-2.5 px-5"><Plus size={15}/> New Post</button>
       </div>
+
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
 
       {editing && (
         <div className="card p-6 border-l-4" style={{borderLeftColor:'#0D1B3E'}}>
@@ -69,6 +125,10 @@ export default function AdminBlog() {
               </label>
             </div>
             <div className="md:col-span-3">
+              <label className="form-label">Cover Image URL</label>
+              <input className="form-input" placeholder="https://... or /images/post.jpg" value={form.img || ''} onChange={e=>setForm({...form,img:e.target.value})} />
+            </div>
+            <div className="md:col-span-3">
               <label className="form-label">Excerpt / Summary</label>
               <textarea className="form-input resize-none" rows={2} placeholder="Short description shown in listings..." value={form.excerpt} onChange={e=>setForm({...form,excerpt:e.target.value})} />
             </div>
@@ -78,7 +138,9 @@ export default function AdminBlog() {
             </div>
           </div>
           <div className="flex gap-3">
-            <button onClick={save} className="btn-primary text-sm py-2.5 px-6"><Save size={14}/> Save Post</button>
+            <button onClick={save} disabled={saving} className="btn-primary text-sm py-2.5 px-6 disabled:opacity-60">
+              <Save size={14}/> {saving ? 'Saving...' : 'Save Post'}
+            </button>
             <button onClick={close} className="btn-outline text-sm py-2.5 px-5">Cancel</button>
           </div>
         </div>
@@ -96,7 +158,7 @@ export default function AdminBlog() {
             </thead>
             <tbody className="divide-y divide-border">
               {posts.map(p => (
-                <tr key={p.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={p._id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3.5">
                     <p className="font-semibold text-dark text-xs leading-snug max-w-xs">{p.title}</p>
                     <p className="text-muted text-[11px] mt-0.5 truncate max-w-xs">{p.excerpt}</p>
@@ -110,11 +172,11 @@ export default function AdminBlog() {
                   </td>
                   <td className="px-4 py-3.5">
                     <div className="flex items-center gap-1">
-                      <button onClick={()=>togglePublish(p.id)} className="p-1.5 rounded hover:bg-gray-100 text-muted hover:text-navy transition-colors" title={p.published?'Unpublish':'Publish'}>
+                      <button onClick={()=>togglePublish(p)} className="p-1.5 rounded hover:bg-gray-100 text-muted hover:text-navy transition-colors" title={p.published?'Unpublish':'Publish'}>
                         {p.published ? <EyeOff size={14}/> : <Eye size={14}/>}
                       </button>
                       <button onClick={()=>openEdit(p)} className="p-1.5 rounded hover:bg-gray-100 text-muted hover:text-navy transition-colors"><Edit2 size={14}/></button>
-                      <button onClick={()=>remove(p.id)} className="p-1.5 rounded hover:bg-red-50 text-muted hover:text-red-500 transition-colors"><Trash2 size={14}/></button>
+                      <button onClick={()=>remove(p._id)} className="p-1.5 rounded hover:bg-red-50 text-muted hover:text-red-500 transition-colors"><Trash2 size={14}/></button>
                     </div>
                   </td>
                 </tr>

@@ -1,56 +1,98 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import {
-  Phone,
-  Mail,
-  MapPin,
-} from 'lucide-react';
+import { Phone, Mail, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
 
-const products = [
-  ['Ceiling Diffusers', '/products#ceiling-diffusers'],
-  ['Linear Slot Diffusers', '/products#linear-diffusers'],
-  ['Supply Air Grilles', '/products#supply-grilles'],
-  ['Return Air Grilles', '/products#return-grilles'],
-  ['Louvers', '/products#louvers'],
-  ['Volume Control Dampers', '/products#dampers'],
-  ['Non Return Dampers', '/products#non-return'],
+const diffusers = [
+  ['Ceiling Diffusers (SAD)',       '/products#ceiling-diffusers'],
+  ['Round Diffusers (RAD)',         '/products#ceiling-diffusers'],
+  ['Linear Slot Diffusers (SLSD)',  '/products#linear-diffusers'],
+  ['Round Linear Slot (RLSD)',      '/products#linear-diffusers'],
 ];
 
-const pages = [
-  ['About Us', '/about'],
-  ['Products', '/products'],
-  ['Projects', '/projects'],
-  ['Catalogue', '/catalogue'],
-  ['Blog / News', '/blog'],
-  ['FAQs', '/faq'],
-  ['Contact Us', '/contact'],
+const grilles = [
+  ['Supply Air Grilles (SAG)',  '/products#supply-grilles'],
+  ['Return Air Grilles (RAG)',  '/products#return-grilles'],
+  ['Linear Bar Grilles (SLBR)', '/products#linear-bar'],
+  ['Egg-Crate Return',          '/products#return-grilles'],
 ];
+
+const louversDampers = [
+  ['Louvers',                   '/products#louvers'],
+  ['Sand-Trap Louvers',         '/products#louvers'],
+  ['Volume Control Dampers',    '/products#dampers'],
+  ['Non-Return Dampers',        '/products#non-return'],
+];
+
+const company = [
+  ['About ALUGRIDX', '/about'],
+  ['Projects',       '/projects'],
+  ['Blog & News',    '/blog'],
+  ['FAQs',           '/faq'],
+  ['Catalogue',      '/catalogue'],
+  ['Contact',        '/contact'],
+];
+
+const standards = [
+  'ASHRAE-aligned performance data',
+  'EN 13182 / ISO 5135 airflow methodology',
+  'RAL powder-coated finishes',
+  '1-year product warranty',
+];
+
+function Column({ title, items }) {
+  return (
+    <div>
+      <h4 className="font-heading font-semibold text-white text-xs uppercase tracking-[0.22em] mb-5 pb-3 border-b border-white/10">
+        {title}
+      </h4>
+      <ul className="space-y-2.5">
+        {items.map(([label, href]) => (
+          <li key={label}>
+            <Link
+              href={href}
+              className="text-[13px] text-white/55 hover:text-white transition-colors leading-relaxed"
+            >
+              {label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default function Footer() {
   return (
-    <footer
-      style={{ background: '#0D1B3E' }}
-      className="text-white relative overflow-hidden"
-    >
-
-      {/* Top Gradient */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-
-      <div className="container py-16 sm:py-20">
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
-
-          {/* Brand */}
+    <footer className="bg-navy text-white">
+      {/* Top CTA strip */}
+      <div className="border-b border-white/10">
+        <div className="container py-8 md:py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
           <div>
+            <p className="font-heading font-semibold text-white text-lg md:text-xl">
+              Planning an HVAC project? Let&apos;s talk specs.
+            </p>
+            <p className="text-white/55 text-sm mt-1">
+              Sizing, submissions and quotations from Ajman, UAE.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/contact" className="btn-primary">
+              Contact Sales <ArrowRight size={14} />
+            </Link>
+            <Link href="/catalogue" className="btn-white-outline">
+              Request Catalogue
+            </Link>
+          </div>
+        </div>
+      </div>
 
-            {/* Logo */}
-            <Link
-              href="/"
-              className="flex items-center mb-4"
-            >
-              <div className="relative w-[175px] h-[85px] sm:w-[210px] sm:h-[100px] flex-shrink-0">
+      <div className="container py-12 md:py-16 lg:py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
 
+          {/* Brand block — spans both cols on sm, 4/12 on lg */}
+          <div className="sm:col-span-2 lg:col-span-4">
+            <Link href="/" className="inline-flex items-center mb-5">
+              <div className="relative w-[180px] h-[72px]">
                 <Image
                   src="/images/logo white.png"
                   alt="ALUGRIDX"
@@ -60,209 +102,71 @@ export default function Footer() {
               </div>
             </Link>
 
-            {/* Description */}
-            <p
-              className="text-sm leading-relaxed mb-6 max-w-sm"
-              style={{ color: 'rgba(255,255,255,0.55)' }}
-            >
-              Premium HVAC air distribution manufacturer.
-              Based in Ajman, UAE. Serving UAE and GCC
-              with high quality aluminum solutions.
+            <p className="text-white/55 text-sm leading-relaxed max-w-sm mb-6">
+              Premium HVAC air distribution manufacturer. Based in Ajman, UAE,
+              serving the GCC with diffusers, grilles, louvers and dampers in
+              aluminum.
             </p>
 
-            {/* Contact */}
             <div className="space-y-3 text-sm">
-
-              <a
-                href="tel:+971585521251"
-                className="flex items-center gap-3 transition-colors hover:text-white"
-                style={{ color: 'rgba(255,255,255,0.65)' }}
-              >
-                <Phone size={14} />
-
-                +971 58 552 1251
+              <a href="tel:+971585521251" className="flex items-center gap-3 text-white/65 hover:text-white transition-colors">
+                <Phone size={14} className="text-accent flex-shrink-0" /> +971 58 552 1251
               </a>
-
-              <a
-                href="mailto:info@alugridx.com"
-                className="flex items-center gap-3 transition-colors hover:text-white"
-                style={{ color: 'rgba(255,255,255,0.65)' }}
-              >
-                <Mail size={14} />
-
-                info@alugridx.com
+              <a href="mailto:info@alugridx.com" className="flex items-center gap-3 text-white/65 hover:text-white transition-colors">
+                <Mail size={14} className="text-accent flex-shrink-0" /> info@alugridx.com
               </a>
-
-              <div
-                className="flex items-start gap-3 leading-relaxed"
-                style={{ color: 'rgba(255,255,255,0.65)' }}
-              >
-                <MapPin
-                  size={14}
-                  className="mt-1 flex-shrink-0"
-                />
-
+              <div className="flex items-start gap-3 text-white/65 leading-relaxed">
+                <MapPin size={14} className="text-accent flex-shrink-0 mt-1" />
                 <span>
-                  Building No-144, Warehouse No-16,
-                  Humaideya Street Al Jurf 3 Near Red
-                  Chilly Restaurant, Ajman
+                  Building 144, Warehouse 16, Humaideya Street,<br />
+                  Al Jurf 3, Ajman, UAE
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Products */}
-          <div>
-
-            <h4
-              className="font-heading font-bold text-white text-sm uppercase tracking-[0.22em] mb-5 pb-3"
-              style={{
-                borderBottom:
-                  '1px solid rgba(255,255,255,0.1)',
-              }}
-            >
-              Products
-            </h4>
-
-            <ul className="space-y-3">
-
-              {products.map(([label, href]) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className="text-sm transition-colors hover:text-white"
-                    style={{
-                      color: 'rgba(255,255,255,0.6)',
-                    }}
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-
-            </ul>
+          {/* Product columns (grouped by category) */}
+          <div className="lg:col-span-2">
+            <Column title="Diffusers" items={diffusers} />
           </div>
-
-          {/* Company */}
-          <div>
-
-            <h4
-              className="font-heading font-bold text-white text-sm uppercase tracking-[0.22em] mb-5 pb-3"
-              style={{
-                borderBottom:
-                  '1px solid rgba(255,255,255,0.1)',
-              }}
-            >
-              Company
-            </h4>
-
-            <ul className="space-y-3">
-
-              {pages.map(([label, href]) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className="text-sm transition-colors hover:text-white"
-                    style={{
-                      color: 'rgba(255,255,255,0.6)',
-                    }}
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-
-            </ul>
+          <div className="lg:col-span-2">
+            <Column title="Grilles" items={grilles} />
           </div>
+          <div className="lg:col-span-2">
+            <Column title="Louvers & Dampers" items={louversDampers} />
+          </div>
+          <div className="sm:col-span-2 lg:col-span-2">
+            <Column title="Company" items={company} />
+          </div>
+        </div>
 
-          {/* CTA */}
-          <div>
-
-            <h4
-              className="font-heading font-bold text-white text-sm uppercase tracking-[0.22em] mb-5 pb-3"
-              style={{
-                borderBottom:
-                  '1px solid rgba(255,255,255,0.1)',
-              }}
-            >
-              Get Catalogue
-            </h4>
-
-            <p
-              className="text-sm leading-relaxed mb-5"
-              style={{ color: 'rgba(255,255,255,0.6)' }}
-            >
-              Request our 2026 product catalogue with
-              complete technical specifications and
-              detailed product information.
-            </p>
-
-            {/* Button */}
-            <Link
-              href="/catalogue"
-              className="btn-white text-sm py-3 px-5 w-full justify-center mb-6"
-            >
-              Request Catalogue
-            </Link>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-3">
-
-              {[
-                ['10+', 'Yrs Exp'],
-                ['500+', 'Projects'],
-                ['15+', 'Products'],
-                ['1 Yr', 'Warranty'],
-              ].map(([v, l]) => (
-                <div
-                  key={l}
-                  className="rounded-xl py-4 text-center border border-white/5"
-                  style={{
-                    background:
-                      'rgba(255,255,255,0.06)',
-                  }}
-                >
-                  <p className="font-heading font-extrabold text-white text-lg">
-                    {v}
-                  </p>
-
-                  <p
-                    className="text-[10px] mt-1 uppercase tracking-widest"
-                    style={{
-                      color: 'rgba(255,255,255,0.4)',
-                    }}
-                  >
-                    {l}
-                  </p>
-                </div>
-              ))}
-
+        {/* Standards strip */}
+        <div className="mt-14 pt-8 border-t border-white/10">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-10">
+            <div className="flex items-center gap-3">
+              <ShieldCheck size={18} className="text-accent flex-shrink-0" strokeWidth={1.8} />
+              <span className="font-heading font-semibold text-white text-xs uppercase tracking-[0.22em]">
+                Standards & Compliance
+              </span>
             </div>
+            <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[12px] text-white/55">
+              {standards.map((s) => (
+                <li key={s} className="flex items-center gap-2">
+                  <span className="w-1 h-1 rounded-full bg-white/30" />
+                  {s}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
 
-      {/* Bottom */}
-      <div
-        style={{
-          borderTop:
-            '1px solid rgba(255,255,255,0.08)',
-        }}
-      >
-        <div
-          className="container py-5 flex flex-col lg:flex-row items-center justify-between gap-3 text-center lg:text-left text-xs"
-          style={{
-            color: 'rgba(255,255,255,0.35)',
-          }}
-        >
-
-          <p>
-            © 2026 ALUGRIDX Air Conditioning
-            Industry LLC. All rights reserved.
-          </p>
-
-          <p className="font-heading font-bold tracking-[0.25em] text-[10px] uppercase">
-            ALUGRIDX — AIR DISTRIBUTION SOLUTIONS
+      {/* Bottom bar */}
+      <div className="border-t border-white/10">
+        <div className="container py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-[11px] text-white/40">
+          <p>© {new Date().getFullYear()} ALUGRIDX Air Conditioning Industry LLC. All rights reserved.</p>
+          <p className="font-heading uppercase tracking-[0.25em]">
+            ALUGRIDX — Air Distribution Solutions
           </p>
         </div>
       </div>

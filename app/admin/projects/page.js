@@ -1,33 +1,66 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X, Save } from 'lucide-react';
+import {
+  fetchProjects,
+  createProject,
+  updateProject,
+  deleteProject,
+} from '@/lib/api';
 
 const cats = ['Commercial', 'Industrial', 'Residential', 'Hospitality', 'Infrastructure'];
-const blank = { title: '', category: cats[0], location: '', products: '', year: '2026' };
-
-const initProjects = [
-  { id: 1, title: 'Dubai Commercial Tower', category: 'Commercial', location: 'Dubai, UAE', products: 'Ceiling Diffusers, Linear Grilles', year: '2026' },
-  { id: 2, title: 'Ajman Industrial Complex', category: 'Industrial', location: 'Ajman, UAE', products: 'Louvers, VCD, NRD', year: '2025' },
-  { id: 3, title: 'Abu Dhabi Luxury Residences', category: 'Residential', location: 'Abu Dhabi, UAE', products: 'Ceiling Diffusers, Grilles', year: '2025' },
-  { id: 4, title: 'Sharjah 5-Star Hotel', category: 'Hospitality', location: 'Sharjah, UAE', products: 'Linear Slot Diffusers', year: '2026' },
-];
+const blank = { title: '', category: cats[0], location: '', products: '', year: String(new Date().getFullYear()), img: '' };
 
 export default function AdminProjects() {
-  const [projects, setProjects] = useState(initProjects);
+  const [projects, setProjects] = useState([]);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(blank);
   const [isNew, setIsNew] = useState(false);
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
 
-  const openNew = () => { setForm(blank); setEditing('new'); setIsNew(true); };
-  const openEdit = (p) => { setForm({...p}); setEditing(p.id); setIsNew(false); };
-  const close = () => { setEditing(null); };
-
-  const save = () => {
-    if (isNew) setProjects(prev => [...prev, { ...form, id: Date.now() }]);
-    else setProjects(prev => prev.map(p => p.id === editing ? { ...form, id: editing } : p));
-    close();
+  const load = async () => {
+    try {
+      const json = await fetchProjects();
+      setProjects(json.data || []);
+    } catch (err) {
+      setError(err.message);
+    }
   };
-  const remove = (id) => { if (confirm('Remove this project?')) setProjects(prev => prev.filter(p => p.id !== id)); };
+
+  useEffect(() => { load(); }, []);
+
+  const openNew = () => { setForm(blank); setEditing('new'); setIsNew(true); setError(''); };
+  const openEdit = (p) => { setForm({ ...p }); setEditing(p._id); setIsNew(false); setError(''); };
+  const close = () => { setEditing(null); setError(''); };
+
+  const save = async () => {
+    setSaving(true);
+    setError('');
+    try {
+      if (isNew) {
+        await createProject(form);
+      } else {
+        await updateProject(editing, form);
+      }
+      await load();
+      close();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const remove = async (id) => {
+    if (!confirm('Remove this project?')) return;
+    try {
+      await deleteProject(id);
+      await load();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
     <div className="space-y-5">
@@ -38,6 +71,12 @@ export default function AdminProjects() {
         </div>
         <button onClick={openNew} className="btn-primary text-sm py-2.5 px-5"><Plus size={15}/> Add Project</button>
       </div>
+
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
 
       {editing && (
         <div className="card p-6 border-l-4" style={{borderLeftColor:'#0D1B3E'}}>
@@ -68,9 +107,15 @@ export default function AdminProjects() {
               <label className="form-label">Products Used</label>
               <input className="form-input" placeholder="e.g. Ceiling Diffusers, Linear Grilles" value={form.products} onChange={e=>setForm({...form,products:e.target.value})} />
             </div>
+            <div className="md:col-span-2">
+              <label className="form-label">Image URL</label>
+              <input className="form-input" placeholder="https://... or /images/project.jpg" value={form.img || ''} onChange={e=>setForm({...form,img:e.target.value})} />
+            </div>
           </div>
           <div className="flex gap-3">
-            <button onClick={save} className="btn-primary text-sm py-2.5 px-6"><Save size={14}/> Save</button>
+            <button onClick={save} disabled={saving} className="btn-primary text-sm py-2.5 px-6 disabled:opacity-60">
+              <Save size={14}/> {saving ? 'Saving...' : 'Save'}
+            </button>
             <button onClick={close} className="btn-outline text-sm py-2.5 px-5">Cancel</button>
           </div>
         </div>
@@ -78,12 +123,12 @@ export default function AdminProjects() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects.map(p => (
-          <div key={p.id} className="card p-5">
+          <div key={p._id} className="card p-5">
             <div className="flex items-start justify-between mb-3">
               <span className="badge text-[10px]">{p.category}</span>
               <div className="flex gap-1">
                 <button onClick={()=>openEdit(p)} className="p-1.5 rounded hover:bg-gray-100 text-muted hover:text-navy transition-colors"><Edit2 size={13}/></button>
-                <button onClick={()=>remove(p.id)} className="p-1.5 rounded hover:bg-red-50 text-muted hover:text-red-500 transition-colors"><Trash2 size={13}/></button>
+                <button onClick={()=>remove(p._id)} className="p-1.5 rounded hover:bg-red-50 text-muted hover:text-red-500 transition-colors"><Trash2 size={13}/></button>
               </div>
             </div>
             <h3 className="font-heading font-bold text-navy text-sm mb-1">{p.title}</h3>

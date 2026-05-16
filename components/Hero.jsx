@@ -8,34 +8,34 @@ const slides = [
   {
     image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=85',
     label: 'Premium HVAC Solutions',
-    heading: 'SMART SOLUTIONS\nFOR MODERN SPACES',
-    sub: 'Advanced engineering. Superior performance.\nSustainable solutions for UAE & GCC.',
+    heading: 'Engineered air distribution\nfor modern spaces.',
+    sub: 'Advanced manufacturing. Superior performance. Sustainable solutions across the UAE & GCC.',
     cta1: { label: 'Request Catalogue', href: '/catalogue' },
-    cta2: { label: 'Explore Products', href: '/products' },
+    cta2: { label: 'Browse Products', href: '/products' },
   },
   {
     image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1920&q=85',
     label: 'Precision Manufactured',
-    heading: 'ENGINEERED FOR\nPERFECT AIRFLOW',
-    sub: 'Premium aluminum grilles, diffusers & louvers.\nBuilt for residential, commercial & industrial.',
+    heading: 'Built for perfect airflow,\nspec sheet by spec sheet.',
+    sub: 'Premium aluminum grilles, diffusers and louvers — residential, commercial and industrial.',
     cta1: { label: 'View Products', href: '/products' },
     cta2: { label: 'Contact Us', href: '/contact' },
   },
   {
     image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=85',
     label: 'UAE Based Manufacturer',
-    heading: 'YOUR TRUSTED\nHVAC PARTNER',
-    sub: 'Based in Ajman, UAE. Delivering across\nUAE & GCC with 1-year product warranty.',
+    heading: 'Your trusted\nHVAC partner.',
+    sub: 'Based in Ajman, UAE. Delivering across UAE & GCC with a 1-year manufacturer warranty.',
     cta1: { label: 'Our Projects', href: '/projects' },
     cta2: { label: 'About ALUGRIDX', href: '/about' },
   },
 ];
 
 const stats = [
-  { value: '10+', label: 'Years Experience' },
-  { value: '500+', label: 'Projects Done' },
-  { value: 'UAE & GCC', label: 'Wide Delivery' },
-  { value: '1 Year', label: 'Product Warranty' },
+  { value: '10+',       label: 'Years experience' },
+  { value: '500+',      label: 'Projects delivered' },
+  { value: 'UAE & GCC', label: 'Coverage' },
+  { value: '1 Year',    label: 'Warranty' },
 ];
 
 export default function Hero() {
@@ -57,7 +57,7 @@ export default function Hero() {
         fadeEffect: { crossFade: true },
         loop: true,
         speed: 900,
-        autoplay: { delay: 5000, disableOnInteraction: false },
+        autoplay: { delay: 5500, disableOnInteraction: false },
         pagination: { el: '.hero-pagination', clickable: true },
         navigation: { nextEl: '.hero-next', prevEl: '.hero-prev' },
       });
@@ -68,41 +68,40 @@ export default function Hero() {
 
   return (
     <section className="relative">
-      {/* Swiper */}
-      <div ref={swiperRef} className="swiper h-[580px] md:h-[650px] lg:h-[700px]">
+      <div ref={swiperRef} className="swiper h-[560px] sm:h-[620px] md:h-[700px] lg:h-[760px]">
         <div className="swiper-wrapper">
           {slides.map((slide, i) => (
             <div key={i} className="swiper-slide relative">
               <Image
                 src={slide.image}
-                alt={slide.heading}
+                alt=""
                 fill
-                className="object-cover"
                 priority={i === 0}
+                className="object-cover hero-ken-burns"
               />
               <div className="hero-overlay absolute inset-0" />
 
-              <div className="relative z-10 h-full flex items-center">
+              <div className="relative z-10 h-full flex items-center pt-20 md:pt-24 pb-10">
                 <div className="container">
-                  <div className="max-w-2xl">
+                  <div className="max-w-2xl hero-slide-content">
                     {/* Label */}
-                    <div className="inline-flex items-center gap-2 bg-navy/90 text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-5 font-heading tracking-wider">
-                      <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                    <span className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] sm:tracking-[0.22em] text-white/80 font-heading mb-4 sm:mb-6">
+                      <span className="w-5 sm:w-6 h-px bg-accent" />
                       {slide.label}
-                    </div>
+                    </span>
 
                     {/* Heading */}
-                    <h1 className="font-heading font-extrabold text-white text-4xl md:text-5xl lg:text-6xl leading-tight mb-5 whitespace-pre-line">
+                    <h1 className="font-heading font-bold text-white leading-[1.05] tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 sm:mb-6 whitespace-pre-line">
                       {slide.heading}
                     </h1>
 
                     {/* Sub */}
-                    <p className="text-white/80 text-base md:text-lg font-light leading-relaxed mb-8 whitespace-pre-line">
+                    <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl mb-6 sm:mb-8">
                       {slide.sub}
                     </p>
 
                     {/* CTAs */}
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex flex-wrap gap-3">
                       <Link href={slide.cta1.href} className="btn-primary">
                         {slide.cta1.label} <ArrowRight size={15} />
                       </Link>
@@ -117,24 +116,34 @@ export default function Hero() {
           ))}
         </div>
 
-        {/* Controls */}
+        {/* Pagination — slim hairline bars */}
         <div className="hero-pagination absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2" />
-        <button className="hero-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-navy hover:bg-white transition-colors hidden md:flex">
+
+        {/* Prev / Next */}
+        <button
+          className="hero-prev hidden md:flex absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-md border border-white/30 bg-navy/40 backdrop-blur-sm text-white items-center justify-center hover:bg-white hover:text-navy transition-colors"
+          aria-label="Previous slide"
+        >
           <ChevronRight size={18} className="rotate-180" />
         </button>
-        <button className="hero-next absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-navy hover:bg-white transition-colors hidden md:flex">
+        <button
+          className="hero-next hidden md:flex absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-md border border-white/30 bg-navy/40 backdrop-blur-sm text-white items-center justify-center hover:bg-white hover:text-navy transition-colors"
+          aria-label="Next slide"
+        >
           <ChevronRight size={18} />
         </button>
       </div>
 
-      {/* Stats bar */}
-      <div style={{background:"#0D1B3E"}}>
+      {/* Stats strip — offwhite under hero */}
+      <div className="bg-offwhite border-y border-hairline">
         <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/20">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-hairline">
             {stats.map((stat) => (
-              <div key={stat.label} className="py-5 px-6 text-center text-white diagonal-accent">
-                <p className="font-heading font-extrabold text-2xl md:text-3xl">{stat.value}</p>
-                <p className="text-white/70 text-xs mt-0.5 font-body">{stat.label}</p>
+              <div key={stat.label} className="py-5 md:py-8 px-4 md:px-8 text-center md:text-left">
+                <p className="font-heading font-bold text-ink text-xl md:text-3xl tabular-nums tracking-tight">
+                  {stat.value}
+                </p>
+                <p className="text-muted text-[11px] md:text-sm mt-1 font-body">{stat.label}</p>
               </div>
             ))}
           </div>

@@ -22,7 +22,7 @@ const navItems = [
       { label: 'Non Return Dampers', href: '/products#non-return' },
     ],
   },
-  { label: 'About Us', href: '/about' },
+  { label: 'About', href: '/about' },
   { label: 'Projects', href: '/projects' },
   { label: 'Catalogue', href: '/catalogue' },
   { label: 'Blog', href: '/blog' },
@@ -36,12 +36,13 @@ export default function Navbar() {
   const [mobileExpanded, setMobileExpanded] = useState(null);
 
   const pathname = usePathname();
+  const isHome = pathname === '/';
+  const transparent = isHome && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
-
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -52,32 +53,30 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
-
-    return () => {
-      document.body.style.overflow = '';
-    };
+    return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
+
+  const headerBase = 'fixed top-0 inset-x-0 z-50 transition-colors duration-300';
+  // On hero: frosted-navy backdrop so white nav text always reads.
+  // Off hero: solid white + hairline border.
+  const headerStyles = transparent
+    ? 'bg-navy/80 backdrop-blur-md border-b border-white/10'
+    : 'bg-white border-b border-hairline shadow-[0_1px_0_rgba(13,27,62,0.03)]';
+
+  const linkClass = transparent ? 'nav-link-dark' : 'nav-link-light';
 
   return (
     <>
-      <header
-        className={`sticky top-0 z-50 bg-white border-b border-gray-100 transition-all duration-300 ${
-          scrolled ? 'shadow-md' : ''
-        }`}
-      >
-        {/* Container */}
-        <div className="container max-w-[100%] pl-1 pr-3 sm:px-6 lg:px-10">
-          <div className="flex items-center justify-between h-[82px] sm:h-[92px] lg:h-[105px]">
+      <header className={`${headerBase} ${headerStyles}`}>
+        <div className="container">
+          <div className="flex items-center justify-between h-[80px] md:h-[96px] lg:h-[112px]">
 
-            {/* Logo */}
-            <Link
-              href="/"
-              className="flex items-center flex-shrink-0 mr-0 lg:mr-10"
-            >
-              <div className="relative w-[175px] h-[82px] sm:w-[220px] sm:h-[110px] lg:w-[285px] lg:h-[145px]">
+            {/* Logo — bigger, consistent across all states */}
+            <Link href="/" className="flex items-center flex-shrink-0 mr-3 lg:mr-8">
+              <div className="relative w-[170px] h-[60px] sm:w-[200px] sm:h-[72px] md:w-[230px] md:h-[82px] lg:w-[260px] lg:h-[94px]">
                 <Image
-                  src="/images/logo.png"
-                  alt="ALUGRIDX logo"
+                  src={transparent ? '/images/logo white.png' : '/images/logo.png'}
+                  alt="ALUGRIDX"
                   fill
                   priority
                   className="object-contain object-left"
@@ -86,54 +85,50 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-0.5">
-              {navItems.map((item) => (
-                <div
-                  key={item.href}
-                  className="relative"
-                  onMouseEnter={() =>
-                    item.children && setDropdown(item.label)
-                  }
-                  onMouseLeave={() => setDropdown(null)}
-                >
-                  <Link
-                    href={item.href}
-                    className={`nav-link px-3 py-2 flex items-center gap-1 ${
-                      pathname === item.href ? 'active' : ''
-                    }`}
+            <nav className="hidden lg:flex items-center gap-1">
+              {navItems.map((item) => {
+                const active = pathname === item.href ||
+                  (item.href !== '/' && pathname.startsWith(item.href));
+                return (
+                  <div
+                    key={item.href}
+                    className="relative"
+                    onMouseEnter={() => item.children && setDropdown(item.label)}
+                    onMouseLeave={() => setDropdown(null)}
                   >
-                    {item.label}
+                    <Link
+                      href={item.href}
+                      className={`nav-link ${linkClass} px-3 py-2 flex items-center gap-1 ${active ? 'active' : ''}`}
+                    >
+                      {item.label}
+                      {item.children && (
+                        <ChevronDown
+                          size={12}
+                          className={`transition-transform duration-200 ${dropdown === item.label ? 'rotate-180' : ''}`}
+                        />
+                      )}
+                    </Link>
 
-                    {item.children && (
-                      <ChevronDown
-                        size={13}
-                        className={`transition-transform duration-200 ${
-                          dropdown === item.label ? 'rotate-180' : ''
-                        }`}
-                      />
+                    {item.children && dropdown === item.label && (
+                      <div className="absolute top-full left-0 w-64 bg-white border border-hairline rounded-md py-2 mt-2 z-50 overflow-hidden shadow-hover">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className="block px-5 py-2.5 text-[13px] text-slate hover:bg-offwhite hover:text-accent transition-colors"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
                     )}
-                  </Link>
-
-                  {/* Dropdown */}
-                  {item.children && dropdown === item.label && (
-                    <div className="absolute top-full left-0 w-60 bg-white border border-gray-100 rounded-xl shadow-2xl py-2 z-50 overflow-hidden">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          className="block px-5 py-3 text-sm text-dark hover:bg-gray-50 hover:text-navy transition-colors"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+                  </div>
+                );
+              })}
             </nav>
 
-            {/* Right Side */}
-            <div className="flex items-center gap-3">
+            {/* Right side */}
+            <div className="flex items-center gap-2 md:gap-3">
               <Link
                 href="/catalogue"
                 className="hidden lg:inline-flex btn-primary text-xs py-2.5 px-5"
@@ -141,67 +136,53 @@ export default function Navbar() {
                 Request Catalogue
               </Link>
 
-              {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden w-10 h-10 rounded-lg flex items-center justify-center text-dark hover:bg-gray-100 transition-colors"
+                className={`lg:hidden w-11 h-11 rounded-md flex items-center justify-center transition-colors ${
+                  transparent
+                    ? 'text-white hover:bg-white/15 border border-white/25'
+                    : 'text-ink hover:bg-offwhite border border-hairline'
+                }`}
                 aria-label="Toggle Menu"
               >
-                {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+                {mobileOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
             </div>
           </div>
         </div>
       </header>
 
+      {/* Spacer so content does not slide under the fixed header on non-home pages. */}
+      {!isHome && <div className="h-[80px] md:h-[96px] lg:h-[112px]" aria-hidden="true" />}
+
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-40 bg-white transition-all duration-300 lg:hidden ${
-          mobileOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 z-40 bg-white transition-opacity duration-300 lg:hidden pt-[80px] md:pt-[96px] ${
+          mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
-        style={{
-          paddingTop: '82px',
-        }}
       >
         <div className="container py-4 h-full overflow-y-auto">
           {navItems.map((item) => (
-            <div
-              key={item.href}
-              className="border-b border-gray-100"
-            >
+            <div key={item.href} className="border-b border-hairline">
               {item.children ? (
                 <>
                   <button
-                    onClick={() =>
-                      setMobileExpanded(
-                        mobileExpanded === item.label
-                          ? null
-                          : item.label
-                      )
-                    }
-                    className="w-full flex items-center justify-between py-4 font-heading font-bold text-dark text-sm"
+                    onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}
+                    className="w-full flex items-center justify-between py-4 font-heading font-semibold text-ink text-sm"
                   >
                     {item.label}
-
                     <ChevronDown
                       size={16}
-                      className={`transition-transform duration-200 ${
-                        mobileExpanded === item.label
-                          ? 'rotate-180'
-                          : ''
-                      }`}
+                      className={`transition-transform duration-200 ${mobileExpanded === item.label ? 'rotate-180' : ''}`}
                     />
                   </button>
-
                   {mobileExpanded === item.label && (
                     <div className="pb-4 pl-4 space-y-1">
                       {item.children.map((child) => (
                         <Link
                           key={child.href}
                           href={child.href}
-                          className="block py-2 text-sm text-muted hover:text-navy transition-colors"
+                          className="block py-2 text-sm text-muted hover:text-accent transition-colors"
                         >
                           {child.label}
                         </Link>
@@ -212,7 +193,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   href={item.href}
-                  className="block py-4 font-heading font-bold text-dark text-sm hover:text-navy transition-colors"
+                  className="block py-4 font-heading font-semibold text-ink text-sm hover:text-accent transition-colors"
                 >
                   {item.label}
                 </Link>
@@ -220,12 +201,8 @@ export default function Navbar() {
             </div>
           ))}
 
-          {/* Mobile CTA */}
           <div className="pt-6 pb-10">
-            <Link
-              href="/catalogue"
-              className="btn-primary w-full justify-center"
-            >
+            <Link href="/catalogue" className="btn-primary w-full justify-center">
               Request Catalogue
             </Link>
           </div>

@@ -1,75 +1,117 @@
 'use client';
 import { useState } from 'react';
-import { Send, CheckCircle } from 'lucide-react';
+import { Send, CheckCircle, FileText } from 'lucide-react';
 import { useReveal } from '@/components/useReveal';
+import { submitEnquiry } from '@/lib/api';
 
 export default function CatalogueSection() {
   const [form, setForm] = useState({ name: '', company: '', email: '', requirements: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   useReveal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/enquiry`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, subject: 'Catalogue Request', message: form.requirements }),
+      await submitEnquiry({
+        ...form,
+        subject: 'Catalogue Request',
+        message: form.requirements,
       });
-    } catch {}
-    setLoading(false);
-    setSubmitted(true);
+      setSubmitted(true);
+    } catch (err) {
+      setError(err.message || 'Submission failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    
-    <section style={{background:"#0D1B3E"}} className="section diagonal-accent">
+    <section className="section bg-white border-t border-hairline">
       <div className="container">
-        <div className="text-center mb-8 reveal">
-          <span className="inline-flex items-center gap-2 text-white/80 text-sm font-semibold uppercase tracking-widest mb-3 font-heading">
-            <span className="w-6 h-0.5 bg-white/50" /> Get Catalogue Access
-          </span>
-          <h2 className="font-heading font-extrabold text-white text-3xl md:text-4xl">
-            Submit Your Requirements to Unlock<br className="hidden md:block" /> Our Complete Product Catalogue
-          </h2>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10 lg:gap-16 items-start">
 
-        {submitted ? (
-          <div className="max-w-md mx-auto text-center bg-white/10 rounded-xl p-10 backdrop-blur">
-            <CheckCircle size={48} className="text-white mx-auto mb-4" />
-            <h3 className="font-heading font-bold text-white text-xl mb-2">Request Received!</h3>
-            <p className="text-white/80 text-sm">We'll send the catalogue to your email within 24 hours.</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="reveal">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+          {/* Left — copy */}
+          <div className="lg:col-span-5 reveal-left">
+            <span className="section-label">Catalogue 2026</span>
+            <h2 className="heading-lg">Request the full technical catalogue.</h2>
+            <p className="text-slate mt-5 leading-relaxed mb-6">
+              Complete submission tables, k-factors, throw and noise data,
+              dimensional drawings and coating options across all 15+ product
+              series.
+            </p>
+            <ul className="space-y-3">
               {[
-                { name: 'name', placeholder: 'Your Name', required: true },
-                { name: 'company', placeholder: 'Company Name', required: false },
-                { name: 'email', placeholder: 'Email Address', required: true, type: 'email' },
-                { name: 'requirements', placeholder: 'Requirements', required: false },
-              ].map((field) => (
-                <input
-                  key={field.name}
-                  required={field.required}
-                  type={field.type || 'text'}
-                  name={field.name}
-                  value={form[field.name]}
-                  onChange={(e) => setForm({ ...form, [e.target.name]: e.target.value })}
-                  placeholder={field.placeholder}
-                  className="w-full px-4 py-3.5 rounded bg-white/10 border border-white/20 text-white placeholder-white/50 text-sm focus:outline-none focus:border-white focus:bg-white/20 transition-all"
-                />
+                'All 15+ product series with dimensional drawings',
+                'Submission tables and pressure-drop curves',
+                'Throw and NC noise data',
+                'Coating options and material grades',
+                'Installation and maintenance guidance',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2.5 text-sm text-slate">
+                  <FileText size={14} className="text-accent flex-shrink-0 mt-1" />
+                  {item}
+                </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Right — form */}
+          <div className="lg:col-span-7 reveal-right">
+            <div className="card-static p-6 md:p-8 bg-offwhite">
+              {submitted ? (
+                <div className="text-center py-10">
+                  <CheckCircle size={48} className="text-accent mx-auto mb-4" strokeWidth={1.6} />
+                  <h3 className="font-heading font-bold text-ink text-xl mb-2">Request received</h3>
+                  <p className="text-muted text-sm">
+                    We&apos;ll send the catalogue to your email within 24 hours.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <h3 className="font-heading font-bold text-ink text-lg">Send a request</h3>
+                    <p className="text-muted text-xs mt-1">
+                      All fields marked with * are required.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {[
+                      { name: 'name',    label: 'Name *',           required: true },
+                      { name: 'company', label: 'Company',          required: false },
+                      { name: 'email',   label: 'Email *',          required: true, type: 'email' },
+                      { name: 'requirements', label: 'Requirements', required: false },
+                    ].map((field) => (
+                      <div key={field.name}>
+                        <label className="form-label">{field.label}</label>
+                        <input
+                          required={field.required}
+                          type={field.type || 'text'}
+                          name={field.name}
+                          value={form[field.name]}
+                          onChange={(e) => setForm({ ...form, [e.target.name]: e.target.value })}
+                          className="form-input"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  {error && (
+                    <p className="text-red-700 text-sm bg-red-50 border border-red-200 rounded px-3 py-2">{error}</p>
+                  )}
+
+                  <button type="submit" disabled={loading} className="btn-primary w-full py-3.5">
+                    {loading ? 'Sending…' : <><Send size={14} /> Request Catalogue</>}
+                  </button>
+                </form>
+              )}
             </div>
-            <div className="text-center mt-5">
-              <button type="submit" disabled={loading} className="btn-white px-10 py-3.5">
-                {loading ? 'Sending...' : <><Send size={14} /> Submit Request</>}
-              </button>
-            </div>
-          </form>
-        )}
+          </div>
+        </div>
       </div>
     </section>
   );

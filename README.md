@@ -17,7 +17,7 @@ npm run dev        # → http://localhost:3000
 cd alugridx/server
 npm install
 cp .env.example .env   # set MONGODB_URI
-npm run dev            # → http://localhost:5000
+npm run dev            # → http://localhost:5001
 ```
 
 ## Pages

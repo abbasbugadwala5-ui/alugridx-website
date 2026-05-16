@@ -5,8 +5,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import {
   LayoutDashboard, Mail, Package, FolderOpen,
-  FileText, LogOut, Menu, X, ChevronRight, Bell
+  FileText, HelpCircle, LogOut, ChevronRight, X, Bell
 } from 'lucide-react';
+import { auth, logout as logoutApi } from '@/lib/api';
 
 const navItems = [
   { label: 'Dashboard',  href: '/admin/dashboard',  icon: LayoutDashboard },
@@ -14,6 +15,7 @@ const navItems = [
   { label: 'Products',   href: '/admin/products',   icon: Package },
   { label: 'Projects',   href: '/admin/projects',   icon: FolderOpen },
   { label: 'Blog Posts', href: '/admin/blog',       icon: FileText },
+  { label: 'FAQs',       href: '/admin/faq',        icon: HelpCircle },
 ];
 
 export default function AdminLayout({ children }) {
@@ -24,18 +26,27 @@ export default function AdminLayout({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    const token = sessionStorage.getItem('alugridx_admin');
-    if (token === 'authenticated') { setAuthed(true); }
-    else if (pathname !== '/admin/login') { router.replace('/admin/login'); }
+    if (auth.isAuthenticated()) {
+      setAuthed(true);
+    } else if (pathname !== '/admin/login') {
+      router.replace('/admin/login');
+    }
     setChecking(false);
-  }, [pathname]);
+  }, [pathname, router]);
 
-  const logout = () => {
-    sessionStorage.removeItem('alugridx_admin');
+  const handleLogout = () => {
+    logoutApi();
+    setAuthed(false);
     router.push('/admin/login');
   };
 
-  if (checking) return <div className="min-h-screen bg-gray-50 flex items-center justify-center"><div className="w-8 h-8 border-2 border-navy border-t-transparent rounded-full animate-spin" /></div>;
+  if (checking) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-navy border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
   if (pathname === '/admin/login') return <>{children}</>;
   if (!authed) return null;
 
@@ -76,7 +87,7 @@ export default function AdminLayout({ children }) {
 
         {/* Logout */}
         <div className="p-2 border-t border-white/10">
-          <button onClick={logout} className="admin-nav-item w-full" title={collapsed ? 'Logout' : undefined}>
+          <button onClick={handleLogout} className="admin-nav-item w-full" title={collapsed ? 'Logout' : undefined}>
             <LogOut size={18} className="flex-shrink-0" />
             {!collapsed && <span>Logout</span>}
           </button>
