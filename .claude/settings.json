@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm install *)",
       "Bash(npx next *)",
-      "Bash(git check-ignore *)"
+      "Bash(git check-ignore *)",
+      "PowerShell($url = 'https://alugridx-website.onrender.com'; foreach \\($path in @\\('/', '/health', '/api/products'\\)\\) { try { $r = Invoke-WebRequest -Uri \\($url + $path\\) -TimeoutSec 30 -UseBasicParsing; Write-Output \\(\"{0,-20} HTTP {1}  {2} bytes\" -f $path, $r.StatusCode, $r.Content.Length\\); $preview = $r.Content; if \\($preview.Length -gt 200\\) { $preview = $preview.Substring\\(0,200\\) + '...' }; Write-Output \"  body: $preview\"; Write-Output '' } catch { Write-Output \\(\"{0,-20} ERROR: {1}\" -f $path, $_.Exception.Message\\); Write-Output '' } })",
+      "Bash(node -e \"console.log\\(require\\('crypto'\\).randomBytes\\(64\\).toString\\('hex'\\)\\)\")"
     ]
   }
 }

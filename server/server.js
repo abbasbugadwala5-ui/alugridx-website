@@ -20,7 +20,28 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 // MIDDLEWARES
-app.use(cors());
+// CORS — locked to ALLOWED_ORIGINS in prod, open in dev.
+// Set ALLOWED_ORIGINS=https://yourdomain.com,https://your-preview.vercel.app
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      // No origin (server-to-server, curl, native apps) → allow
+      if (!origin) return cb(null, true);
+      // Dev / no whitelist configured → allow all
+      if (process.env.NODE_ENV !== 'production' || allowedOrigins.length === 0) {
+        return cb(null, true);
+      }
+      if (allowedOrigins.includes(origin)) return cb(null, true);
+      return cb(new Error(`CORS: origin ${origin} not allowed`));
+    },
+    credentials: true,
+  })
+);
 
 app.use(
   helmet({
@@ -60,11 +81,22 @@ app.use('/api/faqs', faqRoutes);
 app.use('/api/enquiry', writeLimiter, enquiryRoutes);
 app.use('/api/upload', writeLimiter, uploadRoutes);
 
+// ROOT — Render's default ping target
+app.get('/', (_req, res) =>
+  res.json({
+    service: 'ALUGRIDX API v2',
+    status: 'running',
+    docs: '/health',
+  })
+);
+
 // HEALTH
-app.get('/health', (_, res) =>
+app.get('/health', (_req, res) =>
   res.json({
     status: 'ok',
     service: 'ALUGRIDX API v2',
+    env: process.env.NODE_ENV || 'development',
+    uptime: Math.floor(process.uptime()),
   })
 );
 
@@ -77,7 +109,7 @@ app.use((_, res) =>
 );
 
 // ERROR
-app.use((err, _, res, __) =>
+app.use((_err, _req, res, _next) =>
   res.status(500).json({
     success: false,
     message: 'Server error',
