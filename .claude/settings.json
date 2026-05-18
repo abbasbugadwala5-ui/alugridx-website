@@ -5,7 +5,13 @@
       "Bash(npx next *)",
       "Bash(git check-ignore *)",
       "PowerShell($url = 'https://alugridx-website.onrender.com'; foreach \\($path in @\\('/', '/health', '/api/products'\\)\\) { try { $r = Invoke-WebRequest -Uri \\($url + $path\\) -TimeoutSec 30 -UseBasicParsing; Write-Output \\(\"{0,-20} HTTP {1}  {2} bytes\" -f $path, $r.StatusCode, $r.Content.Length\\); $preview = $r.Content; if \\($preview.Length -gt 200\\) { $preview = $preview.Substring\\(0,200\\) + '...' }; Write-Output \"  body: $preview\"; Write-Output '' } catch { Write-Output \\(\"{0,-20} ERROR: {1}\" -f $path, $_.Exception.Message\\); Write-Output '' } })",
-      "Bash(node -e \"console.log\\(require\\('crypto'\\).randomBytes\\(64\\).toString\\('hex'\\)\\)\")"
+      "Bash(node -e \"console.log\\(require\\('crypto'\\).randomBytes\\(64\\).toString\\('hex'\\)\\)\")",
+      "PowerShell($url = 'https://alugridx-website.onrender.com'; foreach \\($path in @\\('/', '/health', '/api/products'\\)\\) { try { $r = Invoke-WebRequest -Uri \\($url + $path\\) -TimeoutSec 60 -UseBasicParsing -Headers @{'Origin'='https://alugridx-website.vercel.app'}; Write-Output \\('--- ' + $path + ' ---'\\); Write-Output \\('HTTP ' + $r.StatusCode\\); Write-Output \\('Content-Type: ' + $r.Headers['Content-Type']\\); Write-Output \\('Access-Control-Allow-Origin: ' + $r.Headers['Access-Control-Allow-Origin']\\); $preview = $r.Content; if \\($preview.Length -gt 250\\) { $preview = $preview.Substring\\(0,250\\) + '...' }; Write-Output \\('body: ' + $preview\\); Write-Output '' } catch { Write-Output \\('--- ' + $path + ' ---'\\); Write-Output \\('ERROR: ' + $_.Exception.Message\\); Write-Output '' } })",
+      "Bash(findstr env *)",
+      "Bash(curl -s -w \"\\\\n--STATUS:%{http_code}\\\\n\" https://alugridx-website.onrender.com/api/products)",
+      "Bash(curl.exe -s -w \"\\\\n--STATUS:%{http_code}\\\\n\" \"https://alugridx-website.onrender.com/api/products\")",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"https://alugridx-website.onrender.com/api/products\" -UseBasicParsing -TimeoutSec 30; \"STATUS: $\\($r.StatusCode\\)\"; $r.Content.Substring\\(0, [Math]::Min\\(500, $r.Content.Length\\)\\) } catch { \"ERROR: $\\($_.Exception.Message\\)\" })",
+      "PowerShell(foreach \\($p in @\\(\"/api/projects\",\"/api/blogs\",\"/api/faqs\"\\)\\) { try { $r = Invoke-WebRequest -Uri \"https://alugridx-website.onrender.com$p\" -UseBasicParsing -TimeoutSec 30; \"$p -> $\\($r.StatusCode\\): $\\($r.Content.Substring\\(0,[Math]::Min\\(200,$r.Content.Length\\)\\)\\)\" } catch { \"$p -> ERROR: $\\($_.Exception.Message\\)\" } })"
     ]
   }
 }
