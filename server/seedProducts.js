@@ -216,6 +216,519 @@ const products = [
     img: '/images/NRD.jpeg',
     sortOrder: 110,
   }),
+
+  // --- Supply Air Registers (deflection variants) ---
+  p({
+    code: 'SAR-DD-H',
+    title: 'Supply Air Register Double Deflection Horizontal',
+    category: 'Grilles & Registers',
+    subCategory: 'Supply Air Registers',
+    shortDescription:
+      'Double deflection supply register with horizontal front blades for precise airflow control.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Supply air distribution in HVAC systems',
+    },
+    img: '/images/products/sar-dd-h.jpg',
+    sortOrder: 10,
+  }),
+  p({
+    code: 'SAR-DD-V',
+    title: 'Supply Air Register Double Deflection Vertical',
+    category: 'Grilles & Registers',
+    subCategory: 'Supply Air Registers',
+    shortDescription:
+      'Double deflection supply register with vertical blade arrangement for multidirectional airflow.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Commercial HVAC supply systems',
+    },
+    img: '/images/products/sar-dd-v.jpg',
+    sortOrder: 11,
+  }),
+  p({
+    code: 'SAR-SD-H',
+    title: 'Supply Air Register Single Deflection Horizontal',
+    category: 'Grilles & Registers',
+    subCategory: 'Supply Air Registers',
+    shortDescription:
+      'Single deflection horizontal supply register for directional airflow control.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Wall-mounted supply air systems',
+    },
+    img: '/images/products/sar-sd-h.jpg',
+    sortOrder: 12,
+  }),
+  p({
+    code: 'SAR-SD-V',
+    title: 'Supply Air Register Single Deflection Vertical',
+    category: 'Grilles & Registers',
+    subCategory: 'Supply Air Registers',
+    shortDescription:
+      'Vertical single deflection register for focused airflow applications.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'HVAC air supply systems',
+    },
+    img: '/images/products/sar-sd-v.jpg',
+    sortOrder: 13,
+  }),
+
+  // --- Return Air Grilles / Registers ---
+  p({
+    code: 'RAG-HF',
+    title: 'Return Air Grille Fixed Horizontal',
+    category: 'Grilles & Registers',
+    subCategory: 'Return Air Grilles',
+    shortDescription:
+      'Return air grille with fixed 45° horizontal blades for consistent airflow return.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Return air HVAC systems',
+    },
+    img: '/images/products/rag-hf.jpg',
+    sortOrder: 20,
+  }),
+  p({
+    code: 'RAG-V',
+    title: 'Return Air Grille Vertical',
+    category: 'Grilles & Registers',
+    subCategory: 'Return Air Grilles',
+    shortDescription:
+      'Adjustable vertical blade return air grille for directional airflow control.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Commercial return air systems',
+    },
+    img: '/images/products/rag-v.jpg',
+    sortOrder: 21,
+  }),
+  p({
+    code: 'RAG-H',
+    title: 'Return Air Grille Horizontal',
+    category: 'Grilles & Registers',
+    subCategory: 'Return Air Grilles',
+    shortDescription:
+      'Horizontal blade return air grille designed for smooth airflow return.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'HVAC return air systems',
+    },
+    img: '/images/products/rag-h.jpg',
+    sortOrder: 22,
+  }),
+  p({
+    code: 'RAR-H',
+    title: 'Return Air Register with OBD',
+    category: 'Grilles & Registers',
+    subCategory: 'Return Air Registers',
+    shortDescription:
+      'Return air register with integrated opposed blade damper for airflow balancing.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Air return balancing systems',
+    },
+    img: '/images/products/rar-h.jpg',
+    sortOrder: 23,
+  }),
+  p({
+    code: 'EAG-SD',
+    title: 'Exhaust Air Grille',
+    category: 'Grilles & Registers',
+    subCategory: 'Exhaust Air Grilles',
+    shortDescription:
+      '45° fixed blade exhaust grille designed for efficient exhaust airflow.',
+    specs: {
+      material: 'Aluminum or stainless steel',
+      finish: 'Powder-coated',
+      application: 'Bathrooms, kitchens, industrial exhaust',
+    },
+    img: '/images/products/eag-sd.jpg',
+    sortOrder: 24,
+  }),
+
+  // --- Linear Slot Diffusers (additional variants) ---
+  p({
+    code: 'ELSD',
+    title: 'Exhaust Linear Slot Diffuser',
+    category: 'Diffusers',
+    subCategory: 'Linear Slot Diffusers',
+    shortDescription:
+      'Exhaust linear slot diffuser for concealed modern ventilation systems.',
+    specs: {
+      material: 'Extruded aluminum',
+      finish: 'Powder-coated white',
+      application: 'Exhaust ventilation systems',
+    },
+    img: '/images/products/elsd.jpg',
+    sortOrder: 32,
+  }),
+  p({
+    code: 'DLSD',
+    title: 'Dummy Linear Slot Diffuser',
+    category: 'Diffusers',
+    subCategory: 'Linear Slot Diffusers',
+    shortDescription:
+      'Non-active dummy slot diffuser for aesthetic ceiling alignment.',
+    specs: {
+      material: 'Extruded aluminum',
+      finish: 'Powder-coated white',
+      application: 'Architectural ceiling design',
+    },
+    img: '/images/products/dlsd.jpg',
+    sortOrder: 33,
+  }),
+
+  // --- Door / Egg-Crate ---
+  p({
+    code: 'DTG',
+    title: 'Door Transfer Grille',
+    category: 'Grilles & Registers',
+    subCategory: 'Door Grilles',
+    shortDescription:
+      'Door transfer grille designed for air circulation between rooms.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Doors and partition ventilation',
+    },
+    img: '/images/products/dtg.jpg',
+    sortOrder: 40,
+  }),
+  p({
+    code: 'ECR',
+    title: 'Egg Crate Register',
+    category: 'Grilles & Registers',
+    subCategory: 'Egg Crate Grilles',
+    shortDescription:
+      'Egg crate style return air register for high free area airflow.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Return air systems',
+    },
+    img: '/images/products/ecr.jpg',
+    sortOrder: 50,
+  }),
+  p({
+    code: 'ECG',
+    title: 'Egg Crate Grille',
+    category: 'Grilles & Registers',
+    subCategory: 'Egg Crate Grilles',
+    shortDescription:
+      'High airflow egg crate grille for return and exhaust applications.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Commercial HVAC return air',
+    },
+    img: '/images/products/ecg.jpg',
+    sortOrder: 51,
+  }),
+
+  // --- Louver variants ---
+  p({
+    code: 'EL-B',
+    title: 'Exhaust Louver with Bird Screen',
+    category: 'Louvers',
+    subCategory: 'Weather Louvers',
+    shortDescription:
+      'Exhaust and intake air louver with integrated bird screen protection.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Outdoor ventilation systems',
+    },
+    img: '/images/products/el-b.jpg',
+    featured: true,
+    sortOrder: 60,
+  }),
+  p({
+    code: 'EL-S',
+    title: 'Exhaust Louver with Insect Screen',
+    category: 'Louvers',
+    subCategory: 'Weather Louvers',
+    shortDescription:
+      'Air louver with integrated insect screen for clean airflow protection.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Fresh air intake systems',
+    },
+    img: '/images/products/el-s.jpg',
+    sortOrder: 61,
+  }),
+  p({
+    code: 'EL-Y',
+    title: 'Louver with Volume Control Damper',
+    category: 'Louvers',
+    subCategory: 'Weather Louvers',
+    shortDescription:
+      'Exhaust or intake louver with integrated opposed blade volume control damper.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Adjustable airflow systems',
+    },
+    img: '/images/products/el-y.jpg',
+    sortOrder: 62,
+  }),
+  p({
+    code: 'EL-F',
+    title: 'Filtered Exhaust Louver',
+    category: 'Louvers',
+    subCategory: 'Filtered Louvers',
+    shortDescription:
+      'Exhaust or intake louver with removable washable air filter.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Filtered ventilation systems',
+    },
+    img: '/images/products/el-f.jpg',
+    sortOrder: 63,
+  }),
+  p({
+    code: 'EL-FV',
+    title: 'Filtered Exhaust Louver with Damper',
+    category: 'Louvers',
+    subCategory: 'Filtered Louvers',
+    shortDescription:
+      'Filtered louver with removable washable filter and opposed blade damper.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Controlled filtered ventilation',
+    },
+    img: '/images/products/el-fv.jpg',
+    sortOrder: 64,
+  }),
+  p({
+    code: 'EL-T',
+    title: 'Twin Bank Exhaust Louver',
+    category: 'Louvers',
+    subCategory: 'Weather Louvers',
+    shortDescription:
+      'Dual bank louver designed for varying weather conditions.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'External weather louvers',
+    },
+    img: '/images/products/el-t.jpg',
+    sortOrder: 65,
+  }),
+
+  // --- Dampers / Gravity Louver ---
+  p({
+    code: 'NRD-RC-F',
+    title: 'Non Return Damper (Flanged)',
+    category: 'Dampers',
+    subCategory: 'Back Draft Dampers',
+    shortDescription:
+      'Flanged duct-mounted non-return damper for preventing reverse airflow.',
+    specs: {
+      material: 'Galvanized steel and aluminum',
+      finish: 'Mill finish',
+      application: 'Duct backdraft prevention',
+    },
+    img: '/images/products/nrd-rc-f.jpg',
+    sortOrder: 90,
+  }),
+  p({
+    code: 'GL-RC-E',
+    title: 'Gravity Louver',
+    category: 'Louvers',
+    subCategory: 'Gravity Louvers',
+    shortDescription:
+      'Gravity operated back draught louver for external wall installation.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'External exhaust systems',
+    },
+    img: '/images/products/gl-rc-e.jpg',
+    sortOrder: 91,
+  }),
+
+  // --- Round / Swirl Ceiling Diffusers ---
+  p({
+    code: 'SCD',
+    title: 'Supply Round Ceiling Diffuser',
+    category: 'Diffusers',
+    subCategory: 'Round Ceiling Diffusers',
+    shortDescription:
+      'Round ceiling diffuser with butterfly damper for radial air supply.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Ceiling supply air systems',
+    },
+    img: '/images/products/scd.jpg',
+    featured: true,
+    sortOrder: 100,
+  }),
+  p({
+    code: 'RCD',
+    title: 'Return Round Ceiling Diffuser',
+    category: 'Diffusers',
+    subCategory: 'Round Ceiling Diffusers',
+    shortDescription:
+      'Round return diffuser for ceiling mounted air extraction.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Return air extraction systems',
+    },
+    img: '/images/products/rcd.jpg',
+    sortOrder: 101,
+  }),
+  p({
+    code: 'RSD',
+    title: 'Round Swirl Diffuser',
+    category: 'Diffusers',
+    subCategory: 'Swirl Diffusers',
+    shortDescription:
+      'High-capacity swirl diffuser designed for rapid air induction and long throw.',
+    specs: {
+      material: 'Sheet steel / aluminum',
+      finish: 'RAL 9010 powder-coated',
+      application: 'Airports, halls, commercial HVAC systems',
+    },
+    img: '/images/products/rsd.jpg',
+    featured: true,
+    sortOrder: 102,
+  }),
+
+  // --- Filter Housing ---
+  p({
+    code: 'AFV-8',
+    title: 'Ceiling Housing with HEPA Filter',
+    category: 'Filters',
+    subCategory: 'HEPA Filter Housings',
+    shortDescription:
+      'Ceiling mounted HEPA filter housing for ultra-clean environments.',
+    specs: {
+      material: 'Galvanized steel',
+      finish: 'Powder-coated',
+      application: 'Hospitals, clean rooms, laboratories',
+    },
+    img: '/images/products/afv-8.jpg',
+    sortOrder: 103,
+  }),
+
+  // --- Jet Diffusers ---
+  p({
+    code: 'JD-EBT',
+    title: 'Jet Diffuser Eyeball Type',
+    category: 'Diffusers',
+    subCategory: 'Jet Diffusers',
+    shortDescription:
+      'Eyeball type jet diffuser for long throw air distribution in large spaces.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Airports, malls, theaters, exhibition halls',
+    },
+    performance: {
+      throwRange: 'Up to 25 m',
+    },
+    img: '/images/products/jd-ebt.jpg',
+    featured: true,
+    sortOrder: 110,
+  }),
+  p({
+    code: 'JD-RT',
+    title: 'Jet Diffuser Ring Type',
+    category: 'Diffusers',
+    subCategory: 'Jet Diffusers',
+    shortDescription:
+      'Ring type jet diffuser with adjustable 360° airflow pattern.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'RAL 9010 / RAL 9016',
+      application: 'Large commercial HVAC systems',
+    },
+    img: '/images/products/jd-rt.jpg',
+    sortOrder: 111,
+  }),
+
+  // --- Flowbar Slot Diffusers ---
+  p({
+    code: 'FBD-F',
+    title: 'Flowbar Slot Diffuser Flange Type',
+    category: 'Diffusers',
+    subCategory: 'Flowbar Diffusers',
+    shortDescription:
+      'High airflow Flowbar slot diffuser for ceiling applications.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'High airflow commercial spaces',
+    },
+    img: '/images/products/fbd-f.jpg',
+    sortOrder: 120,
+  }),
+  p({
+    code: 'FBD50-HF',
+    title: 'Flowbar Slot Diffuser Hidden Frame',
+    category: 'Diffusers',
+    subCategory: 'Flowbar Diffusers',
+    shortDescription:
+      'Hidden frame Flowbar diffuser with adjustable airflow pattern.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Architectural ceiling systems',
+    },
+    img: '/images/products/fbd50-hf.jpg',
+    sortOrder: 121,
+  }),
+  p({
+    code: 'FBD50-PHF',
+    title: 'Flowbar Slot Diffuser Plaster Hidden Frame',
+    category: 'Diffusers',
+    subCategory: 'Flowbar Diffusers',
+    shortDescription:
+      'Plaster hidden frame Flowbar diffuser for seamless ceiling integration.',
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Premium architectural interiors',
+    },
+    img: '/images/products/fbd50-phf.jpg',
+    sortOrder: 122,
+  }),
+
+  // --- HVAC Units ---
+  p({
+    code: 'BPTU',
+    title: 'Bypass Terminal Unit',
+    category: 'HVAC Units',
+    subCategory: 'VAV Terminal Units',
+    shortDescription:
+      'Variable air volume bypass terminal unit designed for airflow control and balancing.',
+    specs: {
+      material: 'Galvanized steel',
+      finish: 'Mill finish',
+      application: 'Commercial VAV air conditioning systems',
+    },
+    performance: {
+      airflowRange: '24 – 1900 L/s',
+    },
+    img: '/images/products/bptu.jpg',
+    featured: true,
+    sortOrder: 130,
+  }),
 ];
 
 async function seedProducts() {
