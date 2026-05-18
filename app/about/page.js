@@ -4,11 +4,20 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CatalogueSection from '@/components/CatalogueSection';
 import { Check, ArrowRight } from 'lucide-react';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata = {
-  title: 'About Us — ALUGRIDX Air Distribution UAE',
-  description: 'Learn about ALUGRIDX — UAE-based HVAC manufacturer with 10+ years of expertise in air distribution solutions.',
-};
+export const metadata = buildMetadata({
+  title: 'About Us — UAE HVAC Air Distribution Manufacturer',
+  description:
+    'ALUGRIDX Air Conditioning Industry LLC — Ajman-based HVAC manufacturer with 10+ years of regional expertise. Built on the 1986 legacy of Hashim Darwish Commission LLC.',
+  path: '/about',
+  keywords: [
+    'about ALUGRIDX',
+    'HVAC manufacturer Ajman',
+    'air distribution company UAE',
+    'Hashim Darwish Commission',
+  ],
+});
 
 const values = [
   { title: 'Innovation',     desc: 'Continuously improving products, processes, and technologies to stay at the forefront of the HVAC industry.' },

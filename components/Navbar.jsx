@@ -88,14 +88,15 @@ export default function Navbar() {
         <div className="container">
           <div className="flex items-center justify-between h-16 lg:h-[72px]">
 
-            {/* Logo — image only, large within compact header */}
-            <Link href="/" className="flex items-center flex-shrink-0">
-              <div className="relative w-[200px] h-[120px] sm:w-[230px] sm:h-[140px] lg:w-[260px] lg:h-[150px] -my-6 lg:-my-8">
+            {/* Logo — contained on mobile, spills out on desktop for visual impact */}
+            <Link href="/" className="flex items-center flex-shrink-0" aria-label="ALUGRIDX home">
+              <div className="relative w-[140px] h-11 sm:w-[170px] sm:h-12 lg:w-[260px] lg:h-[150px] lg:-my-8">
                 <Image
                   src="/images/logo.png"
                   alt="ALUGRIDX"
                   fill
                   priority
+                  sizes="(max-width: 640px) 140px, (max-width: 1024px) 170px, 260px"
                   className="object-contain object-left"
                 />
               </div>
