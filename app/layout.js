@@ -1,6 +1,7 @@
 import { Barlow, Inter } from 'next/font/google';
 import './globals.css';
 import RevealInit from '@/components/RevealInit';
+import WhatsAppFloat from '@/components/WhatsAppFloat';
 
 const barlow = Barlow({
   subsets: ['latin'],
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
       <body className="font-body bg-white text-slate antialiased">
         <RevealInit />
         {children}
+        <WhatsAppFloat />
       </body>
     </html>
   );
