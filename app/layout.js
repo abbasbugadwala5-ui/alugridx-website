@@ -2,6 +2,7 @@ import { Barlow, Inter } from 'next/font/google';
 import './globals.css';
 import RevealInit from '@/components/RevealInit';
 import WhatsAppFloat from '@/components/WhatsAppFloat';
+import ScrollProgress from '@/components/ScrollProgress';
 import { SITE, buildMetadata, organizationSchema, websiteSchema } from '@/lib/seo';
 
 const barlow = Barlow({
@@ -138,6 +139,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="font-body bg-white text-slate antialiased">
+        <ScrollProgress />
         <RevealInit />
         {children}
         <WhatsAppFloat />

@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import { useReveal } from '@/components/useReveal';
 import { fetchProducts } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
+import TiltWrap from '@/components/TiltWrap';
 
 // Static fallback so the home page never goes empty before/while the API responds.
 const FALLBACK_ITEMS = [
@@ -60,7 +61,9 @@ export default function ProductsSection() {
               key={item._id || item.code}
               className={`reveal delay-${Math.min(i + 1, 5)}`}
             >
-              <ProductCard product={item} />
+              <TiltWrap>
+                <ProductCard product={item} />
+              </TiltWrap>
             </div>
           ))}
         </div>

@@ -1,16 +1,37 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 
+// Pop keyframes injected once.
+let popStyleInjected = false;
+function injectPopStyle() {
+  if (popStyleInjected || typeof document === 'undefined') return;
+  popStyleInjected = true;
+  const css = `
+    @keyframes statPop {
+      0%   { transform: scale(1);    color: var(--ink); }
+      40%  { transform: scale(1.18); color: var(--accent); }
+      100% { transform: scale(1);    color: var(--ink); }
+    }
+    .stat-pop { animation: statPop .6s cubic-bezier(0.34, 1.56, 0.64, 1) both; display: inline-block; transform-origin: center; }
+  `;
+  const style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
+}
+
 // Animated stat — counts from 0 to `end` when scrolled into view.
 // `value` can be a plain number, or a string like "10+", "500+", "1 Year".
 // Non-numeric strings (e.g. "UAE & GCC") render instantly with no count.
 export default function StatCounter({
   value,
-  duration = 1600,
+  duration = 2400,
   className = '',
 }) {
   const ref = useRef(null);
   const [display, setDisplay] = useState(null);
+  const [popping, setPopping] = useState(false);
+
+  useEffect(() => { injectPopStyle(); }, []);
 
   // Parse value into { prefix, number, suffix } — or null if no number.
   const parsed = (() => {
@@ -49,6 +70,10 @@ export default function StatCounter({
         const current = Math.round(parsed.number * eased);
         setDisplay(`${parsed.prefix}${current}${parsed.suffix}`);
         if (t < 1) rafId = requestAnimationFrame(step);
+        else {
+          setPopping(true);
+          setTimeout(() => setPopping(false), 700);
+        }
       };
       rafId = requestAnimationFrame(step);
     };
@@ -77,7 +102,10 @@ export default function StatCounter({
   }, [value, duration]);
 
   return (
-    <span ref={ref} className={className}>
+    <span
+      ref={ref}
+      className={`${className} ${popping ? 'stat-pop' : ''}`.trim()}
+    >
       {display ?? String(value)}
     </span>
   );

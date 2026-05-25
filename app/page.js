@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import Marquee from '@/components/Marquee';
 import ProductsSection from '@/components/ProductsSection';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import AboutPreview from '@/components/AboutPreview';
@@ -31,6 +32,7 @@ export default function HomePage() {
       <Navbar />
       <main>
         <Hero />
+        <Marquee />
         <ProductsSection />
         <WhyChooseUs />
         <AboutPreview />
