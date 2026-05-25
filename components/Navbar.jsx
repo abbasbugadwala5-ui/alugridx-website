@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react';
 
@@ -88,18 +87,14 @@ export default function Navbar() {
         <div className="container">
           <div className="flex items-center justify-between h-16 lg:h-[72px]">
 
-            {/* Logo — contained on mobile, spills out on desktop for visual impact */}
-            <Link href="/" className="flex items-center flex-shrink-0" aria-label="ALUGRIDX home">
-              <div className="relative w-[140px] h-11 sm:w-[170px] sm:h-12 lg:w-[260px] lg:h-[150px] lg:-my-8">
-                <Image
-                  src="/images/logo.png"
-                  alt="ALUGRIDX"
-                  fill
-                  priority
-                  sizes="(max-width: 640px) 140px, (max-width: 1024px) 170px, 260px"
-                  className="object-contain object-left"
-                />
-              </div>
+            {/* Wordmark — text-only brand */}
+            <Link href="/" className="flex flex-col flex-shrink-0 leading-none" aria-label="ALUGRIDX home">
+              <span className="font-heading font-extrabold text-navy text-xl sm:text-2xl lg:text-[26px] tracking-tight">
+                ALUGRIDX
+              </span>
+              <span className="font-heading font-semibold text-accent text-[9px] sm:text-[10px] lg:text-[11px] tracking-[0.28em] uppercase mt-1">
+                Airflow Refined
+              </span>
             </Link>
 
             {/* Desktop nav */}
