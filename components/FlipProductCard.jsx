@@ -1,17 +1,34 @@
+'use client';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Box, CheckCircle2 } from 'lucide-react';
 
 // Two-faced product card.
-//   - Desktop (hover-capable): flips on hover.
-//   - Touch devices: cards auto-flip on a continuous 8s cycle (CSS-only,
-//     see globals.css → .flip-card animation), with nth-child stagger so
-//     adjacent cards aren't synchronized.
-// The whole card is a Link, so a tap navigates to the detail page no matter
-// which face is currently showing.
+//   - Desktop (hover-capable): flips on hover. Click anywhere navigates.
+//   - Touch devices: first tap flips just this card (preventDefault on the
+//     Link). Second tap (already showing the back) navigates to the detail
+//     page. Only the tapped card flips — others stay on the front.
 export default function FlipProductCard({ product }) {
   const cover = product.images?.[0] || product.img || null;
   const linkHref = product.slug ? `/products/${product.slug}` : '/products';
+
+  const [isTouch, setIsTouch] = useState(false);
+  const [flipped, setFlipped] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    setIsTouch(!!window.matchMedia?.('(hover: none)').matches);
+  }, []);
+
+  const handleClick = (e) => {
+    // Desktop: let the Link navigate.
+    // Touch + not yet flipped: intercept, flip this card only.
+    // Touch + already flipped: let the Link navigate.
+    if (!isTouch || flipped) return;
+    e.preventDefault();
+    setFlipped(true);
+  };
 
   const bullets = [
     product.subCategory,
@@ -23,7 +40,8 @@ export default function FlipProductCard({ product }) {
   return (
     <Link
       href={linkHref}
-      className="flip-card block h-full group"
+      onClick={handleClick}
+      className={`flip-card block h-full group ${flipped ? 'is-flipped' : ''}`}
       aria-label={`${product.title} — view details`}
     >
       <div className="flip-inner aspect-[4/5] sm:aspect-[3/4]">
@@ -68,7 +86,7 @@ export default function FlipProductCard({ product }) {
             )}
 
             <span className="mt-auto pt-4 inline-flex items-center gap-1.5 text-accent text-xs font-semibold font-heading uppercase tracking-wider">
-              Hover for details <ArrowRight size={12} />
+              View Details <ArrowRight size={12} />
             </span>
           </div>
         </div>
