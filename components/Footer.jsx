@@ -26,7 +26,6 @@ const louversDampers = [
 const company = [
   ['About ALUGRIDX', '/about'],
   ['Projects',       '/projects'],
-  ['Blog & News',    '/blog'],
   ['FAQs',           '/faq'],
   ['Catalogue',      '/catalogue'],
   ['Contact',        '/contact'],

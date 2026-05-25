@@ -1,13 +1,49 @@
+'use client';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Box, CheckCircle2 } from 'lucide-react';
 
-// Two-faced product card. Front looks like the normal ProductCard. On
-// hover the card flips horizontally to show key bullets + a "View Details"
-// CTA on a navy back face. Touch devices (no hover) skip the flip.
+// Two-faced product card.
+//   - Desktop (hover-capable): flips on hover.
+//   - Touch devices: auto-flips once when scrolled into view (peek-and-return).
+// Whole card is a Link so a tap navigates to the detail page regardless of
+// which face is showing.
 export default function FlipProductCard({ product }) {
   const cover = product.images?.[0] || product.img || null;
   const linkHref = product.slug ? `/products/${product.slug}` : '/products';
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const isTouch = window.matchMedia?.('(hover: none)').matches;
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (!isTouch || reduce) return;
+
+    const el = cardRef.current;
+    if (!el || !('IntersectionObserver' in window)) return;
+
+    let showTimer, hideTimer;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            showTimer = setTimeout(() => el.classList.add('is-flipped'), 350);
+            hideTimer = setTimeout(() => el.classList.remove('is-flipped'), 2800);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.55 }
+    );
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
+  }, []);
 
   const bullets = [
     product.subCategory,
@@ -18,6 +54,7 @@ export default function FlipProductCard({ product }) {
 
   return (
     <Link
+      ref={cardRef}
       href={linkHref}
       className="flip-card block h-full group"
       aria-label={`${product.title} — view details`}

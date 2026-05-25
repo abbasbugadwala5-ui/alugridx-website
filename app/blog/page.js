@@ -12,6 +12,7 @@ export const metadata = buildMetadata({
     'HVAC industry news UAE',
     'ALUGRIDX news',
   ],
+  noIndex: true,
 });
 
 export default function BlogPage() {

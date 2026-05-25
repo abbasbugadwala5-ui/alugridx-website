@@ -24,7 +24,6 @@ const navItems = [
   { label: 'About Us', href: '/about' },
   { label: 'Projects', href: '/projects' },
   { label: 'Catalogue', href: '/catalogue' },
-  { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -57,24 +56,26 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Top contact bar — lg+ only */}
-      <div className="hidden lg:block bg-navy text-white text-[11px]">
-        <div className="container flex items-center justify-between h-8">
-          <div className="flex items-center gap-6">
-            <a
-              href="tel:+971585521251"
-              className="flex items-center gap-1.5 hover:text-accent transition-colors"
-            >
-              <Phone size={11} /> +971 58 552 1251
-            </a>
-            <a
-              href="mailto:info@alugridx.com"
-              className="flex items-center gap-1.5 hover:text-accent transition-colors"
-            >
-              <Mail size={11} /> info@alugridx.com
-            </a>
-          </div>
-          <span className="opacity-70">Building No.144, Al Jurf 3, Ajman, UAE</span>
+      {/* Top contact bar — all screens, compact on mobile */}
+      <div className="bg-navy text-white text-[10px] sm:text-[11px]">
+        <div className="container flex items-center justify-between gap-2 h-8">
+          <a
+            href="tel:+971585521251"
+            className="flex items-center gap-1.5 hover:text-accent transition-colors whitespace-nowrap"
+          >
+            <Phone size={11} className="flex-shrink-0" />
+            <span>+971 58 552 1251</span>
+          </a>
+          <a
+            href="mailto:info@alugridx.com"
+            className="flex items-center gap-1.5 hover:text-accent transition-colors whitespace-nowrap min-w-0"
+          >
+            <Mail size={11} className="flex-shrink-0" />
+            <span className="truncate">info@alugridx.com</span>
+          </a>
+          <span className="opacity-70 hidden lg:block whitespace-nowrap">
+            Building No.144, Al Jurf 3, Ajman, UAE
+          </span>
         </div>
       </div>
 

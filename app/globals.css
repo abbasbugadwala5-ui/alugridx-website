@@ -336,6 +336,8 @@ main { animation: pageFadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @media (hover: hover) {
   .flip-card:hover .flip-inner { transform: rotateY(180deg); }
 }
+/* Touch devices: JS toggles .is-flipped to auto-flip when card enters viewport */
+.flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
 .flip-face {
   position: absolute;
   inset: 0;
