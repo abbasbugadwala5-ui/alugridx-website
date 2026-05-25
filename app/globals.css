@@ -202,9 +202,13 @@ body {
   .spec-table .unit { color: var(--muted); font-weight: 400; margin-left: 0.25rem; font-size: 0.8125rem; }
 }
 
-/* Hero overlay — navy at ~70% */
+/* Hero overlay — neutral black gradient so the photo's true colors come
+   through. Stronger on the left where the headline text sits, fading to
+   nearly clear on the right. */
 .hero-overlay {
-  background: linear-gradient(90deg, rgba(13,27,62,0.82) 0%, rgba(13,27,62,0.68) 55%, rgba(13,27,62,0.42) 100%);
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 55%, rgba(0,0,0,0.08) 100%),
+    linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.25) 100%);
 }
 
 /* Slow ken-burns on hero slides */
