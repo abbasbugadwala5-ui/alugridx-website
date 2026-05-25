@@ -22,14 +22,14 @@ export default function ProductCard({ product, href, ctaLabel = 'View Details' }
       className="product-card group flex flex-col h-full bg-white rounded-md border border-hairline overflow-hidden transition-all duration-200 hover:border-accent hover:-translate-y-0.5 hover:shadow-hover"
     >
       {/* 4:3 image area */}
-      <div className="relative w-full aspect-[4/3] overflow-hidden bg-offwhite">
+      <div className="relative w-full aspect-[4/3] overflow-hidden bg-white">
         {cover ? (
           <Image
             src={cover}
             alt={product.title}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className="object-cover product-card-img"
+            className="object-contain p-4 product-card-img"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">

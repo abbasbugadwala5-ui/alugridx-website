@@ -431,7 +431,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'Commercial HVAC return air',
     },
-    img: '/images/products/ecg.jpg',
+    img: '/images/products/ecg.png',
     sortOrder: 51,
   }),
 
@@ -541,7 +541,7 @@ const products = [
       finish: 'Mill finish',
       application: 'Duct backdraft prevention',
     },
-    img: '/images/products/nrd-rc-f.jpg',
+    img: '/images/products/nrd-rc-f.png',
     sortOrder: 90,
   }),
   p({
@@ -556,7 +556,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'External exhaust systems',
     },
-    img: '/images/products/gl-rc-e.jpg',
+    img: '/images/products/gl-rc-e.png',
     sortOrder: 91,
   }),
 
@@ -573,7 +573,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Ceiling supply air systems',
     },
-    img: '/images/products/scd.jpg',
+    img: '/images/products/scd.png',
     featured: true,
     sortOrder: 100,
   }),
@@ -604,7 +604,7 @@ const products = [
       finish: 'RAL 9010 powder-coated',
       application: 'Airports, halls, commercial HVAC systems',
     },
-    img: '/images/products/rsd.jpg',
+    img: '/images/products/rsd.png',
     featured: true,
     sortOrder: 102,
   }),
@@ -622,7 +622,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Hospitals, clean rooms, laboratories',
     },
-    img: '/images/products/afv-8.jpg',
+    img: '/images/products/afv-8.png',
     sortOrder: 103,
   }),
 
@@ -642,7 +642,7 @@ const products = [
     performance: {
       throwRange: 'Up to 25 m',
     },
-    img: '/images/products/jd-ebt.jpg',
+    img: '/images/products/jd-ebt.png',
     featured: true,
     sortOrder: 110,
   }),
@@ -658,7 +658,7 @@ const products = [
       finish: 'RAL 9010 / RAL 9016',
       application: 'Large commercial HVAC systems',
     },
-    img: '/images/products/jd-rt.jpg',
+    img: '/images/products/jd-rt.png',
     sortOrder: 111,
   }),
 
@@ -675,7 +675,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'High airflow commercial spaces',
     },
-    img: '/images/products/fbd-f.jpg',
+    img: '/images/products/fbd-f.png',
     sortOrder: 120,
   }),
   p({
@@ -690,7 +690,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Architectural ceiling systems',
     },
-    img: '/images/products/fbd50-hf.jpg',
+    img: '/images/products/fbd50-hf.png',
     sortOrder: 121,
   }),
   p({
@@ -705,7 +705,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Premium architectural interiors',
     },
-    img: '/images/products/fbd50-phf.jpg',
+    img: '/images/products/fbd50-phf.png',
     sortOrder: 122,
   }),
 
@@ -725,7 +725,7 @@ const products = [
     performance: {
       airflowRange: '24 – 1900 L/s',
     },
-    img: '/images/products/bptu.jpg',
+    img: '/images/products/bptu.png',
     featured: true,
     sortOrder: 130,
   }),

@@ -48,14 +48,14 @@ export default function FlipProductCard({ product }) {
         {/* ── FRONT ────────────────────────────────── */}
         <div className="flip-face flex flex-col bg-white border border-hairline transition-colors group-hover:border-accent">
           {/* 4:3 image area */}
-          <div className="relative w-full aspect-[4/3] overflow-hidden bg-offwhite">
+          <div className="relative w-full aspect-[4/3] overflow-hidden bg-white">
             {cover ? (
               <Image
                 src={cover}
                 alt={product.title}
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover"
+                className="object-contain p-4"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">

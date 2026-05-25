@@ -163,15 +163,15 @@ export default function ProductDetailClient({ slug }) {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
               {/* Image gallery */}
               <div className="lg:col-span-6 reveal-left">
-                <div className="card-static overflow-hidden bg-offwhite">
-                  <div className="relative w-full aspect-[4/3] bg-offwhite">
+                <div className="card-static overflow-hidden bg-white">
+                  <div className="relative w-full aspect-[4/3] bg-white">
                     {cover ? (
                       <Image
                         src={cover}
                         alt={product.title}
                         fill
                         sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-cover"
+                        className="object-contain p-6 md:p-10"
                         priority
                       />
                     ) : (
@@ -200,7 +200,7 @@ export default function ProductDetailClient({ slug }) {
                           alt={`${product.title} thumbnail ${idx + 1}`}
                           fill
                           sizes="100px"
-                          className="object-cover"
+                          className="object-contain p-1 bg-white"
                         />
                       </button>
                     ))}
