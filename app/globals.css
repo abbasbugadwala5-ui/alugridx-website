@@ -237,60 +237,181 @@ body {
   width: 44px !important;
 }
 
-/* Global page fade-in on first mount */
+/* Global page fade-in on first mount — softer entrance with slight upward drift */
 @keyframes pageFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: none; }
+  from { opacity: 0; transform: translateY(14px); filter: blur(4px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
 }
-main { animation: pageFadeIn .5s ease both; }
+main { animation: pageFadeIn .7s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
-/* Reveal-on-scroll */
-.reveal        { opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
-.reveal-left   { opacity:0; transform:translateX(-22px); transition:opacity .7s ease, transform .7s ease; }
-.reveal-right  { opacity:0; transform:translateX(22px);  transition:opacity .7s ease, transform .7s ease; }
+/* Reveal-on-scroll — more pronounced movement + subtle scale, snappier spring-like easing */
+.reveal        { opacity:0; transform:translateY(36px) scale(.97); transition:opacity .85s cubic-bezier(0.22, 1, 0.36, 1), transform .85s cubic-bezier(0.22, 1, 0.36, 1); }
+.reveal-left   { opacity:0; transform:translateX(-44px); transition:opacity .85s cubic-bezier(0.22, 1, 0.36, 1), transform .85s cubic-bezier(0.22, 1, 0.36, 1); }
+.reveal-right  { opacity:0; transform:translateX(44px);  transition:opacity .85s cubic-bezier(0.22, 1, 0.36, 1), transform .85s cubic-bezier(0.22, 1, 0.36, 1); }
+.reveal-scale  { opacity:0; transform:scale(.9); transition:opacity .9s cubic-bezier(0.22, 1, 0.36, 1), transform .9s cubic-bezier(0.22, 1, 0.36, 1); }
 .reveal.visible,
 .reveal-left.visible,
-.reveal-right.visible { opacity:1; transform:none; }
+.reveal-right.visible,
+.reveal-scale.visible { opacity:1; transform:none; }
 
-/* Stagger delays */
-.delay-1{transition-delay:.06s}.delay-2{transition-delay:.12s}
-.delay-3{transition-delay:.18s}.delay-4{transition-delay:.24s}
-.delay-5{transition-delay:.30s}.delay-6{transition-delay:.36s}
+/* Stagger delays — extended range */
+.delay-1{transition-delay:.08s}.delay-2{transition-delay:.16s}
+.delay-3{transition-delay:.24s}.delay-4{transition-delay:.32s}
+.delay-5{transition-delay:.40s}.delay-6{transition-delay:.48s}
 
-/* Subtle hover lift on buttons */
+/* Section labels — accent line grows in when parent reveals.
+   Default: show full 22px line. Inside a not-yet-visible .reveal* parent,
+   collapse to 0 so it grows back when the parent gains .visible. */
+.section-label::before {
+  transition: width .8s cubic-bezier(0.22, 1, 0.36, 1) .15s;
+}
+.reveal:not(.visible) .section-label::before,
+.reveal-left:not(.visible) .section-label::before,
+.reveal-right:not(.visible) .section-label::before,
+.reveal-scale:not(.visible) .section-label::before { width: 0; }
+
+/* Buttons — lift + gradient shine sweep on hover */
 .btn-primary,
 .btn-secondary,
 .btn-white,
 .btn-white-outline {
   will-change: transform;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
 }
 .btn-primary:hover,
 .btn-secondary:hover,
 .btn-white:hover,
 .btn-white-outline:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px -8px rgba(13, 27, 62, 0.28);
 }
+.btn-primary::after,
+.btn-white-outline::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform .7s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: -1;
+}
+.btn-primary:hover::after,
+.btn-white-outline:hover::after { transform: translateX(120%); }
 
-/* Cards lift a hair on hover */
+/* Cards — stronger lift + accent border + soft shadow on hover */
 .card {
   will-change: transform;
+  transition: transform .35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow .35s ease, border-color .25s ease;
 }
 .card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px -12px rgba(13, 27, 62, 0.18);
+  border-color: rgba(26, 86, 219, 0.35);
 }
 
-/* Product card hover image zoom */
-.product-card-img   { transition: transform .5s ease; }
-.product-card:hover .product-card-img { transform: scale(1.05); }
+/* Product card — image zoom + accent border on hover */
+.product-card-img   { transition: transform .7s cubic-bezier(0.22, 1, 0.36, 1); }
+.product-card:hover .product-card-img { transform: scale(1.08); }
+
+/* Floating decorative accent shapes (background-only, never block interactions) */
+.section-light,
+.section-navy {
+  position: relative;
+  overflow: hidden;
+}
+.section-light::before,
+.section-light::after,
+.section-navy::before,
+.section-navy::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(60px);
+  z-index: 0;
+  opacity: .55;
+}
+.section-light::before {
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(26,86,219,0.18) 0%, transparent 70%);
+  top: -120px; left: -100px;
+  animation: floatShape 18s ease-in-out infinite;
+}
+.section-light::after {
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, rgba(13,27,62,0.10) 0%, transparent 70%);
+  bottom: -160px; right: -120px;
+  animation: floatShape 22s ease-in-out infinite reverse;
+}
+.section-navy::before {
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(26,86,219,0.30) 0%, transparent 70%);
+  top: -140px; right: -120px;
+  animation: floatShape 20s ease-in-out infinite;
+  opacity: .35;
+}
+.section-navy::after {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  bottom: -100px; left: -80px;
+  animation: floatShape 26s ease-in-out infinite reverse;
+  opacity: .25;
+}
+.section-light > *,
+.section-navy > * { position: relative; z-index: 1; }
+
+@keyframes floatShape {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(40px, -30px) scale(1.08); }
+  66%      { transform: translate(-30px, 40px) scale(0.94); }
+}
+
+/* Heading word stagger — apply via <h2 className="heading-words"> with span-wrapped words */
+.heading-words > span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .7s cubic-bezier(0.22, 1, 0.36, 1), transform .7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible .heading-words > span,
+.heading-words.visible > span { opacity: 1; transform: none; }
+.heading-words > span:nth-child(1)  { transition-delay: .05s; }
+.heading-words > span:nth-child(2)  { transition-delay: .12s; }
+.heading-words > span:nth-child(3)  { transition-delay: .19s; }
+.heading-words > span:nth-child(4)  { transition-delay: .26s; }
+.heading-words > span:nth-child(5)  { transition-delay: .33s; }
+.heading-words > span:nth-child(6)  { transition-delay: .40s; }
+.heading-words > span:nth-child(7)  { transition-delay: .47s; }
+.heading-words > span:nth-child(8)  { transition-delay: .54s; }
+.heading-words > span:nth-child(n+9){ transition-delay: .60s; }
+
+/* Tags / badges — subtle pulse highlight when revealed */
+.reveal.visible .tag-accent,
+.reveal.visible .badge {
+  animation: tagPulse 1.2s ease-out .3s 1 both;
+}
+@keyframes tagPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(26,86,219,0.35); }
+  100% { box-shadow: 0 0 0 8px rgba(26,86,219,0); }
+}
 
 /* Honor reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .hero-ken-burns,
   .swiper-slide-active .hero-slide-content,
   main { animation: none !important; }
-  .reveal, .reveal-left, .reveal-right { opacity:1 !important; transform:none !important; }
+  .reveal, .reveal-left, .reveal-right, .reveal-scale { opacity:1 !important; transform:none !important; }
   .btn-primary:hover, .btn-secondary:hover, .btn-white:hover, .btn-white-outline:hover,
-  .card:hover { transform: none !important; }
+  .card:hover { transform: none !important; box-shadow: none !important; }
+  .btn-primary::after, .btn-white-outline::after,
+  .section-light::before, .section-light::after,
+  .section-navy::before, .section-navy::after,
+  .heading-words > span,
+  .reveal.visible .tag-accent,
+  .reveal.visible .badge { animation: none !important; transform: none !important; opacity: 1 !important; }
 }
 
 /* Navbar links — light state (over hero) */

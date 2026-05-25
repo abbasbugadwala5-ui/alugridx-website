@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, ChevronRight } from 'lucide-react';
+import StatCounter from '@/components/StatCounter';
 
 const slides = [
   {
@@ -138,10 +139,13 @@ export default function Hero() {
       <div className="bg-offwhite border-y border-hairline">
         <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-hairline">
-            {stats.map((stat) => (
-              <div key={stat.label} className="py-5 md:py-8 px-4 md:px-8 text-center md:text-left">
+            {stats.map((stat, i) => (
+              <div
+                key={stat.label}
+                className={`py-5 md:py-8 px-4 md:px-8 text-center md:text-left reveal delay-${Math.min(i + 1, 4)}`}
+              >
                 <p className="font-heading font-bold text-ink text-xl md:text-3xl tabular-nums tracking-tight">
-                  {stat.value}
+                  <StatCounter value={stat.value} />
                 </p>
                 <p className="text-muted text-[11px] md:text-sm mt-1 font-body">{stat.label}</p>
               </div>
