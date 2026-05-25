@@ -7,7 +7,15 @@ import StatCounter from '@/components/StatCounter';
 
 const slides = [
   {
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=85',
+    image: '/images/hero/slide-1.jpg',
+    label: 'Engineered Ductwork',
+    heading: 'Built for the spaces\nthat power industry.',
+    sub: 'Insulated, sand-trap-tested air distribution networks — engineered for Gulf climate, installed across UAE & GCC.',
+    cta1: { label: 'Browse Products', href: '/products' },
+    cta2: { label: 'Our Projects', href: '/projects' },
+  },
+  {
+    image: '/images/hero/slide-2.jpg',
     label: 'Premium HVAC Solutions',
     heading: 'Engineered air distribution\nfor modern spaces.',
     sub: 'Advanced manufacturing. Superior performance. Sustainable solutions across the UAE & GCC.',
@@ -15,7 +23,7 @@ const slides = [
     cta2: { label: 'Browse Products', href: '/products' },
   },
   {
-    image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1920&q=85',
+    image: '/images/hero/slide-3.jpg',
     label: 'Precision Manufactured',
     heading: 'Built for perfect airflow,\nspec sheet by spec sheet.',
     sub: 'Premium aluminum grilles, diffusers and louvers — residential, commercial and industrial.',
@@ -23,7 +31,15 @@ const slides = [
     cta2: { label: 'Contact Us', href: '/contact' },
   },
   {
-    image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=85',
+    image: '/images/hero/slide-4.jpg',
+    label: 'Sand-Trap Tested',
+    heading: 'Designed for the desert,\ntested by the desert.',
+    sub: 'Drainable-blade louvers and weather-grade housings built to defeat Gulf sand, dust and rain.',
+    cta1: { label: 'Explore Louvers', href: '/products' },
+    cta2: { label: 'Request Catalogue', href: '/catalogue' },
+  },
+  {
+    image: '/images/hero/slide-5.jpg',
     label: 'UAE Based Manufacturer',
     heading: 'Your trusted\nHVAC partner.',
     sub: 'Based in Ajman, UAE. Delivering across UAE & GCC with a 1-year manufacturer warranty.',
