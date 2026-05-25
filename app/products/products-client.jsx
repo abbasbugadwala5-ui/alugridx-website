@@ -117,11 +117,7 @@ export default function ProductsClient() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                     {filtered.map((product, i) => (
                       <div key={product._id} className={`reveal delay-${Math.min((i % 6) + 1, 6)}`}>
-                        <ProductCard
-                          product={product}
-                          href="/contact"
-                          ctaLabel="Request Quote"
-                        />
+                        <ProductCard product={product} ctaLabel="View Details" />
                       </div>
                     ))}
                   </div>

@@ -14,7 +14,7 @@ export default function ProductCard({ product, href, ctaLabel = 'View Details' }
   const cover = product.images?.[0] || product.img || null;
   const linkHref =
     href ||
-    (product.slug ? `/products#${product.slug}` : '/products');
+    (product.slug ? `/products/${product.slug}` : '/products');
 
   return (
     <Link
