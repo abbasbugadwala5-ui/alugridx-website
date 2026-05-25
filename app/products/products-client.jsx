@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CatalogueSection from '@/components/CatalogueSection';
-import ProductCard from '@/components/ProductCard';
+import FlipProductCard from '@/components/FlipProductCard';
 import { ChevronRight } from 'lucide-react';
 import { fetchProducts } from '@/lib/api';
 
@@ -117,7 +117,7 @@ export default function ProductsClient() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                     {filtered.map((product, i) => (
                       <div key={product._id} className={`reveal delay-${Math.min((i % 6) + 1, 6)}`}>
-                        <ProductCard product={product} ctaLabel="View Details" />
+                        <FlipProductCard product={product} />
                       </div>
                     ))}
                   </div>

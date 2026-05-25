@@ -81,7 +81,6 @@ export default function Hero() {
                 className="object-cover hero-ken-burns"
               />
               <div className="hero-overlay absolute inset-0" />
-              <div className="hero-mesh" />
 
               <div className="relative z-10 h-full flex items-center pt-20 md:pt-24 pb-10">
                 <div className="container">

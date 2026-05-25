@@ -15,7 +15,7 @@ import {
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CatalogueSection from '@/components/CatalogueSection';
-import ProductCard from '@/components/ProductCard';
+import FlipProductCard from '@/components/FlipProductCard';
 import { fetchProductBySlug, fetchProducts } from '@/lib/api';
 
 export default function ProductDetailClient({ slug }) {
@@ -353,7 +353,7 @@ export default function ProductDetailClient({ slug }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {related.map((p, i) => (
                   <div key={p._id} className={`reveal delay-${Math.min(i + 1, 4)}`}>
-                    <ProductCard product={p} />
+                    <FlipProductCard product={p} />
                   </div>
                 ))}
               </div>
