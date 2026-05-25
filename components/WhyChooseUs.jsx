@@ -2,6 +2,7 @@
 
 import { Shield, Settings, Truck, Award, Users, Leaf } from 'lucide-react';
 import { useReveal } from '@/components/useReveal';
+import TiltWrap from '@/components/TiltWrap';
 
 const reasons = [
   {
@@ -53,20 +54,26 @@ export default function WhyChooseUs() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {reasons.map((reason, i) => {
             const Icon = reason.icon;
+            const num = String(i + 1).padStart(2, '0');
             return (
               <div
                 key={reason.title}
-                className={`card p-6 md:p-7 reveal delay-${Math.min(i + 1, 5)}`}
+                className={`reveal delay-${Math.min(i + 1, 5)}`}
               >
-                <div className="w-11 h-11 rounded-md bg-offwhite border border-hairline flex items-center justify-center mb-5">
-                  <Icon size={20} className="text-accent" strokeWidth={1.6} />
-                </div>
-                <h3 className="font-heading font-semibold text-ink text-base leading-snug mb-2">
-                  {reason.title}
-                </h3>
-                <p className="text-muted text-[13px] leading-relaxed">
-                  {reason.desc}
-                </p>
+                <TiltWrap max={5}>
+                  <div className="why-card card p-6 md:p-7 h-full">
+                    <span className="why-card-number">{num}</span>
+                    <div className="why-card-icon w-11 h-11 rounded-md bg-offwhite border border-hairline flex items-center justify-center mb-5">
+                      <Icon size={20} className="text-accent" strokeWidth={1.6} />
+                    </div>
+                    <h3 className="font-heading font-semibold text-ink text-base leading-snug mb-2 relative z-[1]">
+                      {reason.title}
+                    </h3>
+                    <p className="text-muted text-[13px] leading-relaxed relative z-[1]">
+                      {reason.desc}
+                    </p>
+                  </div>
+                </TiltWrap>
               </div>
             );
           })}
