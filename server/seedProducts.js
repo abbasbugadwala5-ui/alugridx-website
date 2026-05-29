@@ -230,7 +230,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'Supply air distribution in HVAC systems',
     },
-    img: '/images/products/sar-dd-h.jpg',
+    img: '/images/products/sar-dd-h.png',
     sortOrder: 10,
   }),
   p({
@@ -245,7 +245,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'Commercial HVAC supply systems',
     },
-    img: '/images/products/sar-dd-v.jpg',
+    img: '/images/products/sar-dd-v.png',
     sortOrder: 11,
   }),
   p({
@@ -260,7 +260,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'Wall-mounted supply air systems',
     },
-    img: '/images/products/sar-sd-h.jpg',
+    img: '/images/products/sar-sd-h.png',
     sortOrder: 12,
   }),
   p({
@@ -275,7 +275,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'HVAC air supply systems',
     },
-    img: '/images/products/sar-sd-v.jpg',
+    img: '/images/products/sar-sd-v.png',
     sortOrder: 13,
   }),
 
@@ -292,7 +292,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'Return air HVAC systems',
     },
-    img: '/images/products/rag-hf.jpg',
+    img: '/images/products/rag-hf.png',
     sortOrder: 20,
   }),
   p({
@@ -307,7 +307,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'Commercial return air systems',
     },
-    img: '/images/products/rag-v.jpg',
+    img: '/images/products/rag-v.png',
     sortOrder: 21,
   }),
   p({
@@ -322,7 +322,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'HVAC return air systems',
     },
-    img: '/images/products/rag-h.jpg',
+    img: '/images/products/rag-h.png',
     sortOrder: 22,
   }),
   p({
@@ -337,7 +337,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'Air return balancing systems',
     },
-    img: '/images/products/rar-h.jpg',
+    img: '/images/products/rar-h.png',
     sortOrder: 23,
   }),
   p({
@@ -352,7 +352,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Bathrooms, kitchens, industrial exhaust',
     },
-    img: '/images/products/eag-sd.jpg',
+    img: '/images/products/eag-sd.png',
     sortOrder: 24,
   }),
 
@@ -369,7 +369,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'Exhaust ventilation systems',
     },
-    img: '/images/products/elsd.jpg',
+    img: '/images/products/elsd.png',
     sortOrder: 32,
   }),
   p({
@@ -384,7 +384,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'Architectural ceiling design',
     },
-    img: '/images/products/dlsd.jpg',
+    img: '/images/products/dlsd.png',
     sortOrder: 33,
   }),
 
@@ -401,7 +401,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Doors and partition ventilation',
     },
-    img: '/images/products/dtg.jpg',
+    img: '/images/products/dtg.png',
     sortOrder: 40,
   }),
   p({
@@ -416,7 +416,7 @@ const products = [
       finish: 'Powder-coated white',
       application: 'Return air systems',
     },
-    img: '/images/products/ecr.jpg',
+    img: '/images/products/ecr.png',
     sortOrder: 50,
   }),
   p({
@@ -448,7 +448,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Outdoor ventilation systems',
     },
-    img: '/images/products/el-b.jpg',
+    img: '/images/products/el-b.png',
     featured: true,
     sortOrder: 60,
   }),
@@ -464,7 +464,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Fresh air intake systems',
     },
-    img: '/images/products/el-s.jpg',
+    img: '/images/products/el-s.png',
     sortOrder: 61,
   }),
   p({
@@ -479,7 +479,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Adjustable airflow systems',
     },
-    img: '/images/products/el-y.jpg',
+    img: '/images/products/el-y.png',
     sortOrder: 62,
   }),
   p({
@@ -494,7 +494,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Filtered ventilation systems',
     },
-    img: '/images/products/el-f.jpg',
+    img: '/images/products/el-f.png',
     sortOrder: 63,
   }),
   p({
@@ -509,7 +509,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Controlled filtered ventilation',
     },
-    img: '/images/products/el-fv.jpg',
+    img: '/images/products/el-fv.png',
     sortOrder: 64,
   }),
   p({
@@ -524,7 +524,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'External weather louvers',
     },
-    img: '/images/products/el-t.jpg',
+    img: '/images/products/el-t.png',
     sortOrder: 65,
   }),
 
@@ -589,7 +589,7 @@ const products = [
       finish: 'Powder-coated',
       application: 'Return air extraction systems',
     },
-    img: '/images/products/rcd.jpg',
+    img: '/images/products/rcd.png',
     sortOrder: 101,
   }),
   p({
