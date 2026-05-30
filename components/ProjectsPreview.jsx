@@ -8,6 +8,19 @@ import { fetchProjects } from '@/lib/api';
 
 const FALLBACK_IMG = '/images/CD.jpeg';
 
+function ProjectImage({ src, alt }) {
+  const [errored, setErrored] = useState(false);
+  return (
+    <Image
+      src={errored || !src ? FALLBACK_IMG : src}
+      alt={alt}
+      fill
+      className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+      onError={() => setErrored(true)}
+    />
+  );
+}
+
 export default function ProjectsPreview() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,12 +71,7 @@ export default function ProjectsPreview() {
                 className="group relative overflow-hidden rounded-md border border-white/10 bg-navy-light/40 transition-colors hover:border-accent"
               >
                 <div className="relative aspect-[4/3]">
-                  <Image
-                    src={proj.img || FALLBACK_IMG}
-                    alt={proj.title}
-                    fill
-                    className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                  />
+                  <ProjectImage src={proj.img} alt={proj.title} />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" />
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-5">

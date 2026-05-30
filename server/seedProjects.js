@@ -3,78 +3,98 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const Project = require('./models/Project');
 
+// Entries use the schema field `img` (frontend reads `proj.img`).
+// Year stored as string to match existing schema.
 const projects = [
   {
-    title: 'Dubai Commercial Tower',
+    title: 'Commercial Tower Installation',
     category: 'Commercial',
-    location: 'Dubai, UAE',
     year: '2026',
+    location: 'Dubai, UAE',
     products: 'Ceiling Diffusers, Linear Grilles',
-    img: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=80',
+    img: '/images/projects/dubai-commercial-tower.jpg',
+    description:
+      'Premium HVAC air distribution system installation for a high-rise commercial tower in Dubai, featuring ALUGRIDX ceiling diffusers and linear grilles integrated into a luxury marble lobby design.',
   },
   {
-    title: 'Ajman Industrial Complex',
+    title: 'Industrial Facility Installation',
     category: 'Industrial',
-    location: 'Ajman, UAE',
     year: '2025',
+    location: 'Ajman, UAE',
     products: 'Louvers, VCD, NRD',
-    img: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=700&q=80',
+    img: '/images/projects/ajman-industrial.jpg',
+    description:
+      'Complete HVAC air distribution package for a large industrial manufacturing facility in Ajman, including exhaust louvers, volume control dampers, and non-return dampers.',
   },
   {
-    title: 'Abu Dhabi Luxury Residences',
+    title: 'Luxury Residential Tower',
     category: 'Residential',
+    year: '2025',
     location: 'Abu Dhabi, UAE',
-    year: '2025',
     products: 'Ceiling Diffusers, Grilles',
-    img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80',
+    img: '/images/projects/abudhabi-residential.jpg',
+    description:
+      'Premium residential tower in Abu Dhabi featuring ALUGRIDX ceiling diffusers and return grilles across all units, delivering whisper-quiet comfort with architectural integration.',
   },
   {
-    title: 'Sharjah 5-Star Hotel',
+    title: '5-Star Hospitality Project',
     category: 'Hospitality',
-    location: 'Sharjah, UAE',
     year: '2025',
+    location: 'Sharjah, UAE',
     products: 'Linear Slot Diffusers',
-    img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=700&q=80',
+    img: '/images/projects/sharjah-hospitality.jpg',
+    description:
+      'Linear slot diffuser installation across the lobby, ballroom, and guest corridors of a 5-star hotel in Sharjah, providing seamless air distribution with premium aesthetic finish.',
   },
   {
-    title: 'Dubai Airport Expansion',
+    title: 'Airport Expansion Project',
     category: 'Commercial',
-    location: 'Dubai, UAE',
     year: '2024',
+    location: 'Dubai, UAE',
     products: 'Jet Diffusers, Louvers',
-    img: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=700&q=80',
+    img: '/images/projects/dubai-airport.jpg',
+    description:
+      'Long-throw jet diffusers and architectural louvers supplied for Dubai airport terminal expansion, engineered for high-volume air distribution across departure halls.',
   },
   {
-    title: 'RAK Shopping Mall',
+    title: 'Shopping Mall Installation',
     category: 'Commercial',
+    year: '2024',
     location: 'Ras Al Khaimah, UAE',
-    year: '2024',
     products: 'Ceiling Diffusers, Grilles',
-    img: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=700&q=80',
+    img: '/images/projects/rak-mall.jpg',
+    description:
+      'Comprehensive HVAC air terminal package for a major shopping mall in Ras Al Khaimah, covering atrium, retail floors, and back-of-house ventilation.',
   },
   {
-    title: 'Fujairah Industrial Park',
+    title: 'Industrial Park Installation',
     category: 'Industrial',
+    year: '2024',
     location: 'Fujairah, UAE',
-    year: '2024',
     products: 'Sand Trap Louvers, VCD',
-    img: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=80',
+    img: '/images/projects/fujairah-industrial-park.jpg',
+    description:
+      'Sand trap louvers and volume control dampers installed across multiple warehouse units in a Fujairah industrial park, engineered for Gulf climate dust and sand protection.',
   },
   {
-    title: 'Dubai Residential Compound',
+    title: 'Residential Compound Project',
     category: 'Residential',
-    location: 'Dubai, UAE',
     year: '2024',
+    location: 'Dubai, UAE',
     products: 'Ceiling Diffusers, Registers',
-    img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=700&q=80',
+    img: '/images/projects/dubai-residential.jpg',
+    description:
+      'HVAC air distribution products supplied for a luxury villa compound in Dubai, including ceiling diffusers and supply air registers across all units.',
   },
   {
-    title: 'Ajman Business Centre',
+    title: 'Business Centre Installation',
     category: 'Commercial',
-    location: 'Ajman, UAE',
     year: '2023',
+    location: 'Ajman, UAE',
     products: 'Linear Diffusers, Dampers',
-    img: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=700&q=80',
+    img: '/images/projects/ajman-business-centre.jpg',
+    description:
+      'Linear slot diffusers and volume control dampers installed across multiple floors of a Class A business centre in Ajman, providing balanced airflow with architectural integration.',
   },
 ];
 

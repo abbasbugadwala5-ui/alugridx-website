@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { X } from 'lucide-react';
 
-const PHONE = '971585312152';
+const PHONE = '971585521251';
 const MESSAGE =
   "Hello ALUGRIDX team, I'd like to enquire about your HVAC air distribution products (diffusers, grilles, louvers, dampers). Could you please share product details and a quotation? Thank you.";
 

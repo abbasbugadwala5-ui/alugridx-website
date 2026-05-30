@@ -9,6 +9,20 @@ import { fetchProjects } from '@/lib/api';
 
 const FALLBACK_IMG = '/images/CD.jpeg';
 
+function ProjectImage({ src, alt }) {
+  const [errored, setErrored] = useState(false);
+  return (
+    <Image
+      src={errored || !src ? FALLBACK_IMG : src}
+      alt={alt}
+      fill
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      className="object-cover product-card-img"
+      onError={() => setErrored(true)}
+    />
+  );
+}
+
 export default function ProjectsClient() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -89,13 +103,7 @@ export default function ProjectsClient() {
                     className={`card group overflow-hidden hover:border-accent transition-colors reveal delay-${Math.min((i % 6) + 1, 6)}`}
                   >
                     <div className="relative aspect-[4/3] overflow-hidden bg-offwhite">
-                      <Image
-                        src={proj.img || FALLBACK_IMG}
-                        alt={proj.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover product-card-img"
-                      />
+                      <ProjectImage src={proj.img} alt={proj.title} />
                     </div>
                     <div className="p-5">
                       <div className="flex items-center justify-between mb-2">

@@ -8,6 +8,7 @@ const ProjectSchema = new mongoose.Schema(
     products: String,
     year: String,
     img: { type: String, default: '' },
+    description: { type: String, default: '' },
   },
   {
     timestamps: true,
