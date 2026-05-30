@@ -48,9 +48,24 @@ const ProductSchema = new mongoose.Schema(
     subCategory: { type: String, default: '', trim: true, index: true },
 
     shortDescription: { type: String, default: '', trim: true },
+    description: { type: String, default: '', trim: true },
 
     specs: { type: SpecsSchema, default: () => ({}) },
     performance: { type: PerformanceSchema, default: () => ({}) },
+
+    // Rich content sections (rendered on /products/[slug] detail page)
+    features: { type: [String], default: [] },
+    applications: { type: [String], default: [] },
+    finishes: { type: [String], default: [] },
+    accessories: { type: [String], default: [] },
+    standards: { type: [String], default: [] },
+    controlOptions: { type: [String], default: [] },
+
+    // Free-form key/value pairs preserving insertion order
+    specifications: { type: Map, of: String, default: () => new Map() },
+
+    // Arbitrary nested data (e.g. SLSD plenum box dimensions)
+    extraInfo: { type: mongoose.Schema.Types.Mixed, default: () => ({}) },
 
     images: { type: [String], default: [] },
     technicalDrawing: { type: String, default: '' },

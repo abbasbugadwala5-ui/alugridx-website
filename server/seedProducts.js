@@ -3,21 +3,59 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const Product = require('./models/Product');
 
-// Helper — keep entries terse; the model fills defaults and resolves
-// slug collisions automatically (see Product pre-validate hook).
+// Helper — normalises images array and ensures map types are plain objects
+// so Mongoose converts them to Map on save.
 const p = (entry) => ({
   ...entry,
   images: entry.images || (entry.img ? [entry.img] : []),
 });
 
 const products = [
+  // ═══════════════════════════════════════════════════════════════════
+  //   DIFFUSERS
+  // ═══════════════════════════════════════════════════════════════════
   p({
     code: 'SAD',
     title: 'Square Ceiling Diffuser',
     category: 'Diffusers',
     subCategory: 'Square Ceiling Diffusers',
     shortDescription:
-      'Square face ceiling diffuser with adjustable air pattern. Aluminum powder-coated, ASHRAE-compliant.',
+      'Premium square aluminum ceiling diffuser with 1, 2, 3, or 4-way airflow patterns. Coanda Effect enhanced horizontal throw. Tested per ASHRAE 70-1991.',
+    description:
+      'ALUGRIDX Square Ceiling Diffusers are engineered to deliver efficient air distribution while complementing modern architectural interiors. Manufactured from high-quality aluminum with extruded aluminum options, featuring precision mitered corners, flush core design, and countersunk screw holes for a clean installation. Finished with durable white powder coating for long-lasting performance and aesthetic appeal. An optional aluminum volume control damper allows precise airflow adjustment. Utilizing the Coanda Effect, the diffusers enhance horizontal throw and minimize drop, ensuring improved air mixing and occupant comfort. Designed for high airflow capacity with low noise and minimal pressure drop, ideal for high-ceiling spaces, clean rooms, hospitals, and technology facilities.',
+    features: [
+      '1-way, 2-way, 3-way, and 4-way airflow discharge patterns',
+      'High-quality aluminum / extruded aluminum construction',
+      'Precision mitered corners and flush core design',
+      'Countersunk screw holes for clean flush mounting',
+      'Durable white powder coating finish',
+      'Optional aluminum volume control damper (OBD)',
+      'Coanda Effect for enhanced horizontal throw',
+      'Low noise and minimal pressure drop',
+      'Tested per ASHRAE 70-1991 standard',
+    ],
+    specifications: {
+      Material: 'High-quality aluminum / extruded aluminum',
+      'Standard Sizes': '150 to 600 mm (combinations of 150, 225, 300, 375, 450, 525, 600 mm)',
+      'Custom Sizes': 'Available on request',
+      Finish: 'Durable white powder coating',
+      'Standard Tested': 'ASHRAE 70-1991',
+      'Airflow Pattern': '1, 2, 3, or 4-way discharge',
+    },
+    accessories: [
+      'Opposed Blade Damper (OBD) — face-adjustable volume control',
+      'Aluminum Filter (AF) — washable/easy-clean models',
+      'Butterfly Damper — adapts square neck to round duct',
+      'Equalizing Grid (EG) — balances airflow with adjustable louvers',
+    ],
+    applications: [
+      'Modular ceiling systems',
+      'Modern architectural interiors',
+      'High-ceiling commercial spaces',
+      'Clean rooms and pharmaceutical facilities',
+      'Hospitals and healthcare facilities',
+      'Technology and data center facilities',
+    ],
     specs: {
       sizes: ['150', '225', '300', '375', '450', '525', '600'],
       material: 'Extruded aluminum, powder-coated',
@@ -40,7 +78,37 @@ const products = [
     category: 'Diffusers',
     subCategory: 'Round Ceiling Diffusers',
     shortDescription:
-      'Round neck with square face — uniform 4-way blow pattern, ideal for high-ceiling commercial spaces.',
+      'Versatile ceiling diffuser available in both round and square neck options. Uniform radial discharge with butterfly damper for precise airflow control.',
+    description:
+      'ALUGRIDX Round / Square Ceiling Diffuser is designed for both supply and return air applications, delivering uniform conditioned air discharge while maintaining acceptable sound levels and pressure drop. Suitable for temperature differentials from +10K to –10K, ensuring reliable performance across varying operating conditions. Manufactured from high-quality aluminum sheets approximately 1.25 mm thick, with inner cores securely fixed to the frame. A gasket around the rear ensures airtight performance, and the standard butterfly damper is operated by adjusting a stud on the diffuser face.',
+    features: [
+      'Available in round or square neck configuration',
+      'Uniform radial air discharge',
+      'Suitable for ±10K temperature differential',
+      '1.25 mm high-quality aluminum construction',
+      'Butterfly damper for precise airflow control',
+      'Rivet-secured frame and damper assembly',
+      'Airtight rear gasket prevents leakage',
+      'Face-adjustable damper via stud',
+    ],
+    specifications: {
+      Material: 'High-quality aluminum sheets',
+      'Material Thickness': '~1.25 mm',
+      'Damper Material': '1.0 mm galvanized steel sheet',
+      'Temperature Range': '+10K to -10K',
+      'Damper Operation': 'Stud adjustment on diffuser face',
+    },
+    finishes: [
+      'Powder coated color finish',
+      'Aluminum mill finish',
+      'Black matte finish (damper)',
+    ],
+    applications: [
+      'Commercial ceiling installations',
+      'Supply and return air systems',
+      'High-ceiling spaces',
+      'Modern architectural integration',
+    ],
     specs: {
       sizes: ['200', '250', '300', '400', '500'],
       material: 'Spun aluminum, powder-coated',
@@ -51,12 +119,181 @@ const products = [
     sortOrder: 20,
   }),
   p({
+    code: 'SCD',
+    title: 'Supply Round Ceiling Diffuser',
+    category: 'Diffusers',
+    subCategory: 'Round Ceiling Diffusers',
+    shortDescription:
+      'Round supply diffuser with integrated butterfly damper. Designed for ceiling supply air applications with uniform radial discharge pattern.',
+    description:
+      'ALUGRIDX Model SCD is a round ceiling diffuser equipped with a butterfly damper, making it ideal for air supply applications. Installed in ceilings, it provides uniform radial discharge for balanced supply air distribution. Manufactured from 1.25 mm thick high-quality aluminum with a rigid inner core connection and airtight rear gasket. The butterfly damper, constructed from 1.0 mm galvanized steel, is operated by adjusting a stud on the diffuser face for precise airflow control. Suitable for temperature differentials from +10K to –10K.',
+    features: [
+      'Round configuration for supply air',
+      'Integrated butterfly damper (standard)',
+      'Uniform radial discharge pattern',
+      '1.25 mm aluminum construction',
+      '1.0 mm galvanized steel damper',
+      'Face-adjustable damper via stud',
+      'Airtight rear gasket',
+      'Ceiling installation with fixing clamp',
+    ],
+    specifications: {
+      Material: 'High-quality aluminum sheets',
+      'Material Thickness': '~1.25 mm',
+      Damper: 'Butterfly type, 1.0 mm galvanized steel',
+      'Temperature Range': '+10K to -10K',
+      Installation: 'Ceiling, with fixing clamp and central support',
+    },
+    finishes: [
+      'Powder coated color finish',
+      'Aluminum mill finish',
+      'Black matte finish (damper)',
+    ],
+    applications: [
+      'Supply air ceiling installations',
+      'Commercial and residential',
+      'Spaces requiring radial air pattern',
+      'Modern architectural integration',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Ceiling supply air systems',
+    },
+    img: '/images/products/scd.png',
+    featured: true,
+    sortOrder: 100,
+  }),
+  p({
+    code: 'RCD',
+    title: 'Return Round Ceiling Diffuser',
+    category: 'Diffusers',
+    subCategory: 'Round Ceiling Diffusers',
+    shortDescription:
+      'Round return air diffuser without damper. Engineered for ceiling extraction with low pressure drop and acceptable sound levels.',
+    description:
+      "ALUGRIDX Model RCD is a round ceiling diffuser designed for air extraction (return air) applications. Unlike the SCD supply variant, RCD does not include a butterfly damper, as return applications typically don't require integrated air volume control. Manufactured from 1.25 mm thick high-quality aluminum with a rigid inner core connection. Suitable for ceiling installation with airtight rear gasket. Provides effective air extraction while maintaining acceptable sound levels and minimal pressure drop.",
+    features: [
+      'Round configuration for return air',
+      'No damper (return application optimized)',
+      'Effective air extraction',
+      '1.25 mm aluminum construction',
+      'Rigid inner core to frame connection',
+      'Airtight rear gasket',
+      'Low pressure drop',
+      'Quiet operation',
+    ],
+    specifications: {
+      Material: 'High-quality aluminum sheets',
+      'Material Thickness': '~1.25 mm',
+      'Temperature Range': '+10K to -10K',
+      Installation: 'Ceiling mount',
+    },
+    finishes: [
+      'Powder coated color finish',
+      'Aluminum mill finish',
+    ],
+    applications: [
+      'Ceiling return air installations',
+      'HVAC return systems',
+      'Commercial and residential extraction',
+      'Modern architectural integration',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Return air extraction systems',
+    },
+    img: '/images/products/rcd.png',
+    sortOrder: 101,
+  }),
+  p({
+    code: 'RSD',
+    title: 'Round Swirl Diffuser',
+    category: 'Diffusers',
+    subCategory: 'Swirl Diffusers',
+    shortDescription:
+      'High-capacity swirl diffuser for large venues with floor-to-ceiling heights 2.6m-4m. Rotary swirling motion ensures rapid room air induction.',
+    description:
+      'ALUGRIDX Round Swirl Diffuser (RSD) features adjustable blades that adapt to summer, winter, or normal temperature conditions, making it suitable for both comfort and industrial air-conditioning. The rotary swirling motion ensures rapid induction of room air, providing efficient and uniform airflow. Ideal for spaces with floor-to-ceiling heights from 2.6m to 4m and temperature differentials between +10K and -10K. Manufactured with aluminum build and powder-coated finish, featuring manually adjustable blade profiles. Variable swirl variants available for spaces up to 15m height with manual or motorized blade adjustment.',
+    features: [
+      'Adjustable performance for summer, winter, or normal conditions',
+      'Manually adjustable blade profiles',
+      'Large efficient swirl motion design',
+      'Long-throw capability for large venues',
+      'Aluminum construction with powder coating',
+      'RAL 9010 standard finish (custom RAL on request)',
+      'Variable swirl variant available (up to 15m heights)',
+      'Manual or motorized blade adjustment (variable variant)',
+    ],
+    specifications: {
+      'Material (Plenum)': 'Galvanized sheet steel',
+      'Material (Face)': 'Sheet steel or sheet aluminum (OD-11)',
+      'Standard Finish': 'Powder-coated RAL 9010',
+      'Custom Finish': 'Any RAL color on request',
+      'Floor-to-Ceiling Height': '2.6m to 4m (standard), up to 15m (variable variant)',
+      'Temperature Differential': '+10K to -10K',
+    },
+    applications: [
+      'Airports and large transportation hubs',
+      'Shopping malls and atriums',
+      'Exhibition halls',
+      'Industrial halls',
+      'High-ceiling commercial spaces',
+      'Variable load environments (variable variant)',
+    ],
+    specs: {
+      material: 'Sheet steel / aluminum',
+      finish: 'RAL 9010 powder-coated',
+      application: 'Airports, halls, commercial HVAC systems',
+    },
+    img: '/images/products/rsd.png',
+    featured: true,
+    sortOrder: 102,
+  }),
+  p({
     code: 'SLSD',
     title: 'Square Linear Slot Diffuser',
     category: 'Diffusers',
     subCategory: 'Linear Slot Diffusers',
     shortDescription:
-      '1–4 slot architectural linear diffuser. Plaster-in frames and adjustable deflection vanes available.',
+      'Supply linear slot diffuser with Hit-&-Miss VCD and air straightening deflectors. 1-8 slot configurations with 16mm or 20mm slot widths.',
+    description:
+      'ALUGRIDX Model SLSD is a Supply Linear Slot Diffuser equipped with a Hit-&-Miss Volume Control Damper and Air Straightening Deflectors. The air straightening deflectors ensure uniform airflow distribution, while the Hit-&-Miss damper allows for precise volume control and balancing of the air supply. Available in 1 to 8 slot configurations (more on request) with two slot widths (16 mm and 20 mm) for low and high airflow applications. Manufactured from extruded aluminum in natural mill finish, with face sections available in powder-coated or anodized finishes. Each slot equipped with airflow-regulating damper and adjustable vane for precise directional control. Units can be butted together with alignment strips for continuous lengths.',
+    features: [
+      'Hit-&-Miss Volume Control Damper integrated',
+      'Air Straightening Deflectors for uniform distribution',
+      '1 to 8 slot configurations (more on request)',
+      'Two slot widths: 16 mm and 20 mm',
+      'Each slot has individual damper + adjustable vane',
+      'Continuous length via butting with alignment strips',
+      'Extruded aluminum construction',
+      'Available with internally lined plenum boxes',
+    ],
+    specifications: {
+      Material: 'Extruded aluminum',
+      'Standard Finish': 'Natural mill finish',
+      'Face Finish Options': 'Powder-coated or anodized',
+      'Slot Configurations': '1 to 8 slots (standard), more on request',
+      'Slot Widths': '16 mm (S-16) or 20 mm (S-20, S-25)',
+      Damper: 'Hit-&-Miss Volume Control Damper',
+      'Aspect Ratio': '10:1 or greater',
+    },
+    extraInfo: {
+      plenumBoxes: {
+        'Max Length': '2000 mm per section',
+        Material: '0.7 mm G.I. steel sheets',
+        'Optional Lining': '25 mm thick mineral fiber insulation',
+        Construction: 'Welded and sealed joints for airtightness',
+      },
+    },
+    applications: [
+      'Architectural ceiling installations',
+      'Continuous linear ceiling features',
+      'Commercial spaces with precise airflow control',
+      'Premium residential',
+      'Luxury hospitality',
+    ],
     specs: {
       sizes: ['1-slot', '2-slot', '3-slot', '4-slot — lengths to 3000 mm'],
       material: 'Extruded aluminum',
@@ -73,7 +310,33 @@ const products = [
     category: 'Diffusers',
     subCategory: 'Linear Slot Diffusers',
     shortDescription:
-      'Continuous slot diffuser for round duct integration. High induction ratio, architectural finish.',
+      'Return linear slot diffuser with optional Hit-&-Miss damper. Face-adjustable for convenient airflow regulation and system balancing.',
+    description:
+      'ALUGRIDX Model RLSD is a Return Linear Slot Diffuser, optionally supplied with a single Hit-&-Miss Damper. The Hit-&-Miss Damper is fully adjustable from the face of the linear diffuser, allowing convenient airflow regulation and system balancing. Available in 1 to 8 slot configurations with two slot widths (16 mm and 20 mm) for low and high airflow applications. Manufactured from extruded aluminum in natural mill finish, with face sections available in powder-coated or anodized finishes.',
+    features: [
+      'Return air linear slot diffuser',
+      'Optional single Hit-&-Miss Damper',
+      'Face-adjustable damper for system balancing',
+      '1 to 8 slot configurations',
+      'Two slot widths (16 mm / 20 mm)',
+      'Extruded aluminum construction',
+      'Continuous length capability with alignment strips',
+      'Mill, powder-coated, or anodized finishes',
+    ],
+    specifications: {
+      Material: 'Extruded aluminum',
+      'Standard Finish': 'Natural mill finish',
+      'Face Finish Options': 'Powder-coated or anodized',
+      'Slot Configurations': '1 to 8 slots',
+      'Slot Widths': '16 mm or 20 mm',
+      Damper: 'Optional Hit-&-Miss (face-adjustable)',
+    },
+    applications: [
+      'Return air systems',
+      'Architectural ceiling integration',
+      'Continuous return air runs',
+      'Premium commercial spaces',
+    ],
     specs: {
       sizes: ['Custom lengths to 3000 mm'],
       material: 'Extruded aluminum',
@@ -84,286 +347,36 @@ const products = [
     sortOrder: 40,
   }),
   p({
-    code: 'SAR',
-    title: 'Supply Air Register',
-    category: 'Grilles & Registers',
-    subCategory: 'Supply Registers',
-    shortDescription:
-      'Single-deflection blade with integral volume control damper. Surface or duct-mount.',
-    specs: {
-      sizes: ['150×150 – 1200×600 (and custom)'],
-      material: 'Extruded aluminum',
-      finish: 'Powder-coated RAL 9010',
-      application: 'Wall and ceiling supply air',
-    },
-    img: '/images/SAG.jpeg',
-    sortOrder: 50,
-  }),
-  p({
-    code: 'SAG',
-    title: 'Supply Air Grille',
-    category: 'Grilles & Registers',
-    subCategory: 'Double-Deflection Supply Grilles',
-    shortDescription:
-      'Horizontal + vertical adjustable double-deflection blades for full air-pattern control.',
-    specs: {
-      sizes: ['200×100 – 1500×600 (and custom)'],
-      material: 'Extruded aluminum',
-      finish: 'Anodized natural; powder-coated optional',
-      application: 'Wall-mounted supply air',
-    },
-    img: '/images/SAG.jpeg',
-    sortOrder: 60,
-  }),
-  p({
-    code: 'RAG',
-    title: 'Return Air Grille',
-    category: 'Grilles & Registers',
-    subCategory: 'Return Grilles',
-    shortDescription:
-      'Fixed 0° / 45° blade return grille. High free area, optional filter frame.',
-    specs: {
-      sizes: ['200×100 – 1500×600 (and custom)'],
-      material: 'Extruded aluminum',
-      finish: 'Powder-coated white',
-      application: 'Wall and ceiling return air',
-    },
-    img: '/images/RAG.jpeg',
-    sortOrder: 70,
-  }),
-  p({
-    code: 'SLBR',
-    title: 'Linear Bar Register',
-    category: 'Grilles & Registers',
-    subCategory: 'Linear Bar Grilles',
-    shortDescription:
-      'Continuous linear bar grille. Floor, wall, and ceiling mounting. Available with 0°, 15°, 22.5°, 30° blade deflection.',
-    specs: {
-      sizes: ['Custom lengths to 3000 mm'],
-      material: 'Extruded aluminum',
-      finish: 'Anodized natural; powder-coated optional',
-      application: 'Architectural integration — floor, sill, ceiling',
-    },
-    img: '/images/SLBR.jpeg',
-    sortOrder: 80,
-  }),
-  p({
-    code: 'EAL',
-    title: 'Exhaust Air Louver',
-    category: 'Louvers',
-    subCategory: 'Weather Louvers',
-    shortDescription:
-      'Drainable-blade weather louver with bird mesh. Rain defeat tested for UAE coastal conditions.',
-    specs: {
-      sizes: ['200×200 – 3000×3000 (modular)'],
-      material: 'Extruded aluminum, heavy-gauge frame',
-      finish: 'Mill, anodized, or powder-coated',
-      application: 'Fresh air intake and exhaust louvers',
-    },
-    img: '/images/EAL STL.jpeg',
-    sortOrder: 90,
-  }),
-  p({
-    code: 'STL',
-    title: 'Sand Trap Louver',
-    category: 'Louvers',
-    subCategory: 'Sand-Trap Louvers',
-    shortDescription:
-      'Multi-stage labyrinth louver engineered for Gulf desert climates. Removes airborne sand and dust before it enters the AHU.',
-    specs: {
-      sizes: ['400×400 – 3000×3000 (modular)'],
-      material: 'Extruded aluminum, heavy-gauge frame',
-      finish: 'Mill, anodized, or powder-coated',
-      application: 'AHU intakes in sandy / arid environments',
-    },
-    performance: {
-      airflowRange: 'Face velocity 1.5 – 2.5 m/s',
-      pressureDrop: '40 – 110 Pa at design velocity',
-    },
-    img: '/images/EAL STL.jpeg',
-    sortOrder: 5,
-    featured: true,
-  }),
-  p({
-    code: 'VCD',
-    title: 'Volume Control Damper',
-    category: 'Dampers',
-    subCategory: 'Volume Control Dampers',
-    shortDescription:
-      'Opposed or parallel blade VCD. Manual quadrant or motorized actuator. Precise duct airflow balancing.',
-    specs: {
-      sizes: ['100×100 – 2000×1500 (and round)'],
-      material: 'Galvanized steel frame, aluminum blades',
-      finish: 'Mill galvanized',
-      application: 'In-duct flow regulation and balancing',
-    },
-    img: '/images/VCD.jpeg',
-    sortOrder: 100,
-  }),
-  p({
-    code: 'NRD',
-    title: 'Non-Return Damper',
-    category: 'Dampers',
-    subCategory: 'Backdraft Dampers',
-    shortDescription:
-      'Gravity-operated backdraft damper. Low pressure drop, prevents reverse airflow on fan shutdown.',
-    specs: {
-      sizes: ['100×100 – 1500×1000'],
-      material: 'Aluminum blades, galvanized frame',
-      finish: 'Mill',
-      application: 'Exhaust fan discharge, fresh air shut-off',
-    },
-    img: '/images/NRD.jpeg',
-    sortOrder: 110,
-  }),
-
-  // --- Supply Air Registers (deflection variants) ---
-  p({
-    code: 'SAR-DD-H',
-    title: 'Supply Air Register Double Deflection Horizontal',
-    category: 'Grilles & Registers',
-    subCategory: 'Supply Air Registers',
-    shortDescription:
-      'Double deflection supply register with horizontal front blades for precise airflow control.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated white',
-      application: 'Supply air distribution in HVAC systems',
-    },
-    img: '/images/products/sar-dd-h.png',
-    sortOrder: 10,
-  }),
-  p({
-    code: 'SAR-DD-V',
-    title: 'Supply Air Register Double Deflection Vertical',
-    category: 'Grilles & Registers',
-    subCategory: 'Supply Air Registers',
-    shortDescription:
-      'Double deflection supply register with vertical blade arrangement for multidirectional airflow.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated white',
-      application: 'Commercial HVAC supply systems',
-    },
-    img: '/images/products/sar-dd-v.png',
-    sortOrder: 11,
-  }),
-  p({
-    code: 'SAR-SD-H',
-    title: 'Supply Air Register Single Deflection Horizontal',
-    category: 'Grilles & Registers',
-    subCategory: 'Supply Air Registers',
-    shortDescription:
-      'Single deflection horizontal supply register for directional airflow control.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated white',
-      application: 'Wall-mounted supply air systems',
-    },
-    img: '/images/products/sar-sd-h.png',
-    sortOrder: 12,
-  }),
-  p({
-    code: 'SAR-SD-V',
-    title: 'Supply Air Register Single Deflection Vertical',
-    category: 'Grilles & Registers',
-    subCategory: 'Supply Air Registers',
-    shortDescription:
-      'Vertical single deflection register for focused airflow applications.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated white',
-      application: 'HVAC air supply systems',
-    },
-    img: '/images/products/sar-sd-v.png',
-    sortOrder: 13,
-  }),
-
-  // --- Return Air Grilles / Registers ---
-  p({
-    code: 'RAG-HF',
-    title: 'Return Air Grille Fixed Horizontal',
-    category: 'Grilles & Registers',
-    subCategory: 'Return Air Grilles',
-    shortDescription:
-      'Return air grille with fixed 45° horizontal blades for consistent airflow return.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated white',
-      application: 'Return air HVAC systems',
-    },
-    img: '/images/products/rag-hf.png',
-    sortOrder: 20,
-  }),
-  p({
-    code: 'RAG-V',
-    title: 'Return Air Grille Vertical',
-    category: 'Grilles & Registers',
-    subCategory: 'Return Air Grilles',
-    shortDescription:
-      'Adjustable vertical blade return air grille for directional airflow control.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated white',
-      application: 'Commercial return air systems',
-    },
-    img: '/images/products/rag-v.png',
-    sortOrder: 21,
-  }),
-  p({
-    code: 'RAG-H',
-    title: 'Return Air Grille Horizontal',
-    category: 'Grilles & Registers',
-    subCategory: 'Return Air Grilles',
-    shortDescription:
-      'Horizontal blade return air grille designed for smooth airflow return.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated white',
-      application: 'HVAC return air systems',
-    },
-    img: '/images/products/rag-h.png',
-    sortOrder: 22,
-  }),
-  p({
-    code: 'RAR-H',
-    title: 'Return Air Register with OBD',
-    category: 'Grilles & Registers',
-    subCategory: 'Return Air Registers',
-    shortDescription:
-      'Return air register with integrated opposed blade damper for airflow balancing.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated white',
-      application: 'Air return balancing systems',
-    },
-    img: '/images/products/rar-h.png',
-    sortOrder: 23,
-  }),
-  p({
-    code: 'EAG-SD',
-    title: 'Exhaust Air Grille',
-    category: 'Grilles & Registers',
-    subCategory: 'Exhaust Air Grilles',
-    shortDescription:
-      '45° fixed blade exhaust grille designed for efficient exhaust airflow.',
-    specs: {
-      material: 'Aluminum or stainless steel',
-      finish: 'Powder-coated',
-      application: 'Bathrooms, kitchens, industrial exhaust',
-    },
-    img: '/images/products/eag-sd.png',
-    sortOrder: 24,
-  }),
-
-  // --- Linear Slot Diffusers (additional variants) ---
-  p({
     code: 'ELSD',
     title: 'Exhaust Linear Slot Diffuser',
     category: 'Diffusers',
     subCategory: 'Linear Slot Diffusers',
     shortDescription:
-      'Exhaust linear slot diffuser for concealed modern ventilation systems.',
+      'Linear slot diffuser configured for exhaust applications. Optional Hit-&-Miss damper for exhaust airflow regulation.',
+    description:
+      'ALUGRIDX Model ELSD is an Exhaust Linear Slot Diffuser, technically identical to the RLSD but configured specifically for exhaust applications. Optionally supplied with a single Hit-&-Miss Damper that is fully adjustable from the face of the diffuser. Available in 1 to 8 slot configurations with two slot widths (16 mm and 20 mm). Manufactured from extruded aluminum with options for mill, powder-coated, or anodized finishes.',
+    features: [
+      'Exhaust-specific linear slot diffuser',
+      'Optional Hit-&-Miss damper (face-adjustable)',
+      '1 to 8 slot configurations',
+      '16 mm or 20 mm slot widths',
+      'Extruded aluminum construction',
+      'Continuous length capability',
+      'Multiple finish options',
+    ],
+    specifications: {
+      Material: 'Extruded aluminum',
+      'Standard Finish': 'Natural mill finish',
+      'Slot Configurations': '1 to 8 slots',
+      'Slot Widths': '16 mm or 20 mm',
+      Damper: 'Optional Hit-&-Miss',
+    },
+    applications: [
+      'Exhaust air systems',
+      'Kitchen and toilet exhaust',
+      'Commercial exhaust integration',
+      'Architectural exhaust solutions',
+    ],
     specs: {
       material: 'Extruded aluminum',
       finish: 'Powder-coated white',
@@ -378,7 +391,32 @@ const products = [
     category: 'Diffusers',
     subCategory: 'Linear Slot Diffusers',
     shortDescription:
-      'Non-active dummy slot diffuser for aesthetic ceiling alignment.',
+      'Non-active linear slot diffuser with blanking plate. For architectural continuity where airflow is not required but visual consistency matters.',
+    description:
+      'ALUGRIDX Model DLSD is a Dummy (non-active) Linear Slot Diffuser supplied with a blanking plate in place of the Hit-&-Miss Damper. Used to maintain architectural continuity in linear slot ceiling installations where airflow is not required at specific points, but visual consistency with active diffusers is essential. Available in matching slot widths (16 mm or 20 mm) and 1 to 8 slot configurations. Manufactured from the same extruded aluminum as active SLSD/RLSD/ELSD variants for seamless integration.',
+    features: [
+      'Non-active (no airflow) linear slot diffuser',
+      'Blanking plate in place of damper',
+      'Maintains architectural continuity',
+      'Matches active SLSD/RLSD/ELSD visually',
+      '1 to 8 slot configurations',
+      '16 mm or 20 mm slot widths',
+      'Extruded aluminum construction',
+      'Seamless integration with continuous runs',
+    ],
+    specifications: {
+      Material: 'Extruded aluminum',
+      'Standard Finish': 'Natural mill finish',
+      'Slot Configurations': '1 to 8 slots',
+      'Slot Widths': '16 mm or 20 mm',
+      Function: 'Non-active (blanking plate)',
+    },
+    applications: [
+      'Architectural continuity in linear runs',
+      'Where airflow not required but visual match needed',
+      'Premium architectural installations',
+      'Continuous slot diffuser runs',
+    ],
     specs: {
       material: 'Extruded aluminum',
       finish: 'Powder-coated white',
@@ -387,253 +425,42 @@ const products = [
     img: '/images/products/dlsd.png',
     sortOrder: 33,
   }),
-
-  // --- Door / Egg-Crate ---
-  p({
-    code: 'DTG',
-    title: 'Door Transfer Grille',
-    category: 'Grilles & Registers',
-    subCategory: 'Door Grilles',
-    shortDescription:
-      'Door transfer grille designed for air circulation between rooms.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated',
-      application: 'Doors and partition ventilation',
-    },
-    img: '/images/products/dtg.png',
-    sortOrder: 40,
-  }),
-  p({
-    code: 'ECR',
-    title: 'Egg Crate Register',
-    category: 'Grilles & Registers',
-    subCategory: 'Egg Crate Grilles',
-    shortDescription:
-      'Egg crate style return air register for high free area airflow.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated white',
-      application: 'Return air systems',
-    },
-    img: '/images/products/ecr.png',
-    sortOrder: 50,
-  }),
-  p({
-    code: 'ECG',
-    title: 'Egg Crate Grille',
-    category: 'Grilles & Registers',
-    subCategory: 'Egg Crate Grilles',
-    shortDescription:
-      'High airflow egg crate grille for return and exhaust applications.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated white',
-      application: 'Commercial HVAC return air',
-    },
-    img: '/images/products/ecg.png',
-    sortOrder: 51,
-  }),
-
-  // --- Louver variants ---
-  p({
-    code: 'EL-B',
-    title: 'Exhaust Louver with Bird Screen',
-    category: 'Louvers',
-    subCategory: 'Weather Louvers',
-    shortDescription:
-      'Exhaust and intake air louver with integrated bird screen protection.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated',
-      application: 'Outdoor ventilation systems',
-    },
-    img: '/images/products/el-b.png',
-    featured: true,
-    sortOrder: 60,
-  }),
-  p({
-    code: 'EL-S',
-    title: 'Exhaust Louver with Insect Screen',
-    category: 'Louvers',
-    subCategory: 'Weather Louvers',
-    shortDescription:
-      'Air louver with integrated insect screen for clean airflow protection.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated',
-      application: 'Fresh air intake systems',
-    },
-    img: '/images/products/el-s.png',
-    sortOrder: 61,
-  }),
-  p({
-    code: 'EL-Y',
-    title: 'Louver with Volume Control Damper',
-    category: 'Louvers',
-    subCategory: 'Weather Louvers',
-    shortDescription:
-      'Exhaust or intake louver with integrated opposed blade volume control damper.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated',
-      application: 'Adjustable airflow systems',
-    },
-    img: '/images/products/el-y.png',
-    sortOrder: 62,
-  }),
-  p({
-    code: 'EL-F',
-    title: 'Filtered Exhaust Louver',
-    category: 'Louvers',
-    subCategory: 'Filtered Louvers',
-    shortDescription:
-      'Exhaust or intake louver with removable washable air filter.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated',
-      application: 'Filtered ventilation systems',
-    },
-    img: '/images/products/el-f.png',
-    sortOrder: 63,
-  }),
-  p({
-    code: 'EL-FV',
-    title: 'Filtered Exhaust Louver with Damper',
-    category: 'Louvers',
-    subCategory: 'Filtered Louvers',
-    shortDescription:
-      'Filtered louver with removable washable filter and opposed blade damper.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated',
-      application: 'Controlled filtered ventilation',
-    },
-    img: '/images/products/el-fv.png',
-    sortOrder: 64,
-  }),
-  p({
-    code: 'EL-T',
-    title: 'Twin Bank Exhaust Louver',
-    category: 'Louvers',
-    subCategory: 'Weather Louvers',
-    shortDescription:
-      'Dual bank louver designed for varying weather conditions.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated',
-      application: 'External weather louvers',
-    },
-    img: '/images/products/el-t.png',
-    sortOrder: 65,
-  }),
-
-  // --- Dampers / Gravity Louver ---
-  p({
-    code: 'NRD-RC-F',
-    title: 'Non Return Damper (Flanged)',
-    category: 'Dampers',
-    subCategory: 'Back Draft Dampers',
-    shortDescription:
-      'Flanged duct-mounted non-return damper for preventing reverse airflow.',
-    specs: {
-      material: 'Galvanized steel and aluminum',
-      finish: 'Mill finish',
-      application: 'Duct backdraft prevention',
-    },
-    img: '/images/products/nrd-rc-f.png',
-    sortOrder: 90,
-  }),
-  p({
-    code: 'GL-RC-E',
-    title: 'Gravity Louver',
-    category: 'Louvers',
-    subCategory: 'Gravity Louvers',
-    shortDescription:
-      'Gravity operated back draught louver for external wall installation.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated',
-      application: 'External exhaust systems',
-    },
-    img: '/images/products/gl-rc-e.png',
-    sortOrder: 91,
-  }),
-
-  // --- Round / Swirl Ceiling Diffusers ---
-  p({
-    code: 'SCD',
-    title: 'Supply Round Ceiling Diffuser',
-    category: 'Diffusers',
-    subCategory: 'Round Ceiling Diffusers',
-    shortDescription:
-      'Round ceiling diffuser with butterfly damper for radial air supply.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated',
-      application: 'Ceiling supply air systems',
-    },
-    img: '/images/products/scd.png',
-    featured: true,
-    sortOrder: 100,
-  }),
-  p({
-    code: 'RCD',
-    title: 'Return Round Ceiling Diffuser',
-    category: 'Diffusers',
-    subCategory: 'Round Ceiling Diffusers',
-    shortDescription:
-      'Round return diffuser for ceiling mounted air extraction.',
-    specs: {
-      material: 'Aluminum',
-      finish: 'Powder-coated',
-      application: 'Return air extraction systems',
-    },
-    img: '/images/products/rcd.png',
-    sortOrder: 101,
-  }),
-  p({
-    code: 'RSD',
-    title: 'Round Swirl Diffuser',
-    category: 'Diffusers',
-    subCategory: 'Swirl Diffusers',
-    shortDescription:
-      'High-capacity swirl diffuser designed for rapid air induction and long throw.',
-    specs: {
-      material: 'Sheet steel / aluminum',
-      finish: 'RAL 9010 powder-coated',
-      application: 'Airports, halls, commercial HVAC systems',
-    },
-    img: '/images/products/rsd.png',
-    featured: true,
-    sortOrder: 102,
-  }),
-
-  // --- Filter Housing ---
-  p({
-    code: 'AFV-8',
-    title: 'Ceiling Housing with HEPA Filter',
-    category: 'Filters',
-    subCategory: 'HEPA Filter Housings',
-    shortDescription:
-      'Ceiling mounted HEPA filter housing for ultra-clean environments.',
-    specs: {
-      material: 'Galvanized steel',
-      finish: 'Powder-coated',
-      application: 'Hospitals, clean rooms, laboratories',
-    },
-    img: '/images/products/afv-8.png',
-    sortOrder: 103,
-  }),
-
-  // --- Jet Diffusers ---
   p({
     code: 'JD-EBT',
     title: 'Jet Diffuser Eyeball Type',
     category: 'Diffusers',
     subCategory: 'Jet Diffusers',
     shortDescription:
-      'Eyeball type jet diffuser for long throw air distribution in large spaces.',
+      'Long-throw jet diffuser up to 25m. Eyeball design for adjustable air direction. Ideal for airports, malls, theaters, and high-ceiling spaces.',
+    description:
+      'ALUGRIDX Jet Diffusers (Eyeball Type) are designed for spaces where ceiling diffusers are not practical. They provide effective ventilation by delivering both cooled and heated air, making them ideal for large areas and high-ceiling buildings. Designed for long air throw up to 25m at high outlet velocities. The eyeball design allows the air direction to be adjusted as needed. Manufactured from high-quality aluminum sheets for durability. Available with optional butterfly damper (plastic or steel) or radial shaped damper (screw control) for air volume regulation.',
+    features: [
+      'Long air throw up to 25m at high velocities',
+      'Eyeball design for adjustable air direction',
+      'Cooling AND heating applications',
+      'High-quality aluminum construction',
+      'Ceiling or wall mounting',
+      'Manual rotation or motor control',
+      'Optional butterfly damper (plastic or steel)',
+      'Optional radial shaped damper (screw control)',
+    ],
+    specifications: {
+      Material: 'High-quality aluminum sheets',
+      'Frame Option': 'Galvanized sheet steel',
+      Finish: 'Powder coated color finish',
+      'Throw Distance': 'Up to 25 meters',
+      Mounting: 'Ceiling or wall (screws or duct connection)',
+      Rotation: 'Manual or motor controlled',
+    },
+    applications: [
+      'Airports and transportation hubs',
+      'Shopping malls',
+      'Exhibition halls and convention centers',
+      'Theaters and auditoriums',
+      'Industrial halls',
+      'Sports venues',
+      'Large high-ceiling spaces',
+    ],
     specs: {
       material: 'Aluminum',
       finish: 'Powder-coated',
@@ -652,7 +479,32 @@ const products = [
     category: 'Diffusers',
     subCategory: 'Jet Diffusers',
     shortDescription:
-      'Ring type jet diffuser with adjustable 360° airflow pattern.',
+      'Ring-type jet diffuser with 360° / 4-way adjustable airflow. Aluminum construction with optional metal slide damper. Ideal for high-volume air distribution.',
+    description:
+      'ALUGRIDX Jet Diffusers (Ring Type) feature 360° / 4-way adjustable airflow for flexible air direction, making them ideal for high-volume air distribution in large spaces. Manufactured from aluminum for durability and lightweight design. Standard finish is RAL 9016 / RAL 9010 white powder coating. Optional metal slide damper available for air volume control. Performance data includes NC values at various airflow rates, throw at terminal velocities 0.3, 0.5, 0.8 m/s, and pressure loss data.',
+    features: [
+      '360° / 4-way adjustable airflow',
+      'Flexible air direction control',
+      'Aluminum construction (lightweight + durable)',
+      'Optional metal slide damper',
+      'Standard RAL 9016 / RAL 9010 white powder coating',
+      'Performance data per AHRI standards',
+      'Multiple size options',
+    ],
+    specifications: {
+      Material: 'Aluminum',
+      'Standard Finish': 'RAL 9016 / RAL 9010 white powder coating',
+      'Airflow Pattern': '360° / 4-way adjustable',
+      'Optional Accessory': 'Metal slide damper',
+      'Terminal Velocities Tested': '0.3, 0.5, 0.8 m/s',
+    },
+    applications: [
+      'Large open spaces',
+      'Industrial facilities',
+      'Commercial atriums',
+      'Warehouses with HVAC',
+      'Where 4-way distribution is needed',
+    ],
     specs: {
       material: 'Aluminum',
       finish: 'RAL 9010 / RAL 9016',
@@ -661,15 +513,37 @@ const products = [
     img: '/images/products/jd-rt.png',
     sortOrder: 111,
   }),
-
-  // --- Flowbar Slot Diffusers ---
   p({
     code: 'FBD-F',
     title: 'Flowbar Slot Diffuser Flange Type',
     category: 'Diffusers',
     subCategory: 'Flowbar Diffusers',
     shortDescription:
-      'High airflow Flowbar slot diffuser for ceiling applications.',
+      'Vertical-throw flowbar slot diffuser with flange installation. High airflow ceiling applications with optional black powder-coated pattern controllers.',
+    description:
+      'ALUGRIDX FBD-F Flowbar Slot Diffuser is designed for high airflow applications, ideal for ceiling installations. The flange-type design allows standard installation while delivering vertical throw airflow patterns. Airflow direction can be adjusted using optional pattern controllers with black powder-coated finish. A curved design is available on request for the 1-slot flowbar diffuser, and a 3-slot flowbar diffuser option is also available upon request. Pressure loss data is based on inlet duct velocities below 4 m/s.',
+    features: [
+      'Flange-type ceiling installation',
+      'Vertical throw airflow pattern',
+      'High airflow capacity',
+      'Optional pattern controllers (black powder-coated)',
+      '1-slot standard, 3-slot on request',
+      'Curved design available (1-slot)',
+      'Pressure-optimized for ducts <4 m/s velocity',
+    ],
+    specifications: {
+      'Frame Type': 'Flange',
+      'Slot Configuration': '1-slot (standard), 3-slot (on request)',
+      'Throw Direction': 'Vertical',
+      'Inlet Duct Velocity': 'Below 4 m/s',
+      'Pattern Controllers': 'Optional, black powder-coated finish',
+    },
+    applications: [
+      'High airflow ceiling installations',
+      'Commercial spaces',
+      'Premium residential',
+      'Standard ceiling integration',
+    ],
     specs: {
       material: 'Aluminum',
       finish: 'Powder-coated',
@@ -684,7 +558,31 @@ const products = [
     category: 'Diffusers',
     subCategory: 'Flowbar Diffusers',
     shortDescription:
-      'Hidden frame Flowbar diffuser with adjustable airflow pattern.',
+      'Hidden frame flowbar diffuser with 45° vertical throw. Concealed installation for clean architectural ceiling integration with high airflow capacity.',
+    description:
+      'ALUGRIDX FBD50-HF is a Flowbar Slot Diffuser with a hidden frame 45° design, providing a vertical throw airflow pattern in a completely concealed installation. The hidden frame design creates a clean architectural appearance with no visible mounting hardware. Suitable for ceiling installations requiring high airflow quantities. Airflow direction can be adjusted using optional pattern controllers with black powder-coated finish.',
+    features: [
+      'Hidden frame design — concealed installation',
+      '45° vertical throw pattern',
+      'Clean architectural appearance',
+      'High airflow capacity',
+      'Optional pattern controllers (black powder-coated)',
+      '1-slot configuration',
+      'Optimized pressure performance',
+    ],
+    specifications: {
+      'Frame Type': 'Hidden Frame 45°',
+      'Slot Configuration': '1-slot',
+      'Throw Direction': 'Vertical',
+      'Inlet Duct Velocity': 'Below 4 m/s',
+      'Pattern Controllers': 'Optional, black powder-coated',
+    },
+    applications: [
+      'Premium architectural ceiling installations',
+      'Luxury commercial spaces',
+      'Clean ceiling aesthetic requirements',
+      'High-end residential',
+    ],
     specs: {
       material: 'Aluminum',
       finish: 'Powder-coated',
@@ -699,7 +597,31 @@ const products = [
     category: 'Diffusers',
     subCategory: 'Flowbar Diffusers',
     shortDescription:
-      'Plaster hidden frame Flowbar diffuser for seamless ceiling integration.',
+      'Plaster hidden frame flowbar diffuser with horizontal throw. Complete concealed installation for premium plaster ceiling integration.',
+    description:
+      'ALUGRIDX FBD50-PHF is a Flowbar Slot Diffuser featuring a plaster hidden frame design for complete concealed integration with plaster ceilings. Delivers a horizontal throw airflow pattern, ideal for spaces where directional air movement along the ceiling is preferred. The plaster-ready frame allows seamless integration with skim coats and finished plaster surfaces. Suitable for high airflow applications. Air pattern adjustable via optional pattern controllers in black powder-coated finish.',
+    features: [
+      'Plaster hidden frame design',
+      'Complete concealed integration with plaster ceilings',
+      'Horizontal throw pattern',
+      'Premium architectural integration',
+      'High airflow applications',
+      'Optional pattern controllers (black powder-coated)',
+      '1-slot and 2-slot configurations available',
+    ],
+    specifications: {
+      'Frame Type': 'Plaster Hidden Frame 45°',
+      'Slot Configuration': '1-slot, 2-slot available',
+      'Throw Direction': 'Horizontal',
+      Integration: 'Plaster ceiling compatible',
+      'Pattern Controllers': 'Optional, black powder-coated',
+    },
+    applications: [
+      'Premium plaster ceiling installations',
+      'Luxury hospitality interiors',
+      'High-end residential',
+      'Architectural-led commercial spaces',
+    ],
     specs: {
       material: 'Aluminum',
       finish: 'Powder-coated',
@@ -709,14 +631,1282 @@ const products = [
     sortOrder: 122,
   }),
 
-  // --- HVAC Units ---
+  // ═══════════════════════════════════════════════════════════════════
+  //   GRILLES & REGISTERS
+  // ═══════════════════════════════════════════════════════════════════
+  p({
+    code: 'SAR',
+    title: 'Supply Air Register',
+    category: 'Grilles & Registers',
+    subCategory: 'Supply Registers',
+    shortDescription:
+      'Premium supply air register with integrated Opposed Blade Damper for precise airflow control. Adjustable airfoil blades for directional air distribution.',
+    description:
+      'ALUGRIDX Supply Air Register (SAR) provides controlled supply air distribution with integrated Opposed Blade Damper (OBD) for precise airflow regulation. Features individually adjustable airfoil blades that allow directional control of supply air. Manufactured from high-quality aluminum for durability and corrosion resistance. Available in multiple deflection configurations (single or double, horizontal or vertical) to suit different application requirements. Tested per ASHRAE standards for performance and reliability.',
+    features: [
+      'Integrated Opposed Blade Damper (OBD)',
+      'Individually adjustable airfoil blades',
+      'Precise airflow direction and volume control',
+      'High-quality aluminum construction',
+      'Multiple deflection configurations available',
+      'ASHRAE-tested performance',
+      'Architectural integration ready',
+    ],
+    specifications: {
+      Material: 'High-quality aluminum',
+      Damper: 'Integrated Opposed Blade Damper (OBD)',
+      'Blade Type': 'Individually adjustable airfoil',
+      'Standard Tested': 'ASHRAE',
+      Variants: 'Double deflection (DD) or Single deflection (SD), Horizontal or Vertical',
+    },
+    applications: [
+      'Supply air distribution',
+      'Commercial HVAC systems',
+      'Spaces requiring precise air control',
+      'Architectural integration',
+    ],
+    specs: {
+      sizes: ['150×150 – 1200×600 (and custom)'],
+      material: 'Extruded aluminum',
+      finish: 'Powder-coated RAL 9010',
+      application: 'Wall and ceiling supply air',
+    },
+    img: '/images/SAG.jpeg',
+    sortOrder: 50,
+  }),
+  p({
+    code: 'SAR-DD-H',
+    title: 'Supply Air Register Double Deflection Horizontal',
+    category: 'Grilles & Registers',
+    subCategory: 'Supply Air Registers',
+    shortDescription:
+      'Double deflection supply register with horizontal front blades and vertical rear blades. Integrated OBD for precise airflow control in two planes.',
+    description:
+      'ALUGRIDX Supply Air Register Double Deflection Horizontal (SAR-DD-H) features individually adjustable front horizontal and rear vertical airfoil blades, providing multidirectional airflow control. The configuration allows precise adjustment of air direction both vertically and horizontally, ensuring accurate air distribution. Equipped with integrated Opposed Blade Damper (OBD) for airflow regulation. Ideal for spaces requiring versatile air control where adjustable airflow patterns are essential for occupant comfort.',
+    features: [
+      'Horizontal front, vertical rear blade configuration',
+      'Individually adjustable airfoil blades (both sets)',
+      'Multidirectional airflow control',
+      'Integrated Opposed Blade Damper (OBD)',
+      'Precise vertical and horizontal direction control',
+      'High-quality extruded aluminum',
+      'Ideal for variable occupant comfort needs',
+    ],
+    specifications: {
+      Material: 'High-quality extruded aluminum',
+      'Front Blades': 'Horizontal, individually adjustable',
+      'Rear Blades': 'Vertical, individually adjustable',
+      Damper: 'Integrated Opposed Blade Damper',
+      Control: 'Multidirectional (2-plane)',
+    },
+    applications: [
+      'Premium commercial supply distribution',
+      'Spaces requiring versatile airflow',
+      'Open-plan offices',
+      'Conference rooms',
+      'Areas with variable occupancy',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Supply air distribution in HVAC systems',
+    },
+    img: '/images/products/sar-dd-h.png',
+    sortOrder: 10,
+  }),
+  p({
+    code: 'SAR-DD-V',
+    title: 'Supply Air Register Double Deflection Vertical',
+    category: 'Grilles & Registers',
+    subCategory: 'Supply Air Registers',
+    shortDescription:
+      'Double deflection supply register with vertical front blades and horizontal rear blades. Multidirectional airflow with integrated OBD damper.',
+    description:
+      'ALUGRIDX Supply Air Register Double Deflection Vertical (SAR-DD-V) features individually adjustable front vertical and rear horizontal airfoil blades, designed for precise multidirectional airflow control. The configuration is ideal for return air applications where directional flexibility in both vertical and horizontal planes is essential. Integrated Opposed Blade Damper (OBD) provides precise volume regulation. Same configuration as RAG-V but supplied with OBD for controlled supply air distribution.',
+    features: [
+      'Vertical front, horizontal rear blade configuration',
+      'Individually adjustable airfoil blades (both sets)',
+      'Multidirectional airflow control',
+      'Integrated Opposed Blade Damper (OBD)',
+      'Precise vertical AND horizontal direction control',
+      'Same as RAG-V config with added OBD',
+      'Ideal for controlled supply air distribution',
+    ],
+    specifications: {
+      Material: 'High-quality extruded aluminum',
+      'Front Blades': 'Vertical, individually adjustable',
+      'Rear Blades': 'Horizontal, individually adjustable',
+      Damper: 'Integrated Opposed Blade Damper',
+      Control: 'Multidirectional (2-plane)',
+    },
+    applications: [
+      'Premium commercial supply distribution',
+      'Areas requiring vertical-priority airflow',
+      'Modern offices',
+      'Hospitality and retail',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Commercial HVAC supply systems',
+    },
+    img: '/images/products/sar-dd-v.png',
+    sortOrder: 11,
+  }),
+  p({
+    code: 'SAR-SD-H',
+    title: 'Supply Air Register Single Deflection Horizontal',
+    category: 'Grilles & Registers',
+    subCategory: 'Supply Air Registers',
+    shortDescription:
+      'Single deflection supply register with horizontal blades only. Focused airflow control in one direction with OBD for volume regulation.',
+    description:
+      'ALUGRIDX Supply Air Register Single Deflection Horizontal (SAR-SD-H) features a single row of adjustable horizontal blades, providing focused airflow control in one direction. Ideal for targeted airflow applications such as directing air along the ceiling plane. Integrated Opposed Blade Damper (OBD) provides volume control. Suitable for spaces where horizontal-only deflection meets the design requirement, offering simpler installation and adjustment compared to double deflection variants.',
+    features: [
+      'Single row of horizontal adjustable blades',
+      'Focused horizontal airflow control',
+      'Integrated Opposed Blade Damper (OBD)',
+      'Simpler than double deflection variants',
+      'Ideal for ceiling-plane airflow',
+      'High-quality extruded aluminum',
+      'Cost-effective single-direction solution',
+    ],
+    specifications: {
+      Material: 'High-quality extruded aluminum',
+      Blades: 'Single row, horizontal, adjustable',
+      Damper: 'Integrated Opposed Blade Damper',
+      Control: 'Single direction (horizontal plane)',
+    },
+    applications: [
+      'Ceiling-plane airflow direction',
+      'Targeted air distribution',
+      'Cost-conscious projects',
+      'Where horizontal-only deflection suffices',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Wall-mounted supply air systems',
+    },
+    img: '/images/products/sar-sd-h.png',
+    sortOrder: 12,
+  }),
+  p({
+    code: 'SAR-SD-V',
+    title: 'Supply Air Register Single Deflection Vertical',
+    category: 'Grilles & Registers',
+    subCategory: 'Supply Air Registers',
+    shortDescription:
+      'Single deflection supply register with vertical blades only. Wall-surface airflow direction with integrated OBD damper.',
+    description:
+      'ALUGRIDX Supply Air Register Single Deflection Vertical (SAR-SD-V) features a single row of adjustable vertical blades, providing focused airflow control in one direction. Ideal for targeted airflow applications such as directing air down a wall surface. Integrated Opposed Blade Damper (OBD) provides volume regulation. Suitable for sidewall installations where vertical-only deflection is preferred for downward air movement along walls.',
+    features: [
+      'Single row of vertical adjustable blades',
+      'Focused vertical airflow control',
+      'Integrated Opposed Blade Damper (OBD)',
+      'Ideal for wall-surface airflow direction',
+      'Sidewall installation optimized',
+      'High-quality extruded aluminum',
+      'Simpler than double deflection variants',
+    ],
+    specifications: {
+      Material: 'High-quality extruded aluminum',
+      Blades: 'Single row, vertical, adjustable',
+      Damper: 'Integrated Opposed Blade Damper',
+      Control: 'Single direction (vertical plane)',
+    },
+    applications: [
+      'Sidewall supply installations',
+      'Wall-surface airflow direction',
+      'Targeted downward air distribution',
+      'Cost-effective single-direction needs',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'HVAC air supply systems',
+    },
+    img: '/images/products/sar-sd-v.png',
+    sortOrder: 13,
+  }),
+  p({
+    code: 'SAG',
+    title: 'Supply Air Grille',
+    category: 'Grilles & Registers',
+    subCategory: 'Double-Deflection Supply Grilles',
+    shortDescription:
+      'Supply air grille with adjustable airfoil blades. No integrated damper for cost-effective single or double deflection supply applications.',
+    description:
+      'ALUGRIDX Supply Air Grille (SAG) features adjustable horizontal and vertical airfoil blades for directional airflow control. Unlike the Supply Air Register (SAR) variant, SAG does not include an integrated damper, making it a cost-effective option where damper integration is not required (e.g., when damper is installed upstream in the duct). Manufactured from high-quality aluminum with options for both double deflection (two adjustable blade sets) and single deflection (one blade set) configurations.',
+    features: [
+      'Adjustable airfoil blades (horizontal and/or vertical)',
+      'No integrated damper (cost-effective)',
+      'Double or single deflection options',
+      'Individual blade adjustment',
+      'High-quality aluminum construction',
+      'Architectural integration',
+      'ASHRAE-compliant performance',
+    ],
+    specifications: {
+      Material: 'High-quality aluminum',
+      Damper: 'None (use upstream duct damper)',
+      'Blade Type': 'Adjustable airfoil',
+      Configurations: 'Double or single deflection, Horizontal or Vertical',
+    },
+    applications: [
+      'Supply air distribution',
+      'Cost-effective installations',
+      'Where damper is upstream',
+      'Commercial and residential spaces',
+    ],
+    specs: {
+      sizes: ['200×100 – 1500×600 (and custom)'],
+      material: 'Extruded aluminum',
+      finish: 'Anodized natural; powder-coated optional',
+      application: 'Wall-mounted supply air',
+    },
+    img: '/images/SAG.jpeg',
+    sortOrder: 60,
+  }),
+  p({
+    code: 'RAG',
+    title: 'Return Air Grille',
+    category: 'Grilles & Registers',
+    subCategory: 'Return Grilles',
+    shortDescription:
+      'Return air grille with multiple blade configurations — fixed 45° horizontal, adjustable vertical, or adjustable horizontal options.',
+    description:
+      'ALUGRIDX Return Air Grille (RAG) is available in multiple blade configurations to suit different architectural and functional requirements: fixed horizontal blades at 45° for consistent return with clean architectural appearance; adjustable vertical airfoil blades for controlled airflow direction; or adjustable horizontal blades for directional control. Manufactured from high-quality aluminum. No integrated damper (use RAR variant if OBD required).',
+    features: [
+      'Multiple blade configuration options',
+      'Fixed 45° horizontal or adjustable variants',
+      'High-quality aluminum construction',
+      'Clean architectural appearance',
+      'Cost-effective return solution',
+      'ASHRAE-compliant performance',
+      'Architectural integration',
+    ],
+    specifications: {
+      Material: 'High-quality aluminum',
+      Damper: 'None (use RAR variant for OBD)',
+      'Blade Options': 'Fixed 45° horizontal, Adjustable vertical, Adjustable horizontal',
+    },
+    applications: [
+      'Return air systems',
+      'Cost-effective return paths',
+      'Architectural integration',
+      'Commercial and residential',
+    ],
+    specs: {
+      sizes: ['200×100 – 1500×600 (and custom)'],
+      material: 'Extruded aluminum',
+      finish: 'Powder-coated white',
+      application: 'Wall and ceiling return air',
+    },
+    img: '/images/RAG.jpeg',
+    sortOrder: 70,
+  }),
+  p({
+    code: 'RAG-HF',
+    title: 'Return Air Grille Fixed Horizontal',
+    category: 'Grilles & Registers',
+    subCategory: 'Return Air Grilles',
+    shortDescription:
+      'Return air grille with fixed horizontal blades at 45°. Consistent airflow return with clean architectural appearance. No adjustment required.',
+    description:
+      'ALUGRIDX Return Air Grille Fixed Horizontal (RAG-HF) features fixed horizontal blades set at a 45° angle to ensure consistent airflow return with a clean architectural appearance. The fixed blade design eliminates the need for adjustment, making it ideal for installations where airflow patterns are predetermined and aesthetic uniformity is essential. Manufactured from high-quality extruded aluminum for durability and visual consistency.',
+    features: [
+      'Fixed horizontal blades at 45°',
+      'Consistent airflow return',
+      'Clean architectural appearance',
+      'No adjustment required',
+      'High-quality extruded aluminum',
+      'Uniform visual finish',
+      'Ideal for unified architectural runs',
+    ],
+    specifications: {
+      Material: 'High-quality extruded aluminum',
+      'Blade Angle': 'Fixed 45° horizontal',
+      Adjustment: 'None (fixed)',
+      Damper: 'None',
+    },
+    applications: [
+      'Architectural return air installations',
+      'Where consistent aesthetic is critical',
+      'Long return air runs',
+      'Premium commercial interiors',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Return air HVAC systems',
+    },
+    img: '/images/products/rag-hf.png',
+    sortOrder: 20,
+  }),
+  p({
+    code: 'RAG-V',
+    title: 'Return Air Grille Vertical',
+    category: 'Grilles & Registers',
+    subCategory: 'Return Air Grilles',
+    shortDescription:
+      'Return air grille with individually adjustable vertical airfoil blades. Controlled airflow direction with improved performance efficiency.',
+    description:
+      'ALUGRIDX Return Air Grille Vertical (RAG-V) features individually adjustable front vertical and rear horizontal airfoil blades, allowing controlled airflow direction and improved performance efficiency. Designed for precise airflow control in return air applications. Manufactured from high-quality extruded aluminum. The double-blade configuration (vertical front + horizontal rear) allows multidirectional control of return airflow.',
+    features: [
+      'Individually adjustable vertical front blades',
+      'Individually adjustable horizontal rear blades',
+      'Multidirectional return airflow control',
+      'Controlled airflow direction',
+      'Improved performance efficiency',
+      'High-quality extruded aluminum',
+      'Airfoil blade design',
+    ],
+    specifications: {
+      Material: 'High-quality extruded aluminum',
+      'Front Blades': 'Vertical, individually adjustable airfoil',
+      'Rear Blades': 'Horizontal, individually adjustable airfoil',
+      Damper: 'None (use RAR-H for damper)',
+    },
+    applications: [
+      'Return air with directional control',
+      'Architectural premium installations',
+      'Where airflow direction matters',
+      'Commercial HVAC',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Commercial return air systems',
+    },
+    img: '/images/products/rag-v.png',
+    sortOrder: 21,
+  }),
+  p({
+    code: 'RAG-H',
+    title: 'Return Air Grille Horizontal',
+    category: 'Grilles & Registers',
+    subCategory: 'Return Air Grilles',
+    shortDescription:
+      'Return air grille with individually adjustable horizontal front blades and vertical rear blades. Flexible airflow direction for efficient return.',
+    description:
+      'ALUGRIDX Return Air Grille Horizontal (RAG-H) features individually adjustable front horizontal and rear vertical airfoil blades, allowing flexible airflow direction for efficient return air distribution. Same blade configuration as supply variants but without the integrated damper. Manufactured from high-quality extruded aluminum for long-lasting performance.',
+    features: [
+      'Individually adjustable horizontal front blades',
+      'Individually adjustable vertical rear blades',
+      'Flexible airflow direction',
+      'Efficient return air distribution',
+      'High-quality extruded aluminum',
+      'Airfoil blade design',
+      'Streamlined architectural appearance',
+    ],
+    specifications: {
+      Material: 'High-quality extruded aluminum',
+      'Front Blades': 'Horizontal, individually adjustable airfoil',
+      'Rear Blades': 'Vertical, individually adjustable airfoil',
+      Damper: 'None',
+    },
+    applications: [
+      'Return air with flexible direction',
+      'Sidewall return installations',
+      'Architectural integration',
+      'Commercial spaces',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'HVAC return air systems',
+    },
+    img: '/images/products/rag-h.png',
+    sortOrder: 22,
+  }),
+  p({
+    code: 'RAR-H',
+    title: 'Return Air Register with OBD',
+    category: 'Grilles & Registers',
+    subCategory: 'Return Air Registers',
+    shortDescription:
+      'Return air register similar to RAG-HF with integrated Opposed Blade Volume Control Damper for precise return airflow regulation.',
+    description:
+      'ALUGRIDX Return Air Register with OBD (RAR-H) is similar to the RAG-HF model but supplied with an integrated Opposed Blade Volume Control Damper for precise airflow regulation. This combination of fixed horizontal blades at 45° with integrated OBD provides both clean architectural appearance and precise return air volume control. Operable via screws from the grille face for convenient field adjustment.',
+    features: [
+      'Fixed horizontal blades at 45° (clean appearance)',
+      'Integrated Opposed Blade Volume Control Damper',
+      'Precise return airflow regulation',
+      'Face-accessible damper adjustment via screws',
+      'High-quality extruded aluminum',
+      'Combines RAG-HF aesthetics with volume control',
+      'Architectural integration ready',
+    ],
+    specifications: {
+      Material: 'High-quality extruded aluminum',
+      'Blade Angle': 'Fixed 45° horizontal',
+      Damper: 'Integrated Opposed Blade VCD',
+      'Damper Operation': 'Screw-operated from grille face',
+    },
+    applications: [
+      'Return air with volume control',
+      'System balancing requirements',
+      'Architectural commercial installations',
+      'Where both aesthetics and control matter',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Air return balancing systems',
+    },
+    img: '/images/products/rar-h.png',
+    sortOrder: 23,
+  }),
+  p({
+    code: 'EAG-SD',
+    title: 'Exhaust Air Grille',
+    category: 'Grilles & Registers',
+    subCategory: 'Exhaust Air Grilles',
+    shortDescription:
+      'Exhaust air grille with 45° fixed blades. Optimized for bathrooms, kitchens, industrial exhaust. Rain-resistant for external installations.',
+    description:
+      'ALUGRIDX Exhaust Air Grille features 45° fixed blades providing optimal directional airflow for exhaust applications. Crafted from high-quality aluminum or stainless steel for long-lasting performance in various environments. Engineered to ensure efficient air passage while resisting rain, debris, and other external elements. The 45° blade angle directs airflow precisely and complements architectural and engineering designs with a sleek appearance. Ideal for removing air efficiently from spaces such as bathrooms, kitchens, and industrial areas.',
+    features: [
+      '45° fixed blade design',
+      'Optimal directional exhaust airflow',
+      'High-quality aluminum or stainless steel construction',
+      'Rain and debris resistant',
+      'Suitable for external installations',
+      'Architectural sleek appearance',
+      'Robust construction for industrial use',
+    ],
+    specifications: {
+      'Material Options': 'Aluminum or Stainless steel',
+      'Blade Angle': '45° fixed',
+      Application: 'Exhaust (interior or exterior)',
+      'Weather Resistance': 'Yes (rain, debris)',
+    },
+    applications: [
+      'Bathroom exhaust',
+      'Kitchen exhaust',
+      'Industrial area exhaust',
+      'External wall installations',
+      'Where rainwater ingress prevention matters',
+    ],
+    specs: {
+      material: 'Aluminum or stainless steel',
+      finish: 'Powder-coated',
+      application: 'Bathrooms, kitchens, industrial exhaust',
+    },
+    img: '/images/products/eag-sd.png',
+    sortOrder: 24,
+  }),
+  p({
+    code: 'SLBR',
+    title: 'Linear Bar Register',
+    category: 'Grilles & Registers',
+    subCategory: 'Linear Bar Grilles',
+    shortDescription:
+      'Extruded aluminum linear bar grille with 0°, 15° one-way, or 15° two-way throw configurations. Optional OBD and curved variants available.',
+    description:
+      'ALUGRIDX Linear Bar Grilles (SLBR) feature frames and face bars manufactured from high-quality extruded aluminum profiles, providing excellent corrosion resistance and structural rigidity. Horizontal face bars are available in 0°, 15° one-way throw, and 15° two-way throw configurations, securely fixed to the frame using 8 mm support pipes. Vertical aluminum aerofoil blades are mounted at the rear of the frame using nylon bushes, allowing smooth individual manual adjustment in the vertical plane. Alignment strips are supplied at no additional cost for continuous installations. Optional Opposed Blade Damper available for positive airflow control.',
+    features: [
+      'Extruded aluminum frame and face bars',
+      '0°, 15° one-way, or 15° two-way throw options',
+      '8 mm support pipe construction',
+      'Rear-mounted vertical aerofoil blades on nylon bushes',
+      'Individual manual blade adjustment',
+      'Optional Opposed Blade Damper (positive control)',
+      'Bar spacing: 6 mm or 12.5 mm',
+      'Alignment strips for continuous runs (no extra cost)',
+      'C-clamps for concealed fixing',
+      'Optional foam gasket for air-tight installation',
+      'Curved variant up to 3 m length (1 m min radius)',
+    ],
+    specifications: {
+      Material: 'Extruded aluminum profiles',
+      'Face Bar Configurations': '0°, 15° one-way, 15° two-way throw',
+      'Support Pipes': '8 mm',
+      'Bar Spacing': '6 mm (0° and 15° one-way), 12.5 mm (15° two-way)',
+      'Rear Blade Mount': 'Nylon bushes',
+      Fixing: 'C-clamps (concealed)',
+      Damper: 'Optional Opposed Blade Damper',
+      'Curved Variant': 'Up to 3 m, minimum 1 m radius',
+    },
+    applications: [
+      'Architectural linear installations',
+      'Continuous wall/ceiling runs',
+      'Curved walls (curved variant)',
+      'Long-throw or wide-pattern requirements',
+      'Premium commercial and residential',
+    ],
+    specs: {
+      sizes: ['Custom lengths to 3000 mm'],
+      material: 'Extruded aluminum',
+      finish: 'Anodized natural; powder-coated optional',
+      application: 'Architectural integration — floor, sill, ceiling',
+    },
+    img: '/images/SLBR.jpeg',
+    sortOrder: 80,
+  }),
+  p({
+    code: 'DTG',
+    title: 'Door Transfer Grille',
+    category: 'Grilles & Registers',
+    subCategory: 'Door Grilles',
+    shortDescription:
+      'Vision-proof inverted V-core grille for air transfer through doors and partitions. Maximum free area with privacy and impact durability.',
+    description:
+      'ALUGRIDX Door Transfer Grilles are designed to provide maximum free area with vision-proof inverted V core, ensuring privacy while allowing efficient air transfer. Manufactured from high-quality extruded aluminum sections. The inverted V louvers prevent visibility while providing excellent strength and rigidity. When installed in the lower portion of doors, the grille offers durability against impact and maintains a clean professional appearance. Countersunk screw holes supplied as standard for smooth, flush-mounted finish. Available in DTG-1 (single fixed frame) and DTG-2 (fixed frame + removable opposite frame).',
+    features: [
+      'Vision-proof inverted V core design',
+      'Maximum free area for efficient transfer',
+      'Privacy preservation',
+      'Extruded aluminum construction',
+      'Impact-durable (for lower door installation)',
+      'Countersunk screw holes for flush mounting',
+      'Clean architectural appearance',
+      'DTG-1 (single frame) or DTG-2 (double frame) options',
+    ],
+    specifications: {
+      Material: 'High-quality extruded aluminum',
+      'Core Design': 'Inverted V (vision-proof)',
+      Fixing: 'Countersunk screws (flush mount)',
+      Variants: 'DTG-1 (single frame), DTG-2 (double frame)',
+    },
+    applications: [
+      'Door installations (especially lower portion)',
+      'Partition wall openings',
+      'Return air openings',
+      'Exhaust air openings',
+      'Privacy-required air transfer',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Doors and partition ventilation',
+    },
+    img: '/images/products/dtg.png',
+    sortOrder: 40,
+  }),
+  p({
+    code: 'ECR',
+    title: 'Egg Crate Register',
+    category: 'Grilles & Registers',
+    subCategory: 'Egg Crate Grilles',
+    shortDescription:
+      'Egg crate register with integrated Opposed Blade Damper and optional filter. 90% free area aluminum core or 80% free area polystyrene core.',
+    description:
+      'ALUGRIDX Egg Crate Registers are manufactured to the highest standards with rigid robust construction ensuring stable, vibration-free, quiet operation. Frame from high-quality extruded aluminum, core from premium aluminum sheets (or polystyrene). Equipped with integrated Opposed Blade Volume Control Damper for precise airflow regulation. Optional filter available for clean, controlled air distribution. Available with aluminum egg crate core (90% free area) in two cell sizes (12.5×12.5×0.5 mm or 13×13×0.5 mm), or polystyrene egg crate core (80% free area, 14.5×14.5×1.6 mm cells). NC 35 compliance at 7 m/s jet velocity with 8 dB room attenuation.',
+    features: [
+      'Integrated Opposed Blade Volume Control Damper',
+      'Optional filter for clean air',
+      'Extruded aluminum frame (rigid construction)',
+      'Aluminum egg crate core (90% free area) OR Polystyrene core (80% free area)',
+      'Two aluminum cell sizes: 12.5×12.5×0.5 mm or 13×13×0.5 mm',
+      'Polystyrene cell size: 14.5×14.5×1.6 mm',
+      'Countersunk screw holes for flush mounting',
+      'NC 35 compliance at 7 m/s jet velocity',
+      'Two fixing types: countersunk screw (Type S) or hinged with knob (Type K)',
+    ],
+    specifications: {
+      'Material (Frame)': 'Extruded aluminum',
+      'Material (Core)': 'Aluminum (Type A) or Polystyrene (Type P)',
+      'Aluminum Free Area': '90%',
+      'Polystyrene Free Area': '80%',
+      'NC Rating': 'NC 35 at 7 m/s jet velocity',
+      Damper: 'Integrated Opposed Blade VCD',
+      'Polystyrene Sizes': '600×600 mm and 600×1200 mm only',
+    },
+    finishes: [
+      'Powder-coated color finish',
+      'Natural anodized aluminum',
+      'Mill finish aluminum',
+      'Bronze anodized aluminum',
+    ],
+    applications: [
+      'High airflow return applications',
+      'Spaces requiring filtered return',
+      'Modular ceiling integration',
+      'Commercial spaces',
+      'When filter/damper integration required',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Return air systems',
+    },
+    img: '/images/products/ecr.png',
+    sortOrder: 50,
+  }),
+  p({
+    code: 'ECG',
+    title: 'Egg Crate Grille',
+    category: 'Grilles & Registers',
+    subCategory: 'Egg Crate Grilles',
+    shortDescription:
+      'Egg crate grille without damper. Maximum free area design with rigid aluminum frame. Cost-effective return solution with 80-90% free area.',
+    description:
+      'ALUGRIDX Egg Crate Grilles are manufactured to the highest standards with rigid robust construction ensuring stable, vibration-free, quiet operation. Unlike the Egg Crate Register variant, ECG does not include an integrated damper, making it a cost-effective option where damper integration is not required. Frame from high-quality extruded aluminum, core from premium aluminum sheets or polystyrene. Available with aluminum egg crate core (90% free area) or polystyrene egg crate core (80% free area). Compatible with the same finish and fixing options as the ECR register variant.',
+    features: [
+      'Extruded aluminum frame',
+      'Aluminum egg crate core (90% free area) OR Polystyrene core (80% free area)',
+      'No damper (cost-effective)',
+      'Rigid vibration-free construction',
+      'Two aluminum cell sizes available',
+      'Polystyrene core sizes: 600×600 mm and 600×1200 mm only',
+      'Countersunk screw holes for flush mounting',
+      'NC 35 compliance at 7 m/s jet velocity',
+      'Multiple finish options',
+    ],
+    specifications: {
+      'Material (Frame)': 'Extruded aluminum',
+      'Material (Core)': 'Aluminum (Type A) or Polystyrene (Type P)',
+      'Aluminum Free Area': '90%',
+      'Polystyrene Free Area': '80%',
+      'NC Rating': 'NC 35 at 7 m/s jet velocity',
+      Damper: 'None',
+      'Fixing Types': 'Type S (screw) or Type K (hinged with knob)',
+    },
+    finishes: [
+      'Powder-coated color finish',
+      'Natural anodized aluminum',
+      'Mill finish aluminum',
+      'Bronze anodized aluminum',
+    ],
+    applications: [
+      'Cost-effective return air solutions',
+      'High free area requirements',
+      'Modular ceiling integration',
+      'When damper is upstream',
+      'Architectural integration',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated white',
+      application: 'Commercial HVAC return air',
+    },
+    img: '/images/products/ecg.png',
+    sortOrder: 51,
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════
+  //   LOUVERS
+  // ═══════════════════════════════════════════════════════════════════
+  p({
+    code: 'EAL',
+    title: 'Exhaust Air Louver',
+    category: 'Louvers',
+    subCategory: 'Weather Louvers',
+    shortDescription:
+      'Standard exhaust louver with riveted blade construction. Extruded aluminum with natural anodized finish for intake and exhaust applications.',
+    description:
+      'ALUGRIDX Exhaust Air Louvers are manufactured to the highest standards, designed for both intake and exhaust air applications. Blades are firmly riveted to the main frame using suitable L sections, providing rigid robust construction suitable for industrial and commercial applications. Frames and blades manufactured from high-quality extruded aluminum, supplied in durable natural anodized finish for enhanced corrosion resistance and long-lasting appearance. Effective weather protection and long service life.',
+    features: [
+      'Riveted blade-to-frame construction (L sections)',
+      'High-quality extruded aluminum',
+      'Natural anodized finish (standard)',
+      'Suitable for intake AND exhaust',
+      'Weather and rain protection',
+      'Industrial and commercial grade',
+      'Long service life',
+      'Multiple variants available with screens, dampers, filters',
+    ],
+    specifications: {
+      Material: 'Extruded aluminum',
+      'Standard Finish': 'Natural anodized',
+      Construction: 'Riveted blades to L-section frame',
+      Applications: 'Intake or exhaust',
+    },
+    applications: [
+      'Building intake openings',
+      'Exhaust outlet protection',
+      'Industrial ventilation',
+      'Commercial building ventilation',
+      'Weather-protected airflow',
+    ],
+    specs: {
+      sizes: ['200×200 – 3000×3000 (modular)'],
+      material: 'Extruded aluminum, heavy-gauge frame',
+      finish: 'Mill, anodized, or powder-coated',
+      application: 'Fresh air intake and exhaust louvers',
+    },
+    img: '/images/EAL STL.jpeg',
+    sortOrder: 90,
+  }),
+  p({
+    code: 'STL',
+    title: 'Sand Trap Louver',
+    category: 'Louvers',
+    subCategory: 'Sand-Trap Louvers',
+    shortDescription:
+      'Specialized louver for Gulf climate. Removes dust and sand from airstream at low velocities. Essential for UAE/GCC HVAC installations.',
+    description:
+      'ALUGRIDX Sand Trap Louvres are designed to remove dust and sand particles from the airstream at low velocities with moderate pressure drop. Efficiently separate a high percentage of solid particles suspended in the atmosphere, ensuring cleaner air intake and improved system performance. Critical for Gulf climate installations where airborne dust and sand significantly impact HVAC equipment lifespan. Available in two construction options: mill finish aluminum or galvanized sheet steel. Can be supplied with detachable filter (25 mm or 50 mm thickness) for enhanced filtration, and opposed blade Volume Control Damper for precise air volume control.',
+    features: [
+      'Removes dust and sand at low velocities',
+      'Moderate pressure drop',
+      'Two construction options: Aluminum or Galvanized Steel',
+      'Optional detachable filter (25 mm or 50 mm)',
+      'Optional opposed blade Volume Control Damper',
+      'Concealed fixing (Suffix C) standard',
+      'Recommended for side wall installation',
+      'Reduces downstream filter loading',
+      'Extends HVAC equipment lifespan in desert climates',
+    ],
+    specifications: {
+      'Material Options': 'Mill Finish Aluminum (Suffix A) OR Galvanized Sheet Steel (Suffix S)',
+      'Optional Filter': '25 mm or 50 mm thickness, detachable',
+      'Optional Damper': 'Opposed Blade VCD',
+      Fixing: 'Concealed (Suffix C) — standard',
+      'Recommended Install': 'Side wall',
+    },
+    finishes: [
+      'Mill Finish Aluminum (Suffix A)',
+      'Galvanized Sheet Steel (Suffix S)',
+      'Powder Coated Color Finish',
+    ],
+    applications: [
+      'UAE and GCC building intakes',
+      'Desert climate installations',
+      'Industrial facilities with particulate environments',
+      'Coastal installations',
+      'Sand-prone exterior intakes',
+      'Where downstream filter protection is needed',
+    ],
+    specs: {
+      sizes: ['400×400 – 3000×3000 (modular)'],
+      material: 'Extruded aluminum, heavy-gauge frame',
+      finish: 'Mill, anodized, or powder-coated',
+      application: 'AHU intakes in sandy / arid environments',
+    },
+    performance: {
+      airflowRange: 'Face velocity 1.5 – 2.5 m/s',
+      pressureDrop: '40 – 110 Pa at design velocity',
+    },
+    img: '/images/EAL STL.jpeg',
+    sortOrder: 5,
+    featured: true,
+  }),
+  p({
+    code: 'GL-RC-E',
+    title: 'Gravity Louver',
+    category: 'Louvers',
+    subCategory: 'Gravity Louvers',
+    shortDescription:
+      'Gravity louver / back-draught damper for external wall installation. Automatically opens with airflow, closes when system stops.',
+    description:
+      'ALUGRIDX Model GL-RC-E is a Gravity Louver / Back Draught Damper designed for installation on the external face of the wall. These air-operated devices automatically open or close with airflow, preventing reverse airflow when the system is not in operation. Frame from high-quality aluminum or 1.1 mm thick galvanized sheet steel. Blades from 0.5 mm or 0.7 mm aluminum sheets. Nylon bushes mounted on galvanized steel rods ensure smooth, rattle-free operation. Internal angle stopper limits blade travel. Center partition added when L or H exceeds 900 mm for structural stability.',
+    features: [
+      'Automatic open/close with airflow',
+      'External wall installation',
+      'Aluminum or galvanized steel frame (1.1 mm)',
+      'Aluminum blades (0.5 mm or 0.7 mm)',
+      'Nylon bushes on galvanized steel rods',
+      'Smooth rattle-free operation',
+      'Internal angle stopper limits blade travel',
+      'Center partition for L or H > 900 mm',
+      'Prevents reverse airflow / back-draft',
+    ],
+    specifications: {
+      'Frame Material': 'Aluminum OR 1.1 mm galvanized sheet steel',
+      'Blade Material': 'Aluminum, 0.5 mm or 0.7 mm',
+      Bushes: 'Nylon on galvanized steel rods',
+      'Mounting Position': 'External wall face',
+      Operation: 'Air-operated (gravity)',
+    },
+    applications: [
+      'Exhaust fan discharge protection',
+      'External wall ventilation',
+      'Building pressure relief',
+      'Preventing back-draft (offline systems)',
+      'Energy savings (prevent conditioned air loss)',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'External exhaust systems',
+    },
+    img: '/images/products/gl-rc-e.png',
+    sortOrder: 91,
+  }),
+  p({
+    code: 'EL-B',
+    title: 'Exhaust Louver with Bird Screen',
+    category: 'Louvers',
+    subCategory: 'Weather Louvers',
+    shortDescription:
+      'Exhaust louver with integrated wire bird screen. Prevents bird ingress while maintaining smooth airflow for external installations.',
+    description:
+      'ALUGRIDX Exhaust Louver with Bird Screen (EL-B) features an integrated wire bird screen behind the louver blades, preventing bird ingress through exhaust openings while maintaining smooth airflow. Manufactured from high-quality extruded aluminum with natural anodized finish. The bird screen is typically galvanized steel wire mesh with appropriate spacing to block birds and large debris while allowing efficient air passage. Essential for external building exhausts where pest exclusion is required.',
+    features: [
+      'Integrated wire bird screen',
+      'Prevents bird ingress',
+      'Smooth airflow maintained',
+      'High-quality extruded aluminum frame and blades',
+      'Natural anodized finish (standard)',
+      'Riveted construction for durability',
+      'Suitable for external installations',
+    ],
+    specifications: {
+      'Material (Frame)': 'Extruded aluminum',
+      'Screen Material': 'Galvanized wire mesh',
+      'Standard Finish': 'Natural anodized',
+      'Screen Function': 'Bird and large debris exclusion',
+    },
+    applications: [
+      'External exhaust outlets',
+      'Building exterior ventilation',
+      'Where bird exclusion required',
+      'Commercial and industrial exhaust',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Outdoor ventilation systems',
+    },
+    img: '/images/products/el-b.png',
+    featured: true,
+    sortOrder: 60,
+  }),
+  p({
+    code: 'EL-S',
+    title: 'Exhaust Louver with Insect Screen',
+    category: 'Louvers',
+    subCategory: 'Weather Louvers',
+    shortDescription:
+      'Exhaust louver with fine mesh insect screen. Prevents insect ingress while maintaining airflow. Ideal for kitchens, food prep, hospitals.',
+    description:
+      'ALUGRIDX Exhaust Louver with Insect Screen (EL-S) features a fine mesh insect screen behind the louver blades, preventing insect ingress while maintaining airflow. Essential for environments where pest exclusion is critical such as kitchens, food preparation facilities, hospitals, and pharmaceutical environments. Manufactured from high-quality extruded aluminum with natural anodized finish. The insect screen typically uses fine aluminum or stainless steel mesh with smaller openings than bird screens.',
+    features: [
+      'Integrated fine mesh insect screen',
+      'Prevents insect ingress',
+      'Maintains airflow performance',
+      'High-quality extruded aluminum frame and blades',
+      'Natural anodized finish (standard)',
+      'Riveted construction for durability',
+      'Critical for food/pharma environments',
+    ],
+    specifications: {
+      'Material (Frame)': 'Extruded aluminum',
+      'Screen Material': 'Fine aluminum or stainless steel mesh',
+      'Standard Finish': 'Natural anodized',
+      'Screen Function': 'Insect exclusion',
+    },
+    applications: [
+      'Kitchen exhaust',
+      'Food preparation facilities',
+      'Hospitals and healthcare',
+      'Pharmaceutical environments',
+      'Where insect exclusion is critical',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Fresh air intake systems',
+    },
+    img: '/images/products/el-s.png',
+    sortOrder: 61,
+  }),
+  p({
+    code: 'EL-Y',
+    title: 'Louver with Volume Control Damper',
+    category: 'Louvers',
+    subCategory: 'Weather Louvers',
+    shortDescription:
+      'Exhaust louver with integrated volume control damper. Combined weather protection and airflow regulation in single assembly.',
+    description:
+      'ALUGRIDX Louver with Volume Control Damper (EL-Y) combines exhaust louver weather protection with integrated opposed blade Volume Control Damper for precise airflow regulation. The combined assembly eliminates the need for a separate downstream damper, saving installation space and simplifying system design. Manufactured from high-quality extruded aluminum with natural anodized finish. The integrated VCD allows positive air volume control from fully open to fully closed positions, operable manually.',
+    features: [
+      'Integrated opposed blade Volume Control Damper',
+      'Combined weather protection + airflow control',
+      'Eliminates need for separate damper',
+      'Saves installation space',
+      'High-quality extruded aluminum',
+      'Natural anodized finish (standard)',
+      'Manual damper operation',
+      'Positive control from fully open to closed',
+    ],
+    specifications: {
+      'Material (Frame)': 'Extruded aluminum',
+      'Damper Type': 'Opposed Blade Volume Control',
+      'Damper Operation': 'Manual',
+      'Standard Finish': 'Natural anodized',
+      Function: 'Combined louver + VCD',
+    },
+    applications: [
+      'Where space-saving is critical',
+      'Combined weather and airflow control',
+      'External wall installations',
+      'Industrial ventilation',
+      'Commercial buildings',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Adjustable airflow systems',
+    },
+    img: '/images/products/el-y.png',
+    sortOrder: 62,
+  }),
+  p({
+    code: 'EL-F',
+    title: 'Filtered Exhaust Louver',
+    category: 'Louvers',
+    subCategory: 'Filtered Louvers',
+    shortDescription:
+      'Exhaust louver with integrated air filter. Removes particulates from exhaust stream. Ideal for kitchen, industrial, and pharmaceutical exhausts.',
+    description:
+      'ALUGRIDX Filtered Exhaust Louver (EL-F) features an integrated air filter that removes particulates from the exhaust stream while providing standard louver weather protection. The combined assembly is essential for kitchen exhaust systems, industrial environments with airborne particulates, and pharmaceutical/cleanroom exhausts where particulate emission control is required. Manufactured from high-quality extruded aluminum with natural anodized finish. Filter is replaceable for ongoing maintenance.',
+    features: [
+      'Integrated replaceable air filter',
+      'Removes particulates from exhaust stream',
+      'Standard louver weather protection',
+      'High-quality extruded aluminum frame',
+      'Natural anodized finish (standard)',
+      'Easy filter maintenance',
+      'Required for cleanroom/pharma exhausts',
+    ],
+    specifications: {
+      'Material (Frame)': 'Extruded aluminum',
+      Filter: 'Integrated, replaceable',
+      'Standard Finish': 'Natural anodized',
+      Function: 'Louver + particulate filter',
+    },
+    applications: [
+      'Kitchen exhaust systems',
+      'Industrial particulate emission control',
+      'Pharmaceutical/cleanroom exhaust',
+      'Where exhaust filtration is required',
+      'Food processing facilities',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Filtered ventilation systems',
+    },
+    img: '/images/products/el-f.png',
+    sortOrder: 63,
+  }),
+  p({
+    code: 'EL-FV',
+    title: 'Filtered Exhaust Louver with Damper',
+    category: 'Louvers',
+    subCategory: 'Filtered Louvers',
+    shortDescription:
+      'Premium exhaust louver combining filter, weather protection, and volume control damper in single assembly. Complete exhaust solution.',
+    description:
+      'ALUGRIDX Filtered Exhaust Louver with Damper (EL-FV) is the premium combination assembly featuring integrated filter, weather protection louver blades, and opposed blade Volume Control Damper — providing a complete exhaust solution in a single product. The three-in-one design eliminates the need for separate downstream components, simplifying installation and reducing project costs. Manufactured from high-quality extruded aluminum with natural anodized finish. Ideal for premium installations where filtered exhaust with controlled airflow is essential.',
+    features: [
+      '3-in-1: Filter + Louver + Volume Control Damper',
+      'Complete exhaust solution single assembly',
+      'Integrated replaceable filter',
+      'Opposed blade Volume Control Damper',
+      'Weather protection louver blades',
+      'Eliminates separate downstream components',
+      'High-quality extruded aluminum',
+      'Natural anodized finish (standard)',
+    ],
+    specifications: {
+      'Material (Frame)': 'Extruded aluminum',
+      Filter: 'Integrated, replaceable',
+      'Damper Type': 'Opposed Blade Volume Control',
+      'Standard Finish': 'Natural anodized',
+      Function: 'Louver + Filter + VCD (3-in-1)',
+    },
+    applications: [
+      'Premium kitchen exhaust',
+      'Pharmaceutical exhaust with control',
+      'Industrial particulate + airflow control',
+      'Where space and components must be minimized',
+      'Complete exhaust packages',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'Controlled filtered ventilation',
+    },
+    img: '/images/products/el-fv.png',
+    sortOrder: 64,
+  }),
+  p({
+    code: 'EL-T',
+    title: 'Twin Bank Exhaust Louver',
+    category: 'Louvers',
+    subCategory: 'Weather Louvers',
+    shortDescription:
+      'Twin bank exhaust louver with two parallel louver assemblies. Enhanced exhaust capacity and weather protection for industrial applications.',
+    description:
+      'ALUGRIDX Twin Bank Exhaust Louver (EL-T) features two parallel louver bank assemblies in a single frame, providing enhanced exhaust capacity and improved weather protection compared to single bank designs. The twin configuration is particularly effective for industrial exhaust applications where high airflow rates and superior rain/sand rejection are critical. Manufactured from high-quality extruded aluminum with natural anodized finish. The double-row blade design creates a more tortuous airflow path that improves weather penetration resistance.',
+    features: [
+      'Twin parallel louver bank assemblies',
+      'Enhanced exhaust capacity',
+      'Superior weather protection (vs single bank)',
+      'Improved rain and sand rejection',
+      'High-quality extruded aluminum',
+      'Natural anodized finish (standard)',
+      'Riveted construction for durability',
+      'Ideal for high airflow industrial exhausts',
+    ],
+    specifications: {
+      'Material (Frame)': 'Extruded aluminum',
+      Configuration: 'Twin (double) bank',
+      'Standard Finish': 'Natural anodized',
+      'Weather Protection': 'Enhanced (vs single bank)',
+    },
+    applications: [
+      'High-capacity industrial exhaust',
+      'Severe weather environments',
+      'Coastal installations',
+      'Heavy sand/dust regions',
+      'Where superior weather protection is critical',
+    ],
+    specs: {
+      material: 'Aluminum',
+      finish: 'Powder-coated',
+      application: 'External weather louvers',
+    },
+    img: '/images/products/el-t.png',
+    sortOrder: 65,
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════
+  //   DAMPERS
+  // ═══════════════════════════════════════════════════════════════════
+  p({
+    code: 'VCD',
+    title: 'Volume Control Damper',
+    category: 'Dampers',
+    subCategory: 'Volume Control Dampers',
+    shortDescription:
+      'Precision opposed blade and parallel blade dampers for air volume regulation. Galvanized steel construction with airfoil aluminum blades.',
+    description:
+      'ALUGRIDX Opposed Blade and Parallel Blade Volume Control Dampers are designed for precise air volume and pressure control, or for isolating sections of ductwork within air-conditioning and ventilation systems. Constructed with galvanized sheet steel casing, the dampers feature airfoil blades interconnected by linkage and operated manually through an external quadrant control mechanism. Available in rectangular (opposed/parallel blade) and circular configurations (grooved or straight ends).',
+    features: [
+      'Opposed Blade or Parallel Blade configurations',
+      'Frame: 1.2 mm galvanized sheet steel',
+      'Blades: Fixed profile aluminum airfoil, 1.0/1.2 mm thickness',
+      'PVC/Nylon bushes for smooth operation',
+      'Galvanized steel shaft',
+      'Locking quadrant with position indicator',
+      'Epoxy primary coating for corrosion protection',
+      'Manual operation via external quadrant',
+      'Circular variants available (grooved or straight ends)',
+    ],
+    specifications: {
+      Frame: '1.2 mm thick galvanized sheet steel',
+      Blades: 'Fixed profile aluminum airfoil, 1.0/1.2 mm',
+      Bearings: 'PVC / Nylon bushes',
+      Shaft: 'Galvanized steel',
+      Quadrant: 'Locking type with position indicator',
+      Finish: 'Epoxy primary coating',
+      Variants: 'VCD-OB (opposed), VCD-PB (parallel), VD-R/G (circular grooved), VD-R/S (circular straight)',
+    },
+    applications: [
+      'Air volume regulation',
+      'System pressure control',
+      'Ductwork section isolation',
+      'Variable air volume systems',
+      'System balancing and commissioning',
+    ],
+    specs: {
+      sizes: ['100×100 – 2000×1500 (and round)'],
+      material: 'Galvanized steel frame, aluminum blades',
+      finish: 'Mill galvanized',
+      application: 'In-duct flow regulation and balancing',
+    },
+    img: '/images/VCD.jpeg',
+    sortOrder: 100,
+  }),
+  p({
+    code: 'NRD',
+    title: 'Non-Return Damper',
+    category: 'Dampers',
+    subCategory: 'Backdraft Dampers',
+    shortDescription:
+      'Air-operated automatic damper that opens/closes with airflow. Prevents reverse airflow when system not operating. Aluminum or galvanized steel.',
+    description:
+      'ALUGRIDX Non-Return Dampers are air-operated devices designed to open or close automatically with airflow. Also known as Gravity Dampers, Back Draught Dampers, or Pressure Relief Dampers, they are used for air intake, discharge, and pressure-relief applications in air-conditioning and ventilation systems — preventing reverse airflow when the system is not in operation. Frame from high-quality aluminum or 1.1 mm thick galvanized sheet steel. Blades from 0.5 mm or 0.7 mm aluminum sheets. Nylon bushes on galvanized steel rods ensure smooth rattle-free operation. Internal angle stopper limits blade travel. Center partition added when length or height exceeds 900 mm for structural stability.',
+    features: [
+      'Automatic open/close with airflow',
+      'Aluminum or galvanized steel frame (1.1 mm)',
+      'Aluminum blades (0.5 mm or 0.7 mm)',
+      'Nylon bushes on galvanized steel rods',
+      'Smooth rattle-free operation',
+      'Internal angle stopper limits blade travel',
+      'Center partition for L or H > 900 mm',
+      'Prevents reverse airflow / back-draft',
+      'Pressure-relief capability',
+    ],
+    specifications: {
+      'Frame Material': 'Aluminum OR 1.1 mm galvanized sheet steel',
+      'Blade Material': 'Aluminum, 0.5 mm or 0.7 mm',
+      Bushes: 'Nylon',
+      Rods: 'Galvanized steel',
+      Operation: 'Air-operated (gravity)',
+      'Center Partition': 'Added when L or H > 900 mm',
+    },
+    applications: [
+      'Exhaust fan discharge protection',
+      'Building pressure relief',
+      'Preventing back-draft (offline systems)',
+      'Kitchen/bathroom exhaust',
+      'Industrial ventilation',
+      'Energy savings (prevent conditioned air loss)',
+    ],
+    specs: {
+      sizes: ['100×100 – 1500×1000'],
+      material: 'Aluminum blades, galvanized frame',
+      finish: 'Mill',
+      application: 'Exhaust fan discharge, fresh air shut-off',
+    },
+    img: '/images/NRD.jpeg',
+    sortOrder: 110,
+  }),
+  p({
+    code: 'NRD-RC-F',
+    title: 'Non Return Damper (Flanged)',
+    category: 'Dampers',
+    subCategory: 'Back Draft Dampers',
+    shortDescription:
+      'Flanged variant of the standard non-return damper. Rectangular frame mount with flange connections for direct ductwork attachment.',
+    description:
+      'ALUGRIDX NRD-RC-F is the flanged variant of the standard Non-Return Damper, featuring rectangular frame mount with flange connections for direct ductwork attachment. The flanged design provides a robust, leak-resistant connection to mating ductwork. Same air-operated automatic open/close functionality as the standard NRD — opens with forward airflow, closes to prevent reverse flow when system is offline. Frame from high-quality aluminum or 1.1 mm thick galvanized sheet steel. Suitable for industrial and commercial installations where flange-to-flange duct connections are standard.',
+    features: [
+      'Flange connections for direct ductwork mount',
+      'Rectangular frame configuration',
+      'Air-operated automatic open/close',
+      'Aluminum or galvanized steel frame (1.1 mm)',
+      'Aluminum blades (0.5 mm or 0.7 mm)',
+      'Nylon bushes on galvanized steel rods',
+      'Robust leak-resistant flange connection',
+      'Smooth rattle-free operation',
+    ],
+    specifications: {
+      'Connection Type': 'Flanged (rectangular)',
+      'Frame Material': 'Aluminum OR 1.1 mm galvanized sheet steel',
+      'Blade Material': 'Aluminum, 0.5 mm or 0.7 mm',
+      Bushes: 'Nylon',
+      Rods: 'Galvanized steel',
+      Operation: 'Air-operated (gravity)',
+    },
+    applications: [
+      'Industrial ductwork installations',
+      'Flange-to-flange duct systems',
+      'Commercial HVAC with flange standards',
+      'High-pressure applications',
+      'Where robust connection is required',
+    ],
+    specs: {
+      material: 'Galvanized steel and aluminum',
+      finish: 'Mill finish',
+      application: 'Duct backdraft prevention',
+    },
+    img: '/images/products/nrd-rc-f.png',
+    sortOrder: 90,
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════
+  //   FILTERS
+  // ═══════════════════════════════════════════════════════════════════
+  p({
+    code: 'AFV-8',
+    title: 'Ceiling Housing with HEPA Filter',
+    category: 'Filters',
+    subCategory: 'HEPA Filter Housings',
+    shortDescription:
+      'HEPA filter ceiling housing for cleanroom and pharmaceutical applications. H10 to H14 filtration (85% to 99.995% at 0.3 μm).',
+    description:
+      'ALUGRIDX AFV-8 Ceiling Housing with HEPA Filter is designed for both supply and exhaust air systems where maximum air cleanliness is required. The built-in filters range from H10 to H14, capable of capturing particles as small as 0.3 μm, with filtration efficiency from 85% (H10) up to 99.995% (H14). The AFV-8G variant features a special washer frame with a gel gasket for secure filter attachment, ensuring absolute tightness — supports filters up to class U16 (99.99995% efficiency at 0.12 μm), ideal for environments demanding the highest air purity such as semiconductor manufacturing, pharma cleanrooms, and biotech labs.',
+    features: [
+      'HEPA filtration H10 to H14 (standard AFV-8)',
+      'ULPA filtration up to U16 (AFV-8G variant)',
+      'Filtration efficiency: 85% (H10) to 99.995% (H14)',
+      'Captures particles down to 0.3 μm (HEPA)',
+      'Captures particles down to 0.12 μm (ULPA, AFV-8G)',
+      'Suitable for supply OR exhaust systems',
+      'AFV-8G: gel gasket for absolute tightness',
+      'Critical for cleanroom and pharma applications',
+    ],
+    specifications: {
+      'Filter Classes': 'H10 to H14 (HEPA), up to U16 (ULPA, AFV-8G variant)',
+      'Standard Efficiency': '85% (H10) to 99.995% (H14)',
+      'ULPA Efficiency': '99.99995% (U16) at 0.12 μm',
+      'Particle Capture': '0.3 μm (HEPA), 0.12 μm (ULPA)',
+      Variants: 'AFV-8 (standard) and AFV-8G (gel gasket for absolute tightness)',
+      Function: 'Both supply and exhaust air',
+    },
+    applications: [
+      'Cleanrooms (ISO 5 to ISO 8)',
+      'Pharmaceutical manufacturing',
+      'Semiconductor fabrication',
+      'Biotech laboratories',
+      'Hospital operating theaters',
+      'Critical environments requiring HEPA/ULPA filtration',
+    ],
+    specs: {
+      material: 'Galvanized steel',
+      finish: 'Powder-coated',
+      application: 'Hospitals, clean rooms, laboratories',
+    },
+    img: '/images/products/afv-8.png',
+    sortOrder: 103,
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════
+  //   HVAC UNITS
+  // ═══════════════════════════════════════════════════════════════════
   p({
     code: 'BPTU',
     title: 'Bypass Terminal Unit',
     category: 'HVAC Units',
     subCategory: 'VAV Terminal Units',
     shortDescription:
-      'Variable air volume bypass terminal unit designed for airflow control and balancing.',
+      'Variable air volume (VAV) terminal unit with thermostat-controlled bypass damper. 24-1900 LPS capacity. Pneumatic, electrical, or ACS control.',
+    description:
+      'ALUGRIDX Bypass Terminal Units are designed to maintain a constant supply of primary air through the inlet while a diverting damper bypasses a portion of the air into the return plenum. The damper is controlled by a room thermostat, allowing adjustments based on the thermal requirements of the space. Airflow to the conditioned area is regulated using an inlet balancing damper to maintain stable pressure conditions. A manual balancing damper in the bypass section can be field-adjusted to match discharge duct resistance. While these units provide variable air volume to the conditioned area, the total fan airflow remains constant. Suitable for low to medium pressure systems up to 750 Pa with pneumatic, electrical, or building automation (ACS) control options. Complies with AHRI Standard 880-2011 and ASHRAE Standard 130-1996.',
+    features: [
+      'VAV operation with constant fan airflow',
+      'Pneumatic, Electrical, or ACS control options',
+      'Airflow capacity: 24 – 1900 LPS',
+      'Minimum inlet pressure: 20 Pa',
+      'Minimum air volume: adjustable to 20%',
+      'Accuracy: ±5% of design airflow',
+      'Operating pressure up to 750 Pa',
+      'Low noise operation',
+      'Optional sound attenuator',
+      'Slip & drive cleat connection (optional flanged)',
+    ],
+    specifications: {
+      Housing: '0.9 mm (21 gauge) galvanized steel',
+      'Damper Blade': '1.5 mm galvanized steel with full-round gasket',
+      'Shaft & Bearings': 'Zinc alloy shaft with self-lubricating brass bushes',
+      Leakage: 'Less than 2% at 750 Pa (DW144 Class C)',
+      Insulation: '25 mm mineral fiber acoustic lining (24 kg/m³)',
+      Connections: 'Slip & drive cleat (optional flanged)',
+      'Airflow Capacity': '24 – 1900 LPS',
+      'Min Inlet Pressure': '20 Pa',
+      'Min Air Volume': 'Adjustable to 20%',
+      Accuracy: '±5% of design airflow',
+      'Max Operating Pressure': '750 Pa',
+    },
+    standards: [
+      'AHRI Standard 880-2011',
+      'ASHRAE Standard 130-1996',
+      'AHRI Standard 885-2008 (sound)',
+      'DIN 24194 Class 2 (leakage)',
+      'ASTM E84 / UL 723 (insulation flame/smoke)',
+      'DW144 Class C (leakage)',
+    ],
+    controlOptions: [
+      'Pneumatic — Air pressure-operated damper actuator',
+      'Electrical — Thermostat voltage signal to electric actuator',
+      'ACS — Building automation system integration',
+    ],
+    applications: [
+      'Multi-zone temperature control',
+      'Low to medium pressure HVAC systems',
+      'Variable air volume zoning',
+      'Commercial buildings',
+      'Building automation integration',
+      'Spaces with varying thermal loads',
+    ],
     specs: {
       material: 'Galvanized steel',
       finish: 'Mill finish',

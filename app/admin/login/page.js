@@ -110,11 +110,7 @@ export default function AdminLogin() {
             </button>
           </form>
 
-          <div className="mt-6 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-            <p className="text-amber-700 text-xs font-medium">Default credentials</p>
-            <p className="text-amber-600 text-xs">Username: <strong>admin</strong> &nbsp; Password: <strong>alugridx2026</strong></p>
-            <p className="text-amber-600 text-[11px] mt-1">Run <code>node server/createAdmin.js</code> once to seed the admin account.</p>
-          </div>
+         
         </div>
       </div>
     </div>

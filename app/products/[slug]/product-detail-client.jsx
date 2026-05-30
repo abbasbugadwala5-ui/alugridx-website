@@ -107,11 +107,23 @@ export default function ProductDetailClient({ slug }) {
 
   const images = product.images?.length ? product.images : [];
   const cover = images[activeImage] || images[0] || null;
-  const specEntries = [
-    ['Material', product.specs?.material],
-    ['Finish', product.specs?.finish],
-    ['Application', product.specs?.application],
-  ].filter(([, v]) => v);
+
+  // Prefer the rich free-form specifications map; fall back to the legacy
+  // fixed Material/Finish/Application triplet so older entries still render.
+  const rawSpecMap = product.specifications;
+  const richSpecEntries = rawSpecMap
+    ? Object.entries(
+        rawSpecMap instanceof Map ? Object.fromEntries(rawSpecMap) : rawSpecMap
+      ).filter(([, v]) => v)
+    : [];
+  const specEntries = richSpecEntries.length
+    ? richSpecEntries
+    : [
+        ['Material', product.specs?.material],
+        ['Finish', product.specs?.finish],
+        ['Application', product.specs?.application],
+      ].filter(([, v]) => v);
+
   const perfEntries = [
     ['Airflow Range', product.performance?.airflowRange],
     ['Throw Range', product.performance?.throwRange],
@@ -333,6 +345,169 @@ export default function ProductDetailClient({ slug }) {
             </div>
           </div>
         </section>
+
+        {/* Rich content — description, features, applications, finishes, accessories, standards */}
+        {(product.description ||
+          product.features?.length > 0 ||
+          product.applications?.length > 0 ||
+          product.finishes?.length > 0 ||
+          product.accessories?.length > 0 ||
+          product.standards?.length > 0 ||
+          product.controlOptions?.length > 0 ||
+          (product.extraInfo && Object.keys(product.extraInfo).length > 0)) && (
+          <section className="section bg-white border-t border-hairline">
+            <div className="container">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                {/* Long description */}
+                {product.description && (
+                  <div className="lg:col-span-12 reveal">
+                    <span className="section-label">Overview</span>
+                    <h2 className="heading-md mt-2 mb-5">About this product</h2>
+                    <p className="text-slate text-base leading-relaxed max-w-4xl">
+                      {product.description}
+                    </p>
+                  </div>
+                )}
+
+                {/* Features */}
+                {product.features?.length > 0 && (
+                  <div className="lg:col-span-6 reveal">
+                    <div className="card-static p-6">
+                      <h3 className="font-heading font-semibold text-ink text-xs uppercase tracking-[0.18em] mb-4 pb-3 border-b border-hairline">
+                        Key Features
+                      </h3>
+                      <ul className="space-y-2.5">
+                        {product.features.map((f) => (
+                          <li key={f} className="flex items-start gap-2.5 text-sm text-slate leading-relaxed">
+                            <CheckCircle2 size={15} className="text-accent flex-shrink-0 mt-0.5" />
+                            <span>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* Applications */}
+                {product.applications?.length > 0 && (
+                  <div className="lg:col-span-6 reveal-right">
+                    <div className="card-static p-6">
+                      <h3 className="font-heading font-semibold text-ink text-xs uppercase tracking-[0.18em] mb-4 pb-3 border-b border-hairline">
+                        Applications
+                      </h3>
+                      <ul className="space-y-2.5">
+                        {product.applications.map((a) => (
+                          <li key={a} className="flex items-start gap-2.5 text-sm text-slate leading-relaxed">
+                            <CheckCircle2 size={15} className="text-accent flex-shrink-0 mt-0.5" />
+                            <span>{a}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* Finishes */}
+                {product.finishes?.length > 0 && (
+                  <div className="lg:col-span-6 reveal">
+                    <div className="card-static p-6">
+                      <h3 className="font-heading font-semibold text-ink text-xs uppercase tracking-[0.18em] mb-4 pb-3 border-b border-hairline">
+                        Available Finishes
+                      </h3>
+                      <ul className="space-y-2.5">
+                        {product.finishes.map((f) => (
+                          <li key={f} className="flex items-start gap-2.5 text-sm text-slate leading-relaxed">
+                            <CheckCircle2 size={15} className="text-accent flex-shrink-0 mt-0.5" />
+                            <span>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* Accessories */}
+                {product.accessories?.length > 0 && (
+                  <div className="lg:col-span-6 reveal-right">
+                    <div className="card-static p-6">
+                      <h3 className="font-heading font-semibold text-ink text-xs uppercase tracking-[0.18em] mb-4 pb-3 border-b border-hairline">
+                        Optional Accessories
+                      </h3>
+                      <ul className="space-y-2.5">
+                        {product.accessories.map((a) => (
+                          <li key={a} className="flex items-start gap-2.5 text-sm text-slate leading-relaxed">
+                            <CheckCircle2 size={15} className="text-accent flex-shrink-0 mt-0.5" />
+                            <span>{a}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* Standards */}
+                {product.standards?.length > 0 && (
+                  <div className="lg:col-span-6 reveal">
+                    <div className="card-static p-6">
+                      <h3 className="font-heading font-semibold text-ink text-xs uppercase tracking-[0.18em] mb-4 pb-3 border-b border-hairline">
+                        Standards & Compliance
+                      </h3>
+                      <ul className="space-y-2.5">
+                        {product.standards.map((s) => (
+                          <li key={s} className="flex items-start gap-2.5 text-sm text-slate leading-relaxed">
+                            <CheckCircle2 size={15} className="text-accent flex-shrink-0 mt-0.5" />
+                            <span>{s}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* Control Options */}
+                {product.controlOptions?.length > 0 && (
+                  <div className="lg:col-span-6 reveal-right">
+                    <div className="card-static p-6">
+                      <h3 className="font-heading font-semibold text-ink text-xs uppercase tracking-[0.18em] mb-4 pb-3 border-b border-hairline">
+                        Control Options
+                      </h3>
+                      <ul className="space-y-2.5">
+                        {product.controlOptions.map((c) => (
+                          <li key={c} className="flex items-start gap-2.5 text-sm text-slate leading-relaxed">
+                            <CheckCircle2 size={15} className="text-accent flex-shrink-0 mt-0.5" />
+                            <span>{c}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* Extra info (nested objects like plenumBoxes) */}
+                {product.extraInfo &&
+                  Object.entries(product.extraInfo).map(([groupKey, groupVal]) =>
+                    groupVal && typeof groupVal === 'object' ? (
+                      <div key={groupKey} className="lg:col-span-12 reveal">
+                        <div className="card-static p-6">
+                          <h3 className="font-heading font-semibold text-ink text-xs uppercase tracking-[0.18em] mb-4 pb-3 border-b border-hairline">
+                            {groupKey.replace(/([A-Z])/g, ' $1').replace(/^./, (s) => s.toUpperCase()).trim()}
+                          </h3>
+                          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+                            {Object.entries(groupVal).map(([k, v]) => (
+                              <div key={k} className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-4 text-sm">
+                                <dt className="text-muted sm:w-40 flex-shrink-0">{k}</dt>
+                                <dd className="text-ink flex-1">{String(v)}</dd>
+                              </div>
+                            ))}
+                          </dl>
+                        </div>
+                      </div>
+                    ) : null
+                  )}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Related */}
         {related.length > 0 && (
