@@ -74,7 +74,7 @@ export default function AboutPage() {
               </div>
               <div className="lg:col-span-5 reveal-right">
                 <div className="relative aspect-[4/5] rounded-md overflow-hidden border border-hairline">
-                  <Image src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=900&q=80" alt="ALUGRIDX" fill className="object-cover" />
+                  <Image src="/images/About us.png" alt="ALUGRIDX" fill className="object-cover" />
                 </div>
               </div>
             </div>
@@ -172,7 +172,7 @@ export default function AboutPage() {
               </div>
               <div className="lg:col-span-5 reveal-right">
                 <div className="relative aspect-[4/5] rounded-md overflow-hidden border border-hairline">
-                  <Image src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=900&q=80" alt="Quality" fill className="object-cover" />
+                  <Image src="/images/hero/slide-2.jpg" alt="Quality" fill className="object-cover" />
                 </div>
               </div>
             </div>

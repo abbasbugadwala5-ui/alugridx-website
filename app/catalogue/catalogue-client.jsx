@@ -83,7 +83,7 @@ export default function CatalogueClient() {
 
                 <div className="relative aspect-[4/3] rounded-md overflow-hidden border border-hairline">
                   <Image
-                    src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80"
+                    src="/images/hero/slide-4.jpg"
                     alt="ALUGRIDX product catalogue"
                     fill
                     sizes="(max-width: 1024px) 100vw, 40vw"

@@ -7,7 +7,7 @@ import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
 import { submitEnquiry } from '@/lib/api';
 
 const contactInfo = [
-  { icon: Phone,  label: 'Phone',   lines: ['+971 58 552 1251', '+971 58 552 1253'], href: 'tel:+971585521251' },
+  { icon: Phone,  label: 'Phone',   lines: ['+971 58 552 1251'],                     href: 'tel:+971585521251' },
   { icon: Mail,   label: 'Email',   lines: ['info@alugridx.com'],                     href: 'mailto:info@alugridx.com' },
   { icon: MapPin, label: 'Address', lines: ['Building 144, Warehouse 16', 'Al Jurf 3, Behind China Mall', 'Ajman, UAE'], href: null },
   { icon: Clock,  label: 'Hours',   lines: ['Sat – Thu: 8:00 AM – 6:00 PM', 'Friday: Closed'], href: null },

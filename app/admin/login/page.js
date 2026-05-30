@@ -31,7 +31,7 @@ export default function AdminLogin() {
       {/* Left panel */}
       <div className="hidden lg:flex w-1/2 relative flex-col justify-between p-12" style={{background:'#0D1B3E'}}>
         <div className="absolute inset-0 opacity-10">
-          <Image src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200&q=60" alt="" fill className="object-cover" />
+          <Image src="/images/hero/slide-1.jpg" alt="" fill className="object-cover" />
         </div>
         <div className="relative">
           <div className="flex items-center gap-3 mb-16">
