@@ -8,7 +8,7 @@ import { Send, CheckCircle, FileText } from 'lucide-react';
 import { submitEnquiry } from '@/lib/api';
 
 export default function CatalogueClient() {
-  const [form, setForm] = useState({ name: '', company: '', email: '', phone: '', requirements: '' });
+  const [form, setForm] = useState({ email: '', phone: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -18,10 +18,15 @@ export default function CatalogueClient() {
     setLoading(true);
     setError('');
     try {
+      // Backend requires a `name` field — derive one from the email so the
+      // catalogue form can stay minimal (email + phone only).
+      const derivedName = form.email.split('@')[0] || 'Catalogue Requester';
       await submitEnquiry({
-        ...form,
+        name: derivedName,
+        email: form.email,
+        phone: form.phone,
         subject: 'Catalogue Request',
-        message: form.requirements,
+        message: 'Catalogue requested via website.',
       });
       setSubmitted(true);
     } catch (err) {
@@ -110,21 +115,19 @@ export default function CatalogueClient() {
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <div>
-                        <h3 className="font-heading font-bold text-ink text-xl">Your details</h3>
-                        <p className="text-muted text-xs mt-1">All fields marked with * are required.</p>
+                        <h3 className="font-heading font-bold text-ink text-xl">Get the catalogue</h3>
+                        <p className="text-muted text-xs mt-1">Just your email and phone — we&apos;ll send it across within 24 hours.</p>
                       </div>
                       {[
-                        { name: 'name',    label: 'Full Name *',    required: true,  autoComplete: 'name' },
-                        { name: 'company', label: 'Company',        required: false, autoComplete: 'organization' },
-                        { name: 'email',   label: 'Email Address *',required: true, type: 'email', autoComplete: 'email', inputMode: 'email' },
-                        { name: 'phone',   label: 'Phone',          required: false, type: 'tel',  autoComplete: 'tel',   inputMode: 'tel' },
+                        { name: 'email', label: 'Email Address *', type: 'email', autoComplete: 'email', inputMode: 'email' },
+                        { name: 'phone', label: 'Phone Number *',  type: 'tel',   autoComplete: 'tel',   inputMode: 'tel'   },
                       ].map((field) => (
                         <div key={field.name}>
                           <label className="form-label" htmlFor={`cat-${field.name}`}>{field.label}</label>
                           <input
                             id={`cat-${field.name}`}
-                            required={field.required}
-                            type={field.type || 'text'}
+                            required
+                            type={field.type}
                             name={field.name}
                             value={form[field.name]}
                             autoComplete={field.autoComplete}
@@ -134,18 +137,6 @@ export default function CatalogueClient() {
                           />
                         </div>
                       ))}
-                      <div>
-                        <label className="form-label" htmlFor="cat-requirements">Requirements / Message</label>
-                        <textarea
-                          id="cat-requirements"
-                          name="requirements"
-                          value={form.requirements}
-                          onChange={(e) => setForm({ ...form, requirements: e.target.value })}
-                          placeholder="Tell us about your project requirements…"
-                          rows={4}
-                          className="form-input resize-none"
-                        />
-                      </div>
                       {error && (
                         <p className="text-red-700 text-sm bg-red-50 border border-red-200 rounded px-3 py-2">{error}</p>
                       )}
