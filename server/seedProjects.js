@@ -1,7 +1,17 @@
 require('dotenv').config();
 
+const fs = require('fs');
+const path = require('path');
 const mongoose = require('mongoose');
 const Project = require('./models/Project');
+
+// Resolve a project image path (e.g. /images/projects/foo.jpg) to its on-disk
+// location under /public so we can check whether the file actually exists.
+const PUBLIC_ROOT = path.join(__dirname, '..', 'public');
+const imageExists = (img) => {
+  if (!img || !img.startsWith('/')) return false;
+  return fs.existsSync(path.join(PUBLIC_ROOT, img));
+};
 
 // Entries use the schema field `img` (frontend reads `proj.img`).
 // Year stored as string to match existing schema.
@@ -100,8 +110,18 @@ const projects = [
 
 async function seedProjects() {
   await Project.deleteMany();
-  await Project.insertMany(projects);
-  console.log(`Projects seeded (${projects.length})`);
+
+  // Only persist projects whose hero image file is on disk. Entries without
+  // an image are listed in the console so it's obvious which still need art.
+  const ready = projects.filter((p) => imageExists(p.img));
+  const skipped = projects.filter((p) => !imageExists(p.img));
+
+  await Project.insertMany(ready);
+  console.log(`Projects seeded (${ready.length} of ${projects.length})`);
+  if (skipped.length) {
+    console.log('Skipped — missing image file:');
+    skipped.forEach((p) => console.log(`  • ${p.title}  ←  ${p.img}`));
+  }
 }
 
 if (require.main === module) {
